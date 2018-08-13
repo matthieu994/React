@@ -22,7 +22,7 @@ if (cluster.isMaster) {
   const app = express();
   const bodyParser = require('body-parser');
   require('dotenv').config();
-  
+
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
 
@@ -39,8 +39,12 @@ if (cluster.isMaster) {
   //   res.send('{"message":"Hello from the custom server!"}');
   // });
 
+  let URL;
+  if (app.get('env') != 'development') { URL = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_SERVER}` }
+  else { URL = 'mongodb://localhost:27017/todosql' }
+
   mongoose.connect(
-    `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_SERVER}`,
+    URL,
     { useNewUrlParser: true },
     function () {
       //   Todo.remove({}, function(err) { 
