@@ -21,8 +21,8 @@ if (cluster.isMaster) {
 } else {
   const app = express();
   const bodyParser = require('body-parser');
-  require('dotenv').config();
-  
+  if (app.get('env') == 'development'){ require('dotenv').config(); }
+
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
 
