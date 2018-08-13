@@ -14,15 +14,35 @@
   color: white;
 }
 
-.App-intro {
-  font-size: large;
+.App-title {
+  font-size: 1.5em;
 }
 
-.App a {
-  color: #f60;
+.App-intro {
+  font-size: large;
 }
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+.menu-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 5vw;
+  /* border: 1px solid blue; */
+}
+
+.menu-navbar * {
+  display: block;
+}
+
+span.edit {
+  padding: 1px;
+  margin-left: 15px;
+  color: #3d61ab;
+  border-bottom: 1px solid #3a7bff;
+  cursor: pointer;
 }

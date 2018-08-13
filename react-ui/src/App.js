@@ -1,55 +1,43 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import TodoList from './Todo/TodoList';
+import API from './API/API';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
-      message: null,
-      fetching: true
-    };
+      app: 'todolist'
+    }
   }
 
-  componentDidMount() {
-    fetch('/api')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`status ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(json => {
-        this.setState({
-          message: json.message,
-          fetching: false
-        });
-      }).catch(e => {
-        this.setState({
-          message: `API call failed: ${e}`,
-          fetching: false
-        });
-      })
+  renderTodo() {
+    this.setState({
+      app: "todolist"
+    })
+  }
+
+  renderAPI() {
+    this.setState({
+      app: "api"
+    })
   }
 
   render() {
+    let app;
+    if (this.state.app === "todolist")
+      app = <TodoList />;
+    if (this.state.app === "api")
+      app = <API />;
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+      <div>
+        <div className="menu-navbar">
+          <span onClick={this.renderTodo.bind(this)}>TodoList</span>
+          <span onClick={this.renderAPI.bind(this)}>API</span>
         </div>
-        <p className="App-intro">
-          {'This is '}
-          <a href="https://github.com/mars/heroku-cra-node">
-            {'create-react-app with a custom Node/Express server'}
-          </a><br/>
-        </p>
-        <p className="App-intro">
-          {this.state.fetching
-            ? 'Fetching message from API'
-            : this.state.message}
-        </p>
+        <div>
+          {app}
+        </div>
       </div>
     );
   }
