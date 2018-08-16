@@ -1,44 +1,21 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 import TodoList from './Todo/TodoList';
-import API from './API/API';
+import Login from './Auth/Login';
+import Register from './Auth/Register';
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      app: 'todolist'
-    }
-  }
-
-  renderTodo() {
-    this.setState({
-      app: "todolist"
-    })
-  }
-
-  renderAPI() {
-    this.setState({
-      app: "api"
-    })
-  }
 
   render() {
-    let app;
-    if (this.state.app === "todolist")
-      app = <TodoList />;
-    if (this.state.app === "api")
-      app = <API />;
     return (
-      <div>
-        <div className="menu-navbar">
-          <span onClick={this.renderTodo.bind(this)}>TodoList</span>
-          <span onClick={this.renderAPI.bind(this)}>API</span>
-        </div>
-        <div>
-          {app}
-        </div>
-      </div>
+      <Router>
+        <Switch>
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route path="/" component={TodoList} />
+        </Switch>
+      </Router>
     );
   }
 }
