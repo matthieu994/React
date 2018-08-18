@@ -20,15 +20,10 @@ class TodoList extends Component {
       items: [],
       edit: null
     }
-    this.get = this.get.bind(this);
   }
 
   componentDidMount() {
     this.get();
-
-    verifAuth().then(res => {
-      
-    });
   }
 
   get() {
@@ -153,8 +148,12 @@ class TodoList extends Component {
       .catch(err => console.log(err));
   }
 
-
   render() {
+    verifAuth().then(isAuth => {
+      if (!isAuth)
+        this.props.history.push('/login');
+    })
+
     return (
       <div>
         <h1 className="mt-4 text-center">Ma To-do List</h1>
