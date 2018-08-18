@@ -18,7 +18,19 @@ module.exports = {
     },
     removeCollection: function (collection) {
         collection.remove({}, function (err) {
+            if (err) return err;
+        });
+    },
+    deleteAllTokens: function (collection) {
+        collection.find({}, function (err, users) {
             if(err) return err;
+            users.forEach(function (user) {
+                collection.update({ _id: user._id }, {
+                    token: ''
+                }, function (err) {
+                    if (err) return err;
+                })
+            });
         });
     }
 }

@@ -29,7 +29,10 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  friends: [FriendSchema]
+  friends: [FriendSchema],
+  token: {
+    type: String
+  }
 });
 
 UserSchema.methods.check = function (hash) {

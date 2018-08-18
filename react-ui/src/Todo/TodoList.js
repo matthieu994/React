@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import Alert from 'react-s-alert';
+import { verifAuth } from '../Auth/verifAuth'
 // Css files
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
@@ -23,12 +25,20 @@ class TodoList extends Component {
 
   componentDidMount() {
     this.get();
+
+    verifAuth().then(res => {
+      
+    });
   }
 
   get() {
-    fetch('/todos')
-      .then(res => res.json())
-      .then(res => this.setState({ items: res }));
+    axios.get('/todos')
+      .then(res =>
+        this.setState({
+          items: res.data
+        })
+      )
+      .catch(err => console.log(err));
   }
 
   onKeyDown(event) {
@@ -57,17 +67,11 @@ class TodoList extends Component {
       return;
 
     if (this.state.edit) {
-      fetch('/todos', {
-        method: 'PUT',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          text: this.state.userInput.trim(),
-          id: this.state.edit
-        })
-      }).then(() => this.get());
+      axios.put('/todos', {
+        text: this.state.userInput.trim(),
+        id: this.state.edit
+      }).then(() => this.get())
+        .catch(err => console.log(err));
 
       this.setState({
         edit: ''
@@ -80,16 +84,10 @@ class TodoList extends Component {
       });
     }
     else {
-      fetch('/todos', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          text: this.state.userInput.trim(),
-        })
-      }).then(() => this.get());
+      axios.post('/todos', {
+        text: this.state.userInput.trim(),
+      }).then(() => this.get())
+        .catch(err => console.log(err));
 
       Alert.success('Elément ajouté à la liste !', {
         position: 'top-left',
@@ -119,16 +117,13 @@ class TodoList extends Component {
   }
 
   delete(index) {
-    fetch('/todos', {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+    axios.delete('/todos', {
+      data: {
         id: this.state.items[index]._id
-      })
-    }).then(() => this.get());
+      }
+    }).then(() => this.get())
+      .catch(err => console.log(err));
+
 
     Alert.info('Elément supprimé !', {
       position: 'top-left',
@@ -140,7 +135,7 @@ class TodoList extends Component {
   renderTodos() {
     return this.state.items.map((item, index) => {
       return (
-        <div className={item.done ? "list-group-item disabled pt-3" : "list-group-item pt-3 list-group-item-action list-group-item-info"} key={item.text}>
+        <div className={item.done ? "list-group-item disabled pt-3" : "list-group-item pt-3 list-group-item-action list-group-item-info"} key={item._id}>
           {item.done ? <del> {item.text} </del> : item.text}
           <i className="fas fa-trash btn float-right pr-0" onClick={this.delete.bind(this, index)}></i>
           <i className="fas fa-pen btn float-right" onClick={this.edit.bind(this, index)}></i>
@@ -151,17 +146,11 @@ class TodoList extends Component {
   }
 
   check(index) {
-    fetch('/todos', {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id: this.state.items[index]._id,
-        done: !this.state.items[index].done,
-      })
-    }).then(() => this.get());
+    axios.put('/todos', {
+      id: this.state.items[index]._id,
+      done: !this.state.items[index].done,
+    }).then(() => this.get())
+      .catch(err => console.log(err));
   }
 
 
