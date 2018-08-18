@@ -27,10 +27,10 @@ class Login extends Component {
     }
 
     render() {
-        // const { from } = this.props.location.state || { from: { pathname: '/' } }
-        // if (this.state.redirect) {
-        //     return <Redirect to={from} />
-        // }
+        const { from } = this.props.location.state || { from: { pathname: '/' } }
+        if (this.state.redirect) {
+            return <Redirect to={from} />
+        }
 
         return (
             <form>
