@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Alert from 'react-s-alert';
-import { verifAuth } from '../Auth/verifAuth'
 // Css files
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
@@ -149,11 +148,6 @@ class TodoList extends Component {
   }
 
   render() {
-    verifAuth().then(isAuth => {
-      if (!isAuth)
-        this.props.history.push('/login');
-    })
-
     return (
       <div>
         <h1 className="mt-4 text-center">Ma To-do List</h1>

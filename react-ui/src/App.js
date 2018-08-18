@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
-// import PrivateRoute from './Auth/PrivateRoute';
+import PrivateRoute from './Auth/PrivateRoute';
 import './App.css';
 import TodoList from './Todo/TodoList';
 import Login from './Auth/Login';
@@ -18,8 +18,7 @@ class App extends Component {
           </ul>
           <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
-          <Route path="/TodoList" component={TodoList} />
-          {/* <PrivateRoute path='/TodoList' component={TodoList} /> */}
+          <PrivateRoute path='/TodoList' component={TodoList} />
         </div>
       </Router>
     );
