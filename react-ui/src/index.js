@@ -5,7 +5,7 @@ import App from './App'
 class Root extends Component {
   render() {
     return (
-      <div>
+      <div className="container-fluid">
         <App />
         <footer className="page-footer text-light p-3">
           <div className="container-fluid text-center">
@@ -14,7 +14,6 @@ class Root extends Component {
             </div>
             <div className="row">
               <div className="col">
-                <a className="text-light">TodoList</a>
               </div>
             </div>
           </div>
