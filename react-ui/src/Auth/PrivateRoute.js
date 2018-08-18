@@ -2,11 +2,19 @@ import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { verifAuth } from './verifAuth';
 
-
 class PrivateRoute extends Component {
     state = {
         loading: true,
         isAuthenticated: false,
+    }
+
+    componentWillUpdate() {
+        verifAuth().then((isAuthenticated) => {
+            this.setState({
+                loading: false,
+                isAuthenticated,
+            });
+        });
     }
 
     componentDidMount() {

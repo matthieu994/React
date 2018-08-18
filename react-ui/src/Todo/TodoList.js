@@ -25,10 +25,14 @@ class TodoList extends Component {
     this.get();
   }
 
-  get() {
+  componentWillUnmount() {
+    this.isCancelled = true;
+  }
+
+  async get() {
     axios.get('/todos')
       .then(res =>
-        this.setState({
+        !this.isCancelled && this.setState({
           items: res.data
         })
       )

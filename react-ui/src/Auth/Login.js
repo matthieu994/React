@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 class Login extends Component {
@@ -27,9 +27,9 @@ class Login extends Component {
     }
 
     render() {
-        const { from } = this.props.location.state || { from: { pathname: '/' } }
+        // const { from } = this.props.location.state || { from: { pathname: '/' } }
         if (this.state.redirect) {
-            return <Redirect to={from} />
+            return <Redirect to='/' />
         }
 
         return (
@@ -55,4 +55,4 @@ class Login extends Component {
     }
 }
 
-export default Login;
+export default withRouter(Login);
