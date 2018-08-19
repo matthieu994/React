@@ -155,6 +155,7 @@ app.post('/login', (req, res) => {
 });
 
 function verifAuth(req, res) {
+  console.log('req')
   if (!req.body.token) return res.sendStatus(204);
   jwt.verify(req.body.token, process.env.JWT_SECRET, function (err, decoded) {
     if (err) return res.sendStatus(204);

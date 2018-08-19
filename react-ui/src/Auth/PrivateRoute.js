@@ -9,6 +9,10 @@ class PrivateRoute extends Component {
     }
 
     componentWillUpdate() {
+        // this.verifAuth()
+    }
+
+    verifAuth() {
         verifAuth().then((isAuthenticated) => {
             this.setState({
                 loading: false,
@@ -18,12 +22,7 @@ class PrivateRoute extends Component {
     }
 
     componentDidMount() {
-        verifAuth().then((isAuthenticated) => {
-            this.setState({
-                loading: false,
-                isAuthenticated,
-            });
-        });
+        this.verifAuth();
     }
 
     render() {
