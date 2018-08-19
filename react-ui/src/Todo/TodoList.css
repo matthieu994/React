@@ -8,16 +8,16 @@
   
   .wrapper {
     margin: 0 auto;
-    padding: 50px;
-    /* width: 100%; */
     text-align: center;
   }
   
   .wrapper > div {
+    border-radius: 15px;
     box-sizing: border-box;
     display: inline-flex;
     margin: 10px;
     padding: 20px;
     height: 250px;
     width: 280px;
+    background-color: #e0edff;
   }

@@ -21,7 +21,7 @@ var User = require('./models/UserSchema');
 app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
 
 // Authenticate
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next();
 });
 
@@ -154,17 +154,43 @@ app.post('/login', (req, res) => {
   });
 });
 
-app.post('/auth', (req, res) => {
-  if(!req.body.token) return res.sendStatus(204);
-  jwt.verify(req.body.token, process.env.JWT_SECRET, function(err, decoded) {
-    if(err) return res.sendStatus(204);
+function verifAuth(req, res) {
+  if (!req.body.token) return res.sendStatus(204);
+  jwt.verify(req.body.token, process.env.JWT_SECRET, function (err, decoded) {
+    if (err) return res.sendStatus(204);
     User.findById(decoded.user, (err, user) => {
-      if(err) return err;
-      if(req.body.token == user.token) {
+      if (err) return err;
+      if (req.body.token == user.token) {
         return res.sendStatus(200);
       }
     });
   });
+}
+
+app.post('/auth', (req, res) => verifAuth(req, res))
+
+async function getUserId(token) {
+  return await jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
+    if (err) return err;
+    return decoded.user
+  })
+}
+
+app.get('/Profile/friends', (req, res) => {
+  getUserId(req.headers.token).then(id => {
+    User.findById(id, (err, user) => {
+      if (err) return err;
+      return res.send(user.friends)
+    })
+  })
+})
+
+app.post('/Profile/users', (req, res) => {
+  var regexp = new RegExp("^"+ req.body.startingWith);
+  User.find({ username: regexp }, (err, users) => {
+    if (err) return err;
+    return res.send(users)
+  })
 })
 
 // All remaining requests return the React app, so it can handle routing.

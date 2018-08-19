@@ -154,7 +154,7 @@ class TodoList extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <h1 className="mt-4 text-center">Ma To-do List</h1>
         <form>
           <div className="form-group mt-4">

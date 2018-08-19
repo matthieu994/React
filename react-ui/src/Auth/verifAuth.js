@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function verifAuth() {
+export default async function verifAuth() {
     return await axios.post('/auth', {
         token: localStorage.getItem('token')
     }).then(res => {

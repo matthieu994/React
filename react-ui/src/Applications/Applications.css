@@ -1,0 +1,50 @@
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1077d0;
+  }
+  
+  footer a, footer a:hover {
+    cursor: pointer;
+    font-size: 1em;
+    padding-bottom: 0.5px;
+    border-bottom: 1px solid #8ebdff;
+    color: white !important;
+    text-decoration: none;
+  }
+
+.fa-user-circle {
+    position: fixed;
+    right: 0;
+    top: 0;
+    margin: 15px;
+    font-size: 60px;
+    border-radius: 35px;
+    cursor: pointer;
+}
+
+.col {
+    text-align: center;
+}
+.search {
+    width: 20%;
+    min-width: 200px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-image: url('https://www.w3schools.com/howto/searchicon.png');
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+    margin: 10px;
+    -webkit-transition: width 0.3s ease-in-out;
+    transition: width 0.3s ease-in-out;
+    outline: none;
+}
+.search:focus {
+    width: 60%;
+}

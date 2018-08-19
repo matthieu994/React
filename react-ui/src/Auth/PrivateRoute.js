@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { verifAuth } from './verifAuth';
+import verifAuth from './verifAuth';
 
 class PrivateRoute extends Component {
     state = {
