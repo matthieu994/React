@@ -47,6 +47,7 @@ export default class Profile extends Component {
     }
 
     render() {
+        console.log(this.state.users)
         return (
             <div className="container">
                 <div className="row">
