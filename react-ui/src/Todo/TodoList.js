@@ -11,6 +11,7 @@ import 'react-s-alert/dist/s-alert-css-effects/flip.css';
 import 'react-s-alert/dist/s-alert-css-effects/genie.css';
 import 'react-s-alert/dist/s-alert-css-effects/jelly.css';
 import 'react-s-alert/dist/s-alert-css-effects/stackslide.css';
+import { UserIcon } from '../Applications/Applications';
 
 class TodoList extends Component {
   constructor() {
@@ -155,6 +156,7 @@ class TodoList extends Component {
   render() {
     return (
       <div className="container">
+        <UserIcon />
         <h1 className="mt-4 text-center">Ma To-do List</h1>
         <form>
           <div className="form-group mt-4">

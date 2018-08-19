@@ -37,7 +37,7 @@ mongoose.connect(
     // tools.removeCollection(User);
     // tools.showCollections();
     // tools.deleteAllTokens(User);
-    // tools.show(db, 'users');
+    // tools.show(db, 'users', {username: 'admin'});
   });
 
 app.get('/todos', (req, res) => {
@@ -176,6 +176,15 @@ async function getUserId(token) {
   })
 }
 
+app.get('/Profile/username', (req, res) => {
+  getUserId(req.headers.token).then(id => {
+    User.findById(id, (err, user) => {
+      if (err) return err;
+      return res.send(user.username)
+    })
+  })
+})
+
 app.get('/Profile/friends', (req, res) => {
   getUserId(req.headers.token).then(id => {
     User.findById(id, (err, user) => {
@@ -186,10 +195,24 @@ app.get('/Profile/friends', (req, res) => {
 })
 
 app.post('/Profile/users', (req, res) => {
-  var regexp = new RegExp("^"+ req.body.startingWith);
-  User.find({ username: regexp }, (err, users) => {
+  var regexp = new RegExp("^" + req.body.startingWith);
+  User.find({ username: regexp }, '-_id username', (err, users) => {
     if (err) return err;
     return res.send(users)
+  })
+})
+
+app.post('/Profile/addFriend', (req, res) => {
+  User.findOne({ username: req.body.username }, (err, friend) => {
+    if (err) return err;
+    getUserId(req.headers.token).then(id => {
+      User.findById(id, (err, user) => {
+        if (err) return err;
+        user.friends.push(friend.username)
+        user.save()
+        return res.sendStatus(200)
+      })
+    })
   })
 })
 

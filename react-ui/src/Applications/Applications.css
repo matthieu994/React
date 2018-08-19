@@ -15,14 +15,29 @@ footer {
     text-decoration: none;
   }
 
-.fa-user-circle {
+.user-wrapper {
     position: fixed;
-    right: 0;
+    width: 100%;
     top: 0;
+    left: 0;
+}
+.nav-links {
+    display: inline-block;
+}
+div.user {
+    float: right;
     margin: 15px;
-    font-size: 60px;
     border-radius: 35px;
+    text-align: center;
+}
+div.user > a {
+    color: white !important;
+    display: block;
+}
+.fa-user-circle {
     cursor: pointer;
+    font-size: 60px;
+    margin-bottom: 8px;
 }
 
 .col {

@@ -16,8 +16,8 @@ class App extends Component {
           <Route path="/" exact component={Applications} />
           <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
-          <PrivateRoute path='/TodoList' component={TodoList} />
           <Route path='/Profile' component={Profile} />
+          <PrivateRoute path='/TodoList' component={TodoList} />
         </div>
       </Router>
     );

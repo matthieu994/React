@@ -5,9 +5,8 @@ const saltRounds = 10;
 
 const FriendSchema = new Schema({
   _id: false,
-  user: {
-    type: Schema.ObjectId,
-    required: true
+  username: {
+    type: String,
   },
   status: {
     type: String,
@@ -37,7 +36,7 @@ const UserSchema = new Schema({
 
 UserSchema.methods.check = function (hash) {
   bcrypt.compare(this.password, hash, function (err, res) {
-    if(err) return err;
+    if (err) return err;
     return res;
   });
 }

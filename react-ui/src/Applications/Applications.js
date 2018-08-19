@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import './Applications.css';
 import apps from './apps.json'
 import verifAuth from '../Auth/verifAuth'
@@ -8,22 +8,8 @@ export class Applications extends Component {
     constructor() {
         super();
         this.state = {
-            apps,
-            isAuth: false
+            apps
         }
-    }
-
-    logout() {
-        localStorage.clear('token')
-    }
-
-    componentDidMount() {
-        verifAuth().then(isAuth => {
-            if (isAuth)
-                this.setState({
-                    isAuth
-                })
-        })
     }
 
     renderApplications() {
@@ -45,13 +31,7 @@ export class Applications extends Component {
     render() {
         return (
             <div>
-                {this.state.isAuth && <UserIcon />}
-                <ul>
-                    <li><Link to="/">Applications</Link></li>
-                    <li><Link to="/register">Register</Link></li>
-                    <li><Link to="/login">Login</Link></li>
-                    <li><a href='' onClick={this.logout.bind(this)}>Log Out</a></li>
-                </ul>
+                <UserIcon />
                 <div className="wrapper">
                     {this.renderApplications()}
                 </div>
@@ -60,25 +40,68 @@ export class Applications extends Component {
     }
 }
 
-export class UserIcon extends Component {
+class UserIconWithoutRouter extends Component {
     state = {
-        redirect: false
+        redirect: false,
+        isAuth: false,
+        isMounted: false
+    }
+
+    componentDidMount() {
+        verifAuth().then(isAuth => {
+            this.setState({
+                isMounted: true,
+                isAuth
+            })
+        })
+    }
+
+    logout() {
+        localStorage.clear('token');
+        this.setState({
+            isAuth: false
+        })
+        this.props.history.push("/");
+    }
+
+    redirectProfile() {
+        this.props.history.push("/Profile");
     }
 
     render() {
-        if (this.state.redirect) {
-            return <Redirect to='/Profile' />
+        let links, user;
+        if (!this.state.isAuth && this.state.isMounted) {
+            links =
+                <ul>
+                    <li><Link to="/">Applications</Link></li>
+                    <li><Link to="/register">Register</Link></li>
+                    <li><Link to="/login">Login</Link></li>
+                </ul>
+        } else {
+            links =
+                <ul>
+                    <li><Link to="/">Applications</Link></li>
+                </ul>
+            user =
+                <div className="user">
+                    {this.props.location.pathname !== '/Profile' && <i className="fas fa-user-circle" onClick={this.redirectProfile.bind(this)}></i>}
+                    <a className="btn btn-info" onClick={this.logout.bind(this)}>Log Out</a>
+                </div>
         }
 
         return (
-            <div className="userIcon">
-                <i className="fas fa-user-circle" onClick={() => this.setState({ redirect: true })}></i>
+            <div className="user-wrapper">
+                <div className="nav-links">
+                    {links}
+                </div>
+                {user}
             </div>
         )
     }
 }
+export const UserIcon = withRouter(UserIconWithoutRouter)
 
-export function Footer() {
+function FooterWithoutRouter() {
     return (
         <footer className="page-footer text-light p-3">
             <div className="container-fluid text-center">
@@ -98,3 +121,4 @@ export function Footer() {
         </footer>
     )
 }
+export const Footer = withRouter(FooterWithoutRouter)
