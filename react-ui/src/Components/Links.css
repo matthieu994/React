@@ -1,0 +1,16 @@
+.nav-links {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    margin: 10px;
+}
+.nav-links .fas {
+    cursor: pointer;
+    font-size: 2rem;
+}
+.fa-home {
+    color: #dae5f3;
+    background-color: #3677d1;
+    border-radius: 10px;
+    padding: 8px;
+}

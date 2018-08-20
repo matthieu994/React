@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { UserIcon } from '../Applications/Applications';
+import UserIcon from '../Components/UserIcon';
 import './Profile.css'
 
 export default class Profile extends Component {

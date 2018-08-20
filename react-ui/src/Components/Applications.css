@@ -15,17 +15,10 @@ footer {
     text-decoration: none;
   }
 
-.user-wrapper {
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-}
-.nav-links {
-    display: inline-block;
-}
 div.user {
-    float: right;
+    position: absolute;
+    top: 0;
+    right: 0;
     margin: 15px;
     border-radius: 35px;
     text-align: center;
