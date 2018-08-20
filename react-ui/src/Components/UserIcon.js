@@ -30,7 +30,8 @@ class UserIcon extends Component {
     }
 
     render() {
-        if (!this.state.isAuth && this.state.isMounted && !localStorage.getItem('token'))
+        if (!this.state.isMounted) return null;
+        if (!this.state.isAuth && !localStorage.getItem('token'))
             return null;
 
         return (

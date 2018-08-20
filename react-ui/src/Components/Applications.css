@@ -56,3 +56,27 @@ div.user > a {
 .search:focus {
     width: 60%;
 }
+
+.card-title {
+    font-size: 2rem;
+  }
+  
+  .card-text {
+    text-align: justify;
+  }
+  
+  .wrapper {
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .wrapper > div {
+    border-radius: 15px;
+    box-sizing: border-box;
+    display: inline-flex;
+    margin: 10px;
+    padding: 20px;
+    height: 250px;
+    width: 280px;
+    background-color: #e0edff;
+  }

@@ -20,11 +20,6 @@ var User = require('./models/UserSchema');
 // Priority serve any static files.
 app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
 
-// Authenticate
-app.use(function (req, res, next) {
-  next();
-});
-
 // Heroku / localhost mongoose url
 let URL;
 if (app.get('env') != 'development') { URL = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_SERVER}` }
@@ -42,39 +37,8 @@ mongoose.connect(
     // tools.showFriends(User, 'admin')
   });
 
-app.get('/todos', (req, res) => {
-  Todo.find(function (err, todos) {
-    if (err) return console.error(err);
-    res.send(JSON.stringify(todos));
-  })
-});
-
-app.post('/todos', (req, res) => {
-  var todo = new Todo({ text: req.body.text });
-  todo.save();
-  res.sendStatus(200);
-});
-
-app.put('/todos', (req, res) => {
-  Todo.findById(req.body.id, function (err, todo) {
-    if (err) throw err;
-    if (req.body.text != undefined)
-      todo.text = req.body.text;
-    if (req.body.done != undefined)
-      todo.done = req.body.done;
-    todo.save(function (err) {
-      if (err) throw err;
-      res.sendStatus(200);
-    });
-  });
-});
-
-app.delete('/todos', (req, res) => {
-  Todo.deleteOne({ _id: req.body.id }, function (err) {
-    if (err) return handleError(err);
-    res.sendStatus(200);
-  });
-});
+// Todos
+require('./TodoList/TodoList')(app)
 
 // User management
 var bcrypt = require('bcrypt');

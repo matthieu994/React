@@ -29,6 +29,7 @@ const UserSchema = new Schema({
     required: true
   },
   friends: [FriendSchema],
+  todos: [Schema.ObjectId],
   token: {
     type: String
   }

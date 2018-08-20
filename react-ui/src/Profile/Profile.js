@@ -15,12 +15,17 @@ export default class Profile extends Component {
         this.getFriends()
     }
 
-    getUsername() {
-        axios.get('/Profile/username', {
+    getHeaders() {
+        return ({
             headers: {
                 token: localStorage.getItem('token')
             }
-        }).then((res) => {
+        })
+    }
+
+    getUsername() {
+        axios.get('/Profile/username', this.getHeaders()
+        ).then((res) => {
             this.setState({
                 username: res.data
             })
@@ -28,11 +33,8 @@ export default class Profile extends Component {
     }
 
     getFriends() {
-        axios.get('/Profile/friends', {
-            headers: {
-                token: localStorage.getItem('token')
-            }
-        }).then((res) => {
+        axios.get('/Profile/friends', this.getHeaders()
+        ).then((res) => {
             this.setState({
                 friends: res.data
             })
@@ -42,34 +44,20 @@ export default class Profile extends Component {
     getUsers(value) {
         axios.post('/Profile/users', {
             startingWith: value
-        }, {
-                headers: {
-                    token: localStorage.getItem('token')
-                }
-            }).then((res) => {
-                this.setState({
-                    users: res.data
-                })
-            }).catch(err => console.log(err))
+        }, this.getHeaders()).then((res) => {
+            this.setState({
+                users: res.data
+            })
+        }).catch(err => console.log(err))
     }
 
-    handleSearch(e) {
-        this.setState({
-            searchInput: e.target.value
-        })
-        this.getUsers(e.target.value);
-    }
 
     addFriend(username) {
         axios.post('/Profile/addFriend', {
             username: username
-        }, {
-                headers: {
-                    token: localStorage.getItem('token')
-                }
-            }).then((res) => {
-                this.getFriends()
-            }).catch(err => console.log(err))
+        }, this.getHeaders()).then((res) => {
+            this.getFriends()
+        }).catch(err => console.log(err))
     }
 
     acceptFriend(username) {
@@ -82,6 +70,13 @@ export default class Profile extends Component {
             }).then((res) => {
                 this.getFriends()
             }).catch(err => console.log(err))
+    }
+
+    handleSearch(e) {
+        this.setState({
+            searchInput: e.target.value
+        })
+        this.getUsers(e.target.value);
     }
 
     renderUsers() {
@@ -108,23 +103,26 @@ export default class Profile extends Component {
 
     renderFriends() {
         return this.state.friends.map((friend, index) => {
+            let removeText = "ANNULER";
+            if (friend.status === "OK") removeText = "Supprimer"
+            if (friend.status === "REQUEST") removeText = "Refuser"
             return (
-                <div className="list-group-item list-group-item-action list-group-item-info" key={index}>
-                    {friend._id}
-                    {friend.status === "PENDING" &&
-                        <div className="spinner">
-                            <div className="bounce1"></div>
-                            <div className="bounce2"></div>
-                            <div className="bounce3"></div>
-                        </div>
-                    }
-                    {friend.status === "OK" &&
-                        <i className="fas fa-check float-right"></i>
-                    }
-                    {friend.status === "REQUEST" &&
-                        <button type="button" className="btn btn-success float-right"
-                        onClick={this.acceptFriend.bind(this, friend._id)}>Accepter</button>
-                    }
+                <div className="user-card" key={index}>
+                    <img className="user-img" src='https://connect2id.com/assets/learn/openid-connect/userinfo.png' alt="Profile" />
+                    <span className="user-name">{friend._id}</span>
+                    <div className="user-status">
+                        {friend.status === "PENDING" &&
+                            <span className="card-text">En attente</span>
+                        }
+                        {friend.status === "OK" &&
+                            <i className="fas fa-check"></i>
+                        }
+                        {friend.status === "REQUEST" &&
+                            <button type="button" className="btn btn-success"
+                                onClick={this.acceptFriend.bind(this, friend._id)}>Accepter</button>
+                        }
+                        <button className="btn removeFriend">{removeText}</button>
+                    </div>
                 </div>
             )
         })
@@ -143,15 +141,15 @@ export default class Profile extends Component {
                             onChange={this.handleSearch.bind(this)}
                             onFocus={this.handleSearch.bind(this)}
                         />
-                        <i className="fas fa-times btn"
-                            onClick={() => this.setState({ users: [] })}
+                        <i className="fas fa-times btn delete-search"
+                            onClick={() => { this.setState({ users: [] }) && this.renderUsers() }}
                         ></i>
                     </div>
                 </div>
-                <div className="list-group users">
+                <div className="users">
                     {this.renderUsers()}
                 </div>
-                <div className="list-group friends">
+                <div className="friends wrapper">
                     <h1>
                         Mes amis
                     </h1>
