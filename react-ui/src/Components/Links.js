@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import verifAuth from '../Auth/verifAuth'
 import './Links.css'
 
@@ -23,13 +23,16 @@ class Links extends Component {
         if (this.state.isMounted && !localStorage.getItem('token')) {
             links =
                 <div>
-                    <i className="btn btn-primary fas fa-home" onClick={() => this.props.history.push("/")}></i>
-                    <Link to="/register">Register</Link>
-                    <Link to="/login">Login</Link>
+                    {(this.props.location.pathname !== '/') &&
+                        <i className="fas fa-home" onClick={() => this.props.history.push("/")}></i>}
+                    {(this.props.location.pathname !== '/login') &&
+                        <a className="login" onClick={() => this.props.history.push('/login')}>Log In</a>}
+                    {(this.props.location.pathname !== '/register') &&
+                        <a className="register" onClick={() => this.props.history.push('register')}>Register</a>}
                 </div>
         } else if (this.props.location.pathname !== '/') {
             links =
-                <i className="btn btn-primary fas fa-home" onClick={() => this.props.history.push("/")}></i>
+                <i className="fas fa-home" onClick={() => this.props.history.push("/")}></i>
         }
 
         return (

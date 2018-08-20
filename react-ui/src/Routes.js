@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import { Route } from 'react-router-dom';
 import PrivateRoute from './Auth/PrivateRoute';
 import { Applications } from './Components/Applications'

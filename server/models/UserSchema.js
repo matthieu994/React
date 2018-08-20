@@ -10,7 +10,7 @@ const FriendSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['PENDING', 'OK'],
+    enum: ['PENDING', 'OK', 'REQUEST'],
     default: 'PENDING'
   }
 });

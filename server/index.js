@@ -37,7 +37,9 @@ mongoose.connect(
     // tools.removeCollection(User);
     // tools.showCollections();
     // tools.deleteAllTokens(User);
-    // tools.show(db, 'users', {username: 'admin'});
+    // tools.show(db, 'users');
+    // tools.removeFriends(User, 'admin')
+    // tools.showFriends(User, 'admin')
   });
 
 app.get('/todos', (req, res) => {
@@ -170,28 +172,25 @@ function verifAuth(req, res) {
 
 app.post('/auth', (req, res) => verifAuth(req, res))
 
-async function getUserId(token) {
+async function getUser(token, res) {
   return await jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
-    if (err) return err;
-    return decoded.user
+    if (err) return res.sendStatus(403);
+    return User.findById(decoded.user, (err, user) => {
+      if (err) return err;
+      return user
+    })
   })
 }
 
 app.get('/Profile/username', (req, res) => {
-  getUserId(req.headers.token).then(id => {
-    User.findById(id, (err, user) => {
-      if (err) return err;
-      return res.send(user.username)
-    })
+  getUser(req.headers.token, res).then(user => {
+    return res.send(user.username)
   })
 })
 
 app.get('/Profile/friends', (req, res) => {
-  getUserId(req.headers.token).then(id => {
-    User.findById(id, (err, user) => {
-      if (err) return err;
-      return res.send(user.friends)
-    })
+  getUser(req.headers.token, res).then(user => {
+    return res.send(user.friends)
   })
 })
 
@@ -206,13 +205,25 @@ app.post('/Profile/users', (req, res) => {
 app.post('/Profile/addFriend', (req, res) => {
   User.findOne({ username: req.body.username }, (err, friend) => {
     if (err) return err;
-    getUserId(req.headers.token).then(id => {
-      User.findById(id, (err, user) => {
-        if (err) return err;
-        user.friends.push(friend.username)
-        user.save()
-        return res.sendStatus(200)
-      })
+    getUser(req.headers.token, res).then(user => {
+      user.friends.push(friend.username)
+      friend.friends.push({_id: user.username, status: 'REQUEST'})
+      user.save()
+      friend.save()
+      return res.sendStatus(200)
+    })
+  })
+})
+
+app.post('/Profile/acceptFriend', (req, res) => {
+  User.findOne({ username: req.body.username }, (err, friend) => {
+    if (err) return err;
+    getUser(req.headers.token, res).then(user => {
+      user.friends.find(fr => fr._id === friend.username).status = "OK"
+      friend.friends.find(fr => fr._id === user.username).status = "OK"
+      user.save()
+      friend.save()
+      return res.sendStatus(200)
     })
   })
 })

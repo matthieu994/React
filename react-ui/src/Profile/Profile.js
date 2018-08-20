@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import UserIcon from '../Components/UserIcon';
 import './Profile.css'
 
 export default class Profile extends Component {
@@ -73,14 +72,28 @@ export default class Profile extends Component {
             }).catch(err => console.log(err))
     }
 
+    acceptFriend(username) {
+        axios.post('/Profile/acceptFriend', {
+            username: username
+        }, {
+                headers: {
+                    token: localStorage.getItem('token')
+                }
+            }).then((res) => {
+                this.getFriends()
+            }).catch(err => console.log(err))
+    }
+
     renderUsers() {
         return this.state.users.map((user, index) => {
             if (user.username === this.state.username) return null;
+
             this.state.friends.map(friend => {
                 if (friend._id === user.username) user.username = undefined;
                 return null;
             })
             if (!user.username) return null;
+
             return (
                 <div className="list-group-item list-group-item-action list-group-item-info" key={index}>
                     {user.username}
@@ -98,6 +111,20 @@ export default class Profile extends Component {
             return (
                 <div className="list-group-item list-group-item-action list-group-item-info" key={index}>
                     {friend._id}
+                    {friend.status === "PENDING" &&
+                        <div className="spinner">
+                            <div className="bounce1"></div>
+                            <div className="bounce2"></div>
+                            <div className="bounce3"></div>
+                        </div>
+                    }
+                    {friend.status === "OK" &&
+                        <i className="fas fa-check float-right"></i>
+                    }
+                    {friend.status === "REQUEST" &&
+                        <button type="button" className="btn btn-success float-right"
+                        onClick={this.acceptFriend.bind(this, friend._id)}>Accepter</button>
+                    }
                 </div>
             )
         })
@@ -106,9 +133,9 @@ export default class Profile extends Component {
     render() {
         return (
             <div className="container">
-                <UserIcon />
                 <div className="row">
                     <div className="col">
+                        <h1>{this.state.username}</h1>
                         <input
                             value={this.state.searchInput}
                             className="search"

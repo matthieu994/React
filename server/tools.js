@@ -23,7 +23,7 @@ module.exports = {
     },
     deleteAllTokens: function (collection) {
         collection.find({}, function (err, users) {
-            if(err) return err;
+            if (err) return err;
             users.forEach(function (user) {
                 collection.update({ _id: user._id }, {
                     token: ''
@@ -32,5 +32,18 @@ module.exports = {
                 })
             });
         });
+    },
+    removeFriends: function (collection, username) {
+        collection.findOne({ username: username }, (err, user) => {
+            if (err) return err;
+            user.friends.pop();
+            user.save();
+        })
+    },
+    showFriends: function (collection, username) {
+        collection.findOne({ username: username }, (err, user) => {
+            if (err) return err;
+            console.log(user.friends)
+        })
     }
 }
