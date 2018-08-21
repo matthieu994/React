@@ -28,6 +28,9 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
+  image: {
+    type: String
+  },
   friends: [FriendSchema],
   todos: [Schema.ObjectId],
   token: {
@@ -43,3 +46,13 @@ UserSchema.methods.check = function (hash) {
 }
 
 module.exports = mongoose.model('User', UserSchema);
+
+UserSchema.methods.getFriendsImg = async function () {
+  return this.friends.map((friend) => {
+    return User.findOne({ username: friend.username }, '-_id image', (err, img) => {
+      if (err) return err;
+      friend.url = img.image
+      return friend;
+    })
+  })
+}

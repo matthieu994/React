@@ -11,7 +11,7 @@ export default class Profile extends Component {
     }
 
     componentDidMount() {
-        this.getUsername()
+        this.getData()
         this.getFriends()
     }
 
@@ -23,11 +23,12 @@ export default class Profile extends Component {
         })
     }
 
-    getUsername() {
+    getData() {
         axios.get('/Profile/username', this.getHeaders()
         ).then((res) => {
             this.setState({
-                username: res.data
+                username: res.data.username,
+                img: res.data.img
             })
         }).catch(err => console.log(err))
     }
@@ -51,7 +52,6 @@ export default class Profile extends Component {
         }).catch(err => console.log(err))
     }
 
-
     addFriend(username) {
         axios.post('/Profile/addFriend', {
             username: username
@@ -63,13 +63,18 @@ export default class Profile extends Component {
     acceptFriend(username) {
         axios.post('/Profile/acceptFriend', {
             username: username
-        }, {
-                headers: {
-                    token: localStorage.getItem('token')
-                }
-            }).then((res) => {
-                this.getFriends()
-            }).catch(err => console.log(err))
+        }, this.getHeaders()).then((res) => {
+            this.getFriends()
+        }).catch(err => console.log(err))
+    }
+
+    removeFriend(username) {
+        axios.post('/Profile/removeFriend', {
+            username: username
+        }, this.getHeaders()).then((res) => {
+            this.getFriends()
+            this.getUsers()
+        }).catch(err => console.log(err))
     }
 
     handleSearch(e) {
@@ -103,25 +108,23 @@ export default class Profile extends Component {
 
     renderFriends() {
         return this.state.friends.map((friend, index) => {
-            let removeText = "ANNULER";
+            let removeText = "Annuler";
             if (friend.status === "OK") removeText = "Supprimer"
             if (friend.status === "REQUEST") removeText = "Refuser"
             return (
-                <div className="user-card" key={index}>
-                    <img className="user-img" src='https://connect2id.com/assets/learn/openid-connect/userinfo.png' alt="Profile" />
-                    <span className="user-name">{friend._id}</span>
-                    <div className="user-status">
+                <div className={"user-card " + friend.status} key={index}>
+                    <img className="user-img" src={friend.url ? friend.url : "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/256x256/plain/user.png"} alt="Profile" />
+                    <div className="user-name">
+                        <h5>{friend._id}</h5>
                         {friend.status === "PENDING" &&
-                            <span className="card-text">En attente</span>
-                        }
-                        {friend.status === "OK" &&
-                            <i className="fas fa-check"></i>
-                        }
+                            <div className="loader"></div>}
+                    </div>
+                    <div className="user-status">
                         {friend.status === "REQUEST" &&
                             <button type="button" className="btn btn-success"
                                 onClick={this.acceptFriend.bind(this, friend._id)}>Accepter</button>
                         }
-                        <button className="btn removeFriend">{removeText}</button>
+                        <a className="removeFriend" onClick={this.removeFriend.bind(this, friend._id)}>{removeText}</a>
                     </div>
                 </div>
             )
@@ -134,6 +137,7 @@ export default class Profile extends Component {
                 <div className="row">
                     <div className="col">
                         <h1>{this.state.username}</h1>
+                        <img className="user-img" src={this.state.img ? this.state.img : "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/256x256/plain/user.png"} alt="Profile" />
                         <input
                             value={this.state.searchInput}
                             className="search"

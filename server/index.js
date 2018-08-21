@@ -1,3 +1,5 @@
+"use strict";
+
 const express = require('express');
 const path = require('path');
 const jwt = require('jsonwebtoken');
@@ -32,7 +34,7 @@ mongoose.connect(
     // tools.removeCollection(User);
     // tools.showCollections();
     // tools.deleteAllTokens(User);
-    // tools.show(db, 'users');
+    // tools.show(db, 'users', {username: 'test'});
     // tools.removeFriends(User, 'admin')
     // tools.showFriends(User, 'admin')
   });
@@ -146,15 +148,33 @@ async function getUser(token, res) {
   })
 }
 
+async function getUserImg(username) {
+  return await User.findOne({ username: username }, '-_id image', (err, img) => {
+    if (err) return err;
+    return img
+  })
+}
+
 app.get('/Profile/username', (req, res) => {
   getUser(req.headers.token, res).then(user => {
-    return res.send(user.username)
+    var returnUser = {}; returnUser.username = user.username; returnUser.img = user.image;
+    console.log(returnUser)
+    return res.send(returnUser)
   })
 })
 
+
 app.get('/Profile/friends', (req, res) => {
   getUser(req.headers.token, res).then(user => {
-    return res.send(user.friends)
+    var promises = JSON.parse(JSON.stringify(user.friends)).map((friend) => {
+      return getUserImg(friend._id).then(img => {
+        friend.url = img.image;
+        return friend;
+      })
+    })
+    Promise.all(promises).then(function (results) {
+      res.send(results)
+    })
   })
 })
 
@@ -171,7 +191,7 @@ app.post('/Profile/addFriend', (req, res) => {
     if (err) return err;
     getUser(req.headers.token, res).then(user => {
       user.friends.push(friend.username)
-      friend.friends.push({_id: user.username, status: 'REQUEST'})
+      friend.friends.push({ _id: user.username, status: 'REQUEST' })
       user.save()
       friend.save()
       return res.sendStatus(200)
@@ -186,6 +206,23 @@ app.post('/Profile/acceptFriend', (req, res) => {
       user.friends.find(fr => fr._id === friend.username).status = "OK"
       friend.friends.find(fr => fr._id === user.username).status = "OK"
       user.save()
+      friend.save()
+      return res.sendStatus(200)
+    })
+  })
+})
+
+app.post('/Profile/removeFriend', (req, res) => {
+  User.findOne({ username: req.body.username }, 'username friends', (err, friend) => {
+    if (err) return err;
+    getUser(req.headers.token, res).then(user => {
+      user.friends = user.friends.filter(function( obj ) {
+        return obj._id != friend.username;
+      });
+      user.save()
+      friend.friends = friend.friends.filter(function( obj ) {
+        return obj._id != user.username;
+      });
       friend.save()
       return res.sendStatus(200)
     })
