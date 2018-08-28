@@ -140,7 +140,7 @@ app.post('/auth', (req, res) => verifAuth(req, res))
 
 async function getUser(token, res, props) {
   return await jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
-    if (err) return res.sendStatus(403);
+    if (err) return res.sendStatus(204);
     return User.findById(decoded.user, props, (err, user) => {
       if (err) return err;
       return user
