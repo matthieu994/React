@@ -21,23 +21,36 @@ class Links extends Component {
     render() {
         let links;
         if (this.state.isMounted && !localStorage.getItem('token')) {
-            links =
-                <div>
-                    {(this.props.location.pathname !== '/') &&
-                        <i className="fas fa-home" onClick={() => this.props.history.push("/")}></i>}
-                    {(this.props.location.pathname !== '/login') &&
-                        <a className="login" onClick={() => this.props.history.push('/login')}>Log In</a>}
-                    {(this.props.location.pathname !== '/register') &&
-                        <a className="register" onClick={() => this.props.history.push('register')}>Register</a>}
-                </div>
-        } else if (this.props.location.pathname !== '/') {
-            links =
-                <i className="fas fa-home" onClick={() => this.props.history.push("/")}></i>
+            if (this.props.location.pathname === '/login') {
+                links =
+                    <div className="register">
+                        <span>Pas de compte ?</span>
+                        <button onClick={() => this.props.history.push('/register')}>S'inscrire</button>
+                    </div>
+            }
+            else if (this.props.location.pathname === '/register') {
+                links =
+                    <div className="login">
+                        <span>Déjà inscrit ?</span>
+                        <button onClick={() => this.props.history.push('/login')}>Se connecter</button>
+                    </div>
+            }
+            else {
+                links =
+                    <div className="auth">
+                        <button className="btn btn-outline-primary" onClick={() => this.props.history.push('/login')}>Se connecter</button>
+                        <button className="btn btn-outline-primary" onClick={() => this.props.history.push('register')}>S'inscrire</button>
+                    </div>
+            }
         }
 
         return (
-            <div className="nav-links">
-                {links}
+            <div>
+                <div className="nav-links">
+                    {links}
+                </div>
+                {this.props.location.pathname !== '/' &&
+                    <i className="fas fa-home btn btn-outline-primary" onClick={() => this.props.history.push("/")}></i>}
             </div>
         )
     }

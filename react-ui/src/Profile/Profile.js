@@ -4,7 +4,6 @@ import './Profile.css'
 
 export default class Profile extends Component {
     state = {
-        username: '',
         friends: [],
         users: [],
         searchInput: ''
@@ -12,7 +11,6 @@ export default class Profile extends Component {
 
     componentDidMount() {
         this.getData()
-        this.getFriends()
     }
 
     getHeaders() {
@@ -24,8 +22,9 @@ export default class Profile extends Component {
     }
 
     getData() {
-        axios.get('/Profile/username', this.getHeaders()
+        axios.get('/Profile', this.getHeaders()
         ).then((res) => {
+            this.getFriends();
             this.setState({
                 username: res.data.username,
                 img: res.data.img
@@ -53,7 +52,7 @@ export default class Profile extends Component {
     }
 
     addFriend(username) {
-        axios.post('/Profile/addFriend', {
+        axios.post('/Profile/friend', {
             username: username
         }, this.getHeaders()).then((res) => {
             this.getFriends()
@@ -61,7 +60,7 @@ export default class Profile extends Component {
     }
 
     acceptFriend(username) {
-        axios.post('/Profile/acceptFriend', {
+        axios.put('/Profile/friend', {
             username: username
         }, this.getHeaders()).then((res) => {
             this.getFriends()
@@ -69,9 +68,14 @@ export default class Profile extends Component {
     }
 
     removeFriend(username) {
-        axios.post('/Profile/removeFriend', {
-            username: username
-        }, this.getHeaders()).then((res) => {
+        axios.delete('/Profile/friend', {
+            data: {
+                username: username
+            },
+            headers: {
+                token: localStorage.getItem('token')
+            }
+        }).then((res) => {
             this.getFriends()
             this.getUsers()
         }).catch(err => console.log(err))

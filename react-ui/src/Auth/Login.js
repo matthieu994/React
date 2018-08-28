@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect, withRouter } from 'react-router-dom';
+import './Login.css'
 import axios from 'axios';
 
 class Login extends Component {
@@ -33,26 +34,22 @@ class Login extends Component {
         }
 
         return (
-            <div className="container">
+            <div className="connect">
                 <form>
                     <div className="form-group">
-                        <label>Pseudo</label>
                         <input type="text" className="form-control" placeholder="Pseudo" onChange={(e) => this.setState({ username: e.target.value })} />
                     </div>
                     <div className="form-group">
-                        <label>Password</label>
-                        <input type="password" className="form-control" placeholder="Password" onChange={(e) => this.setState({ password: e.target.value })} />
+                        <input type="password" className="form-control" placeholder="Mot de passe" onChange={(e) => this.setState({ password: e.target.value })} />
                     </div>
-                    <div className="form-group row">
-                        <button
-                            type="submit"
-                            className="btn btn-primary"
-                            onClick={this.login.bind(this)}>
-                            Se connecter</button>
-                        <Link to="/register">Je n'ai pas de compte</Link>
-                    </div>
+                    <button
+                        type="submit"
+                        className="btn btn-primary"
+                        onClick={this.login.bind(this)}>
+                        Se connecter</button>
+                    <Link to="/register">Je n'ai pas de compte</Link>
                 </form>
-            </div >
+            </div>
         )
     }
 }

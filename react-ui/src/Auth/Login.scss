@@ -1,0 +1,71 @@
+.connect {
+    margin: 0;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    button {
+        width: 100%;
+        outline: none;
+        border: none;
+        padding: 8px 6px;
+        border-radius: 5px;
+        color: white;
+        letter-spacing: 2px;
+        font-size: 20px;
+        cursor: pointer;
+        box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.1);
+        transition: all 0.25s ease-in;
+    }
+    a {
+        display: inline-block;
+        margin-top: 5px;
+    }
+    .form-control {
+        outline: 0;
+        &[status='error'] {
+            border-color: #ff8080;
+            box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25);
+        }
+        &[status="correct"] {
+            border-color: #51cf8a;
+            box-shadow: 0 0 0 0.2rem rgba(62, 207, 81, 0.25);
+        }
+    }
+}
+
+.alerts {
+    width: 100%;
+    position: absolute;
+    text-align: center;
+    z-index: -1;
+    height: 80px;
+    div {
+        margin-top: 28px;
+        span {
+            animation: slide-up 3s ease;
+            font-family: 'Lato';
+            color: white;
+            letter-spacing: 1.7px;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: rgb(179, 24, 24);
+        }
+    }
+}
+
+@keyframes slide-up {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    20%, 80% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+}

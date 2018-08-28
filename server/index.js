@@ -138,10 +138,10 @@ function verifAuth(req, res) {
 
 app.post('/auth', (req, res) => verifAuth(req, res))
 
-async function getUser(token, res) {
+async function getUser(token, res, props) {
   return await jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
     if (err) return res.sendStatus(403);
-    return User.findById(decoded.user, (err, user) => {
+    return User.findById(decoded.user, props, (err, user) => {
       if (err) return err;
       return user
     })
@@ -155,17 +155,14 @@ async function getUserImg(username) {
   })
 }
 
-app.get('/Profile/username', (req, res) => {
-  getUser(req.headers.token, res).then(user => {
-    var returnUser = {}; returnUser.username = user.username; returnUser.img = user.image;
-    console.log(returnUser)
-    return res.send(returnUser)
+app.get('/Profile', (req, res) => {
+  getUser(req.headers.token, res, "-_id username image").then(user => {
+    return res.send(user)
   })
 })
 
-
 app.get('/Profile/friends', (req, res) => {
-  getUser(req.headers.token, res).then(user => {
+  getUser(req.headers.token, res, "-_id friends").then(user => {
     var promises = JSON.parse(JSON.stringify(user.friends)).map((friend) => {
       return getUserImg(friend._id).then(img => {
         friend.url = img.image;
@@ -186,7 +183,7 @@ app.post('/Profile/users', (req, res) => {
   })
 })
 
-app.post('/Profile/addFriend', (req, res) => {
+app.post('/Profile/friend', (req, res) => {
   User.findOne({ username: req.body.username }, (err, friend) => {
     if (err) return err;
     getUser(req.headers.token, res).then(user => {
@@ -199,7 +196,7 @@ app.post('/Profile/addFriend', (req, res) => {
   })
 })
 
-app.post('/Profile/acceptFriend', (req, res) => {
+app.put('/Profile/friend', (req, res) => {
   User.findOne({ username: req.body.username }, (err, friend) => {
     if (err) return err;
     getUser(req.headers.token, res).then(user => {
@@ -212,10 +209,10 @@ app.post('/Profile/acceptFriend', (req, res) => {
   })
 })
 
-app.post('/Profile/removeFriend', (req, res) => {
+app.delete('/Profile/friend', (req, res) => {
   User.findOne({ username: req.body.username }, 'username friends', (err, friend) => {
     if (err) return err;
-    getUser(req.headers.token, res).then(user => {
+    getUser(req.headers.token, res, "username friends").then(user => {
       user.friends = user.friends.filter(function( obj ) {
         return obj._id != friend.username;
       });

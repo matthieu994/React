@@ -1,41 +1,51 @@
+@import "http://fonts.googleapis.com/css?family=Lato:400,900i";
 .nav-links {
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    margin: 10px;
-}
-.nav-links .fas {
-    font-size: 2rem;
-}
-
-.nav-links a, .fa-home {
-    border-radius: 5px;
-    padding: 8px 10px;
-    font-size: 1.5rem;
-    text-decoration: none;
-    margin: 0 8px;
-    color: #fff !important;
-    position: relative;
-    display: inline-block;
-    background-color: #55acee;
-    box-shadow: 0px 5px 0px 0px #3C93D5;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px; }
+  .nav-links span {
+    font-family: 'Lato';
+    font-weight: 400;
+    font-size: 22px;
+    letter-spacing: 1.5px;
+    color: #1b519a;
+    margin-right: 8px; }
+  .nav-links button {
+    margin-left: 10px;
+    padding-top: 8px;
+    width: 175px;
+    font-family: 'Lato';
+    transition: 0.15s ease-in;
+    outline: none;
     cursor: pointer;
-  }
+    background-color: unset;
+    border: 1px solid #61a1a1;
+    border-radius: 4px;
+    color: #1b519a;
+    font-size: 20px;
+    padding: 12px 25px 12px 25px;
+    box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.1); }
+    .nav-links button:hover {
+      color: #fff;
+      background-color: #0069d9;
+      border-color: #0062cc; }
 
-.nav-links .register {
-    background-color: #42cfac;
-    box-shadow: 0px 5px 0px 0px rgb(47, 189, 123);
-}
+.auth button:last-child {
+  border: 1px solid #0062cc;
+  background-color: #0069d9;
+  color: #fff; }
+  .auth button:last-child:hover {
+    color: #1b519a;
+    background-color: unset;
+    border-color: #61a1a1; }
 
-  .nav-links a:active, .fa-home:active {
-    transform: translate(0px, 5px);
-    -webkit-transform: translate(0px, 5px);
-    box-shadow: 0px 1px 0px 0px;
-  }
-
-  .nav-links a:hover, .fa-home:active {
-    background-color: #6FC6FF;
-  }
-  .nav-links .register:hover {
-    background-color: rgb(98, 224, 186);
-  }
+.fa-home {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 10px;
+  margin: 10px;
+  font-size: 45px;
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.15); }

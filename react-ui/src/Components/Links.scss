@@ -1,0 +1,60 @@
+@import "http://fonts.googleapis.com/css?family=Lato:400,900i";
+.nav-links {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px;
+    span {
+        font-family: 'Lato';
+        font-weight: 400;
+        font-size: 22px;
+        letter-spacing: 1.5px;
+        color: #1b519a;
+        margin-right: 8px;
+    }
+    button {
+        margin-left: 10px;
+        padding-top: 8px;
+        width: 175px;
+        font-family: 'Lato';
+        transition: 0.15s ease-in;
+        outline: none;
+        cursor: pointer;
+        background-color: unset;
+        border: 1px solid #61a1a1;
+        border-radius: 4px;
+        color: #1b519a;
+        font-size: 20px;
+        padding: 12px 25px 12px 25px;
+        box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.1);
+        &:hover {
+            color: #fff;
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+    }
+}
+
+.auth {
+    button:last-child {
+        border: 1px solid #0062cc;
+        background-color: #0069d9;
+        color: #fff;
+        &:hover {
+            color: #1b519a;
+            background-color: unset;
+            border-color: #61a1a1;
+        }
+    }
+}
+
+.fa-home {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 10px;
+    margin: 10px;
+    font-size: 45px;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.15);
+}
