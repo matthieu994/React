@@ -123,6 +123,10 @@ export default class Profile extends Component {
                         {friend.status === "PENDING" &&
                             <div className="loader"></div>}
                     </div>
+                    {friend.status === "OK" &&
+                        <span>
+                            Partager
+                        </span>}
                     <div className="user-status">
                         {friend.status === "REQUEST" &&
                             <button type="button" className="btn btn-success"

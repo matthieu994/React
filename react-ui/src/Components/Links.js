@@ -38,8 +38,8 @@ class Links extends Component {
             else {
                 links =
                     <div className="auth">
-                        <button className="btn btn-outline-primary" onClick={() => this.props.history.push('/login')}>Se connecter</button>
-                        <button className="btn btn-outline-primary" onClick={() => this.props.history.push('register')}>S'inscrire</button>
+                        <a className="login" onClick={() => this.props.history.push('/login')}>Login</a>
+                        <button className="register" onClick={() => this.props.history.push('register')}>Register</button>
                     </div>
             }
         }

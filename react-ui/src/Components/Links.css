@@ -14,32 +14,38 @@
     margin-right: 8px; }
   .nav-links button {
     margin-left: 10px;
-    padding-top: 8px;
-    width: 175px;
     font-family: 'Lato';
     transition: 0.15s ease-in;
     outline: none;
-    cursor: pointer;
     background-color: unset;
-    border: 1px solid #61a1a1;
+    border: 1px solid #0069d9;
     border-radius: 4px;
     color: #1b519a;
     font-size: 20px;
-    padding: 12px 25px 12px 25px;
+    cursor: pointer;
+    padding: 8px 15px;
     box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.1); }
     .nav-links button:hover {
       color: #fff;
       background-color: #0069d9;
       border-color: #0062cc; }
 
-.auth button:last-child {
-  border: 1px solid #0062cc;
+.auth .register {
+  padding: 0px 15px 2px 15px;
+  color: #fff;
   background-color: #0069d9;
-  color: #fff; }
-  .auth button:last-child:hover {
-    color: #1b519a;
-    background-color: unset;
-    border-color: #61a1a1; }
+  text-transform: uppercase;
+  box-shadow: 1px 2px 8px 0px rgba(0, 0, 0, 0.6); }
+  .auth .register:hover {
+    box-shadow: 1px 2px 8px 0px rgba(0, 0, 0, 0.3); }
+
+.auth .login {
+  color: #0069d9 !important;
+  font-size: 18px;
+  text-transform: uppercase;
+  cursor: pointer; }
+  .auth .login:hover {
+    color: #1b519a; }
 
 .fa-home {
   position: absolute;

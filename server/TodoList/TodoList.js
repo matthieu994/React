@@ -1,17 +1,29 @@
 var Todo = require('../models/TodoSchema');
+var tools = require('../Auth/Tools')
 
 module.exports = function (app) {
     app.get('/todos', (req, res) => {
-        Todo.find(function (err, todos) {
-            if (err) return console.error(err);
-            res.send(JSON.stringify(todos));
+        tools.getUser(req.headers.token, res, 'todos').then(user => {
+            let todosArray = [];
+            var promises = user.todos.map(el => {
+                return Todo.findOne(el).then(todo => {
+                    todosArray.push(todo)
+                })
+            })
+            Promise.all(promises).then(function (results) {
+                res.send(todosArray)
+            })
         })
     });
 
     app.post('/todos', (req, res) => {
-        var todo = new Todo({ text: req.body.text });
-        todo.save();
-        res.sendStatus(200);
+        tools.getUser(req.headers.token, res).then(user => {
+            var todo = new Todo({ text: req.body.text });
+            user.todos.push(todo)
+            todo.save()
+            user.save()
+            res.sendStatus(200);
+        })
     });
 
     app.put('/todos', (req, res) => {

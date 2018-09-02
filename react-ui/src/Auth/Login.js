@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, Redirect, withRouter } from 'react-router-dom';
 import './Login.css'
 import axios from 'axios';
+import Alerts from '../Components/Alerts'
 
 class Login extends Component {
     constructor() {
@@ -9,8 +10,21 @@ class Login extends Component {
         this.state = {
             username: '',
             password: '',
-            redirect: false
+            redirect: false,
+            alert: ''
         }
+    }
+
+    alert(message) {
+        this.setState({
+            alert: message
+        })
+
+        setTimeout(() => {
+            this.setState({
+                alert: ''
+            })
+        }, 3000)
     }
 
     login(e) {
@@ -22,6 +36,9 @@ class Login extends Component {
                     this.setState({
                         redirect: true
                     })
+                } else {
+                    console.log(res.data)
+                    this.alert("Identifiants invalides.")
                 }
             })
             .catch(err => console.log(err));
@@ -29,26 +46,29 @@ class Login extends Component {
 
     render() {
         // const { from } = this.props.location.state || { from: { pathname: '/' } }
-        if (this.state.redirect) {
+        if (this.state.redirect || localStorage.getItem('token')) {
             return <Redirect to='/' />
         }
 
         return (
-            <div className="connect">
-                <form>
-                    <div className="form-group">
-                        <input type="text" className="form-control" placeholder="Pseudo" onChange={(e) => this.setState({ username: e.target.value })} />
-                    </div>
-                    <div className="form-group">
-                        <input type="password" className="form-control" placeholder="Mot de passe" onChange={(e) => this.setState({ password: e.target.value })} />
-                    </div>
-                    <button
-                        type="submit"
-                        className="btn btn-primary"
-                        onClick={this.login.bind(this)}>
-                        Se connecter</button>
-                    <Link to="/register">Je n'ai pas de compte</Link>
-                </form>
+            <div>
+                <Alerts message={this.state.alert} />
+                <div className="connect">
+                    <form>
+                        <div className="form-group">
+                            <input type="text" className="form-control" placeholder="Pseudo" onChange={(e) => this.setState({ username: e.target.value })} />
+                        </div>
+                        <div className="form-group">
+                            <input type="password" className="form-control" placeholder="Mot de passe" onChange={(e) => this.setState({ password: e.target.value })} />
+                        </div>
+                        <button
+                            type="submit"
+                            className="btn btn-primary"
+                            onClick={this.login.bind(this)}>
+                            Se connecter</button>
+                        <Link to="/register">Je n'ai pas de compte</Link>
+                    </form>
+                </div>
             </div>
         )
     }

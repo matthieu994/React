@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
+import Alerts from '../Components/Alerts'
 
 class Register extends Component {
     constructor() {
@@ -9,71 +10,81 @@ class Register extends Component {
             username: '',
             password: '',
             password2: '',
-            alerts: []
+            alert: ''
         }
     }
 
     register(e) {
         e.preventDefault();
-        console.log(this.state);
         if (this.state.username.trim().length < 3)
-            return this.alert("Un pseudo doit faire plus de 3 caractères");
+            return this.alert("USERNAME_SHORT");
         if (this.state.password.trim().length < 3)
-            return this.alert("Le mot de passe doit faire plus de 3 caractères");
+            return this.alert("PASSWORD_SHORT");
         if (this.state.password.trim().length !== this.state.password2.trim().length)
-            return this.alert("Les mots de passe doivent être identiques");
+            return this.alert("PASSWORD_MATCH");
 
         axios.post('/register', this.state)
             .then((res) => {
-                console.log(res.data)
-                this.alert(res.data.message)
+                if (res.status === 200)
+                    this.login()
+            })
+            .catch(err => {
+                if (err.response.status === 400) {
+                    this.alert("USERNAME_MATCH")
+                }
+            });
+    }
+
+    login() {
+        axios.post('/login', this.state)
+            .then((res) => {
+                if (res.data.token) {
+                    localStorage.setItem('token', res.data.token);
+                    this.props.history.push('/')
+                }
             })
             .catch(err => console.log(err));
     }
 
     alert(message) {
-        if (this.state.alerts.length > 0)
-            return
-
         this.setState({
-            alerts: [...this.state.alerts, message]
+            alert: message
         })
+
         setTimeout(() => {
             this.setState({
-                alerts: []
+                alert: ''
             })
         }, 3000)
     }
 
-    renderAlerts() {
-        return (
-            <div>
-                {this.state.alerts.map((el, index) => {
-                    return (
-                        <span key={index}>{el}</span>
-                    )
-                })
-                }
-            </div>
-        )
-    }
-
     render() {
+        if (localStorage.getItem('token'))
+            return <Redirect to='/' />
+
+        let userStatus, passStatus, pass2Status;
+        if (this.state.alert === "USERNAME_SHORT" || this.state.alert === "USERNAME_MATCH")
+            userStatus = "error"
+        if (this.state.alert.split('_')[0] === "PASSWORD") {
+            passStatus = "error"
+            if (this.state.alert === "PASSWORD_MATCH") {
+                pass2Status = "error"
+            }
+        }
+
         return (
             <div>
-                <section className="alerts">
-                    {this.renderAlerts()}
-                </section>
+                <Alerts message={this.state.alert} />
                 <div className="connect">
                     <form>
                         <div className="form-group">
-                            <input type="text" status="correct" className="form-control" placeholder="Pseudo" required onChange={(e) => this.setState({ username: e.target.value })} />
+                            <input type="text" status={userStatus} className="form-control" placeholder="Pseudo" required onChange={(e) => this.setState({ username: e.target.value })} />
                         </div>
                         <div className="form-group">
-                            <input type="password" className="form-control" placeholder="Mot de passe" required onChange={(e) => this.setState({ password: e.target.value })} />
+                            <input type="password" status={passStatus} className="form-control" placeholder="Mot de passe" required onChange={(e) => this.setState({ password: e.target.value })} />
                         </div>
                         <div className="form-group">
-                            <input type="password" className="form-control" placeholder="Mot de passe" required onChange={(e) => this.setState({ password2: e.target.value })} />
+                            <input type="password" status={pass2Status} className="form-control" placeholder="Mot de passe" required onChange={(e) => this.setState({ password2: e.target.value })} />
                         </div>
                         <button
                             type="submit"
