@@ -1,4 +1,5 @@
 var User = require('../models/UserSchema');
+const jwt = require('jsonwebtoken')
 
 module.exports = function (app) {
     var bcrypt = require('bcrypt');

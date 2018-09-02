@@ -124,9 +124,9 @@ export default class Profile extends Component {
                             <div className="loader"></div>}
                     </div>
                     {friend.status === "OK" &&
-                        <span>
+                        <button className="btn btn-outline-primary share">
                             Partager
-                        </span>}
+                        </button>}
                     <div className="user-status">
                         {friend.status === "REQUEST" &&
                             <button type="button" className="btn btn-success"

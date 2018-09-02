@@ -1,0 +1,144 @@
+.fa-times.delete-search {
+    color: #d65a5a;
+    font-size: 1.5rem;
+}
+
+.friends {
+    .fa-check {
+        font-size: 1.4rem;
+    }
+    .user-card {
+        width: 160px;
+        height: 100px;
+        padding: 10px;
+        display: inline-table;
+        background-color: unset;
+        box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.1);
+        &:hover {
+            box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.17);
+        }
+    }
+    .share {
+      padding: 4px 2px 4px 2px;
+    }
+}
+
+.user-img {
+    min-width: 80px;
+    height: 80px;
+    margin: 5px auto;
+    border-radius: 50%;
+}
+
+.user-name {
+    display: block;
+}
+
+.user-card.PENDING .user-name {
+    margin-bottom: 25px;
+}
+
+.user-status {
+    margin-left: auto;
+}
+
+.user-status>button {
+    margin-bottom: 5px;
+}
+
+.removeFriend {
+    cursor: pointer;
+    color: #ff4a4a !important;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #a54848;
+}
+
+.removeFriend:hover {
+    border-bottom: 1px dotted red;
+}
+
+.PENDING {
+    background-color: rgb(220, 245, 255) !important;
+}
+
+.REQUEST {
+    box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.23) !important;
+    animation: infinite colorchanger 3s;
+}
+
+@keyframes colorchanger {
+    0% {
+        background: rgb(212, 255, 222)
+    }
+    50% {
+        background: white
+    }
+    100% {
+        background: rgb(212, 255, 222)
+    }
+}
+
+.loader,
+.loader:before,
+.loader:after {
+    border-radius: 50%;
+    width: 2em;
+    height: 2em;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation: load7 1.8s infinite ease-in-out;
+    animation: load7 1.8s infinite ease-in-out;
+}
+
+.loader {
+    color: #afdaec;
+    font-size: 8px;
+    margin: auto;
+    position: relative;
+    text-indent: -9999em;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+    margin-top: -20px;
+}
+
+.loader:before,
+.loader:after {
+    content: '';
+    position: absolute;
+    top: 0;
+}
+
+.loader:before {
+    left: -3.5em;
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+
+.loader:after {
+    left: 3.5em;
+}
+
+@-webkit-keyframes load7 {
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 2.5em 0 -1.3em;
+    }
+    40% {
+        box-shadow: 0 2.5em 0 0;
+    }
+}
+
+@keyframes load7 {
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 2.5em 0 -1.3em;
+    }
+    40% {
+        box-shadow: 0 2.5em 0 0;
+    }
+}
