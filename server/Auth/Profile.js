@@ -8,6 +8,14 @@ module.exports = function (app) {
         })
     })
 
+    app.put('/Profile/image', (req, res) => {
+        userTools.getUser(req.headers.token, res).then(user => {
+            user.image = req.body.url
+            user.save();
+            return res.sendStatus(200)
+        })
+    })
+
     app.get('/Profile/friends', (req, res) => {
         userTools.getUser(req.headers.token, res, "-_id friends").then(user => {
             var promises = JSON.parse(JSON.stringify(user.friends)).map((friend) => {
@@ -70,6 +78,16 @@ module.exports = function (app) {
                 friend.save()
                 return res.sendStatus(200)
             })
+        })
+    })
+
+    app.post('/share', (req, res) => {
+        User.findOne({ username: req.body.friend }, "todos", (err, friend) => {
+            if (friend.todos.indexOf(req.body.todo) >= 0) {
+                return;
+            }
+            friend.todos.push(req.body.todo)
+            friend.save()
         })
     })
 }

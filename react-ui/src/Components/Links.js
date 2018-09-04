@@ -50,7 +50,7 @@ class Links extends Component {
                     {links}
                 </div>
                 {this.props.location.pathname !== '/' &&
-                    <i className="fas fa-home btn btn-outline-primary" onClick={() => this.props.history.push("/")}></i>}
+                    <i className="fas fa-home btn btn-primary" onClick={() => this.props.history.push("/")}></i>}
             </div>
         )
     }

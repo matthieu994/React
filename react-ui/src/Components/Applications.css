@@ -36,26 +36,6 @@ div.user > a {
 .col {
     text-align: center;
 }
-.search {
-    width: 20%;
-    min-width: 200px;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    background-color: white;
-    background-image: url('https://www.w3schools.com/howto/searchicon.png');
-    background-position: 10px 10px; 
-    background-repeat: no-repeat;
-    padding: 12px 20px 12px 40px;
-    margin: 10px;
-    -webkit-transition: width 0.3s ease-in-out;
-    transition: width 0.3s ease-in-out;
-    outline: none;
-}
-.search:focus {
-    width: 60%;
-}
 
 .card-title {
     font-size: 2rem;

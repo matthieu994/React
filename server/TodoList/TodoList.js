@@ -5,9 +5,9 @@ module.exports = function (app) {
     app.get('/todos', (req, res) => {
         tools.getUser(req.headers.token, res, 'todos').then(user => {
             let todosArray = [];
-            var promises = user.todos.map(el => {
+            var promises = user.todos.map((el, index) => {
                 return Todo.findOne(el).then(todo => {
-                    todosArray.push(todo)
+                    todosArray[index] = todo;
                 })
             })
             Promise.all(promises).then(function (results) {
