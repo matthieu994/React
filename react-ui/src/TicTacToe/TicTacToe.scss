@@ -4,6 +4,13 @@
         display: inline-block;
     }
 }
+.Toastify__toast-body {
+    text-align: center;
+}
+.Toastify__toast {
+    border-radius: 10px !important;
+    min-height: 55px !important;
+}
 
 ol,
 ul {
@@ -44,8 +51,7 @@ ul {
 }
 
 .game {
-    display: flex;
-    flex-direction: row;
+    display: inline-flex;
 }
 
 .game-info {

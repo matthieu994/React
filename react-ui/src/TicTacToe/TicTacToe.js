@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import './TicTacToe.css'
+import { ToastContainer, toast } from 'react-toastify';
+import { Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import io from 'socket.io-client';
 
 export default class TicTacToe extends Component {
@@ -10,11 +13,12 @@ export default class TicTacToe extends Component {
 
     componentDidMount() {
         this.socket = io('http://localhost:5001');
-        this.socket.on('inRoom', message => {
-            console.log(message)
+        this.socket.on('inRoom', msg => {
+            toast.info(msg)
             this.setState({ joined: this.state.room })
         })
         this.socket.on('fullRoom', msg => {
+            toast.error(msg)
             this.setState({ room: '' })
         })
     }
@@ -44,9 +48,17 @@ export default class TicTacToe extends Component {
                                 </div>
                             </form>
                         }
-                        <Game />
+                        <Game display={this.state.joined}/>
                     </div>
                 </div>
+                <ToastContainer
+                    position="top-center"
+                    autoClose={2500}
+                    hideProgressBar={true}
+                    rtl={false}
+                    pauseOnHover={false}
+                    transition={Zoom}
+                />
             </div>
         )
     }
@@ -130,6 +142,7 @@ class Game extends React.Component {
     }
 
     render() {
+        if(!this.props.display) return null;
         const history = this.state.history;
         const current = history[this.state.stepNumber];
         const winner = calculateWinner(current.squares);

@@ -7,7 +7,8 @@ module.exports = function (app) {
             if (io.nsps['/'].adapter.rooms["#" + num] && io.nsps['/'].adapter.rooms["#" + num].length >= 2)
                 return fullRoom(client, num);
             client.join("#" + num);
-            client.emit('inRoom', "Vous avez rejoint la salle #" + num);
+            // client.emit('inRoom', "Vous avez rejoint la salle #" + num);
+            io.in('#' + num).emit('inRoom', "Vous avez rejoint la salle #" + num);
         })
     })
 
