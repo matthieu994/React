@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:5000');
 
 export default class TicTacToe extends Component {
+    componentDidMount() {
+        const socket = openSocket();
+    }
+
     render() {
         return (
             <div className="container">
