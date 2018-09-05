@@ -4,6 +4,10 @@ import openSocket from 'socket.io-client';
 export default class TicTacToe extends Component {
     componentDidMount() {
         const socket = openSocket('http://localhost:8080');
+        socket.emit('message', "test message")
+        socket.on('message', message => {
+            console.log(message)
+        })
     }
 
     render() {
