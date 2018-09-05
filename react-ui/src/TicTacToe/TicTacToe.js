@@ -8,11 +8,16 @@ import io from 'socket.io-client';
 export default class TicTacToe extends Component {
     state = {
         room: '',
-        joined: null
+        joined: null,
+        type: ''
+    }
+
+    constructor() {
+        super()
+        this.socket = io('http://localhost:5001')
     }
 
     componentDidMount() {
-        this.socket = io('http://localhost:5001');
         this.socket.on('inRoom', msg => {
             toast.info(msg)
             this.setState({ joined: this.state.room })
@@ -20,6 +25,14 @@ export default class TicTacToe extends Component {
         this.socket.on('fullRoom', msg => {
             toast.error(msg)
             this.setState({ room: '' })
+        })
+        this.socket.on('playerIs', type => {
+            this.setState({ type })
+        })
+
+        this.socket.on('nextPlayer', data => {
+            this.i = data.i;
+            this.render()
         })
     }
 
@@ -48,7 +61,7 @@ export default class TicTacToe extends Component {
                                 </div>
                             </form>
                         }
-                        <Game display={this.state.joined}/>
+                        <Game joined={this.state.joined} type={this.state.type} socket={this.socket} />
                     </div>
                 </div>
                 <ToastContainer
@@ -106,8 +119,8 @@ class Board extends React.Component {
 }
 
 class Game extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor(props, context) {
+        super(props, context);
         this.state = {
             history: [
                 {
@@ -119,14 +132,28 @@ class Game extends React.Component {
         };
     }
 
-    handleClick(i) {
+    componentDidMount() {
+        this.socket = this.props.socket;
+        if(!this.socket) return;
+        
+        this.socket.on('nextPlayer', msg => {
+            this.play(msg.i)
+        })
+    }
+
+    play(i) {
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
         const current = history[history.length - 1];
         const squares = current.squares.slice();
         if (calculateWinner(squares) || squares[i]) {
             return;
         }
-        squares[i] = this.state.xIsNext ? "X" : "O";
+
+        if (this.props.type === "X")
+            squares[i] = "O"
+        else
+            squares[i] = "X"
+
         this.setState({
             history: history.concat([
                 {
@@ -138,11 +165,38 @@ class Game extends React.Component {
         });
     }
 
-    componentDidMount() {
+    handleClick(i) {
+        const history = this.state.history.slice(0, this.state.stepNumber + 1);
+        const current = history[history.length - 1];
+        const squares = current.squares.slice();
+
+        if (calculateWinner(squares) || squares[i]) {
+            return;
+        }
+        if ((!this.state.xIsNext && this.props.type === 'X') || (this.state.xIsNext && this.props.type === 'O'))
+            return;
+
+        squares[i] = this.props.type
+
+        this.setState({
+            history: history.concat([
+                {
+                    squares: squares
+                }
+            ]),
+            stepNumber: history.length,
+            xIsNext: !this.state.xIsNext
+        });
+
+        this.socket.emit('play', {
+            room: this.props.joined,
+            i,
+            xIsNext: this.state.xIsNext
+        })
     }
 
     render() {
-        if(!this.props.display) return null;
+        if (!this.props.joined) return null;
         const history = this.state.history;
         const current = history[this.state.stepNumber];
         const winner = calculateWinner(current.squares);
@@ -157,13 +211,14 @@ class Game extends React.Component {
         return (
             <div className="game">
                 <div className="game-board">
+                    <span>Vous êtes: {this.props.type}</span>
+                    <div>{status}</div>
                     <Board
                         squares={current.squares}
                         onClick={i => this.handleClick(i)}
                     />
                 </div>
                 <div className="game-info">
-                    <div>{status}</div>
                 </div>
             </div>
         );

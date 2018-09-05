@@ -4,11 +4,21 @@ module.exports = function (app) {
 
     io.on('connection', function (client) {
         client.on('joinRoom', (num) => {
-            if (io.nsps['/'].adapter.rooms["#" + num] && io.nsps['/'].adapter.rooms["#" + num].length >= 2)
+            if (io.nsps['/'].adapter.rooms[num] && io.nsps['/'].adapter.rooms[num].length >= 2)
                 return fullRoom(client, num);
-            client.join("#" + num);
-            // client.emit('inRoom', "Vous avez rejoint la salle #" + num);
-            io.in('#' + num).emit('inRoom', "Vous avez rejoint la salle #" + num);
+            client.join(num);
+
+            var clientsCount = io.sockets.adapter.rooms[num].length;
+            if (clientsCount === 1)
+                playerIs(client, 'X')
+            else
+                playerIs(client, 'O')
+
+            client.emit('inRoom', "Vous avez rejoint la salle #" + num);
+        })
+
+        client.on('play', data => {
+            client.broadcast.to(data.room).emit('nextPlayer', { xIsNext: !data.xIsNext, i: data.i });
         })
     })
 
@@ -17,4 +27,8 @@ module.exports = function (app) {
 
 const fullRoom = (client, num) => {
     client.emit('fullRoom', "La salle #" + num + " est pleine.");
+}
+
+const playerIs = (client, type) => {
+    client.emit('playerIs', type);
 }
