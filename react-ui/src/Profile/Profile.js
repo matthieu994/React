@@ -185,6 +185,7 @@ export default class Profile extends Component {
 
     renderTodos() {
         return this.state.elements.map((item, index) => {
+            if(!item) return null;
             return (
                 <div className={item.done ? "list-group-item disabled pt-3" : "list-group-item pt-3 list-group-item-action list-group-item-info"} key={item._id}>
                     {item.done ? <del> {item.text} </del> : item.text}
