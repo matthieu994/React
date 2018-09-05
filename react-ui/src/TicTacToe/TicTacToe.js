@@ -3,7 +3,7 @@ import openSocket from 'socket.io-client';
 
 export default class TicTacToe extends Component {
     componentDidMount() {
-        const socket = openSocket();
+        const socket = openSocket('http://localhost:8080');
     }
 
     render() {
