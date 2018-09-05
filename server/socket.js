@@ -1,7 +1,8 @@
 module.exports = function (app) {
     var http = require("http").createServer(app);
     var io = require("socket.io")(http);
-
+    
+    io.set('origins', '*:*');
     io.on('connection', function (client) {
         client.on('joinRoom', (num) => {
             if (io.nsps['/'].adapter.rooms[num] && io.nsps['/'].adapter.rooms[num].length >= 2)
