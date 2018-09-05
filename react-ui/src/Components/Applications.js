@@ -20,7 +20,7 @@ export class Applications extends Component {
                         <p className="card-text">{app.desc}</p>
                     </div>
                     <div className="card-bottom">
-                        <Link className="btn btn-primary" to='/TodoList'>Y aller !</Link>
+                        <Link className="btn btn-primary" to={app.Component}>Y aller !</Link>
                     </div>
                 </div>
             )

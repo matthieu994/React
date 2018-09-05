@@ -63,9 +63,12 @@ function verifAuth(req, res) {
 }
 app.post('/auth', (req, res) => verifAuth(req, res))
 
+// socket.io
+require('./socket')(app)
+
 // All remaining requests return the React app, so it can handle routing.
 app.use('', function (req, response, next) {
-  response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
+  // response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
 });
 
 app.listen(PORT, function () {

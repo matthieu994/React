@@ -3,5 +3,15 @@
         "title": "TodoList",
         "desc": "Créer et partagez votre liste de courses, de choses à faire, de films à voir...",
         "Component": "TodoList"
+    },
+    {
+        "title": "Transports",
+        "desc": "Consultez les différents moyens de transports près de chez vous.",
+        "Component": "Transports"
+    },
+    {
+        "title": "TicTacToe",
+        "desc": "Jouez en ligne avec vos amis.",
+        "Component": "TicTacToe"
     }
 ]

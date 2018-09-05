@@ -13,7 +13,7 @@ class Footer extends Component {
                     <div className="row">
                         {
                             apps.map((app, index) =>
-                                <div className="col" key="index">
+                                <div className="col" key={index}>
                                     <Link to={app.Component}>{app.title}</Link>
                                 </div>
                             )

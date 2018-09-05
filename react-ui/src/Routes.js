@@ -5,7 +5,9 @@ import { Applications } from './Components/Applications'
 import TodoList from './Todo/TodoList';
 import Login from './Auth/Login';
 import Register from './Auth/Register';
-import Profile from './Profile/Profile.js'
+import Profile from './Profile/Profile'
+import Transports from './Transports/Transports'
+import TicTacToe from './TicTacToe/TicTacToe'
 
 class App extends Component {
   render() {
@@ -16,6 +18,8 @@ class App extends Component {
           <Route path="/login" component={Login} />
           <PrivateRoute path='/profile' component={Profile} />
           <PrivateRoute path='/TodoList' component={TodoList} />
+          <PrivateRoute path='/Transports' component={Transports} />
+          <PrivateRoute path='/TicTacToe' component={TicTacToe} />
         </div>
     );
   }

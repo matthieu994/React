@@ -12,7 +12,6 @@ class Root extends Component {
       <Router>
         <div>
           <Routes />
-
           <Links />
           <UserIcon />
           <Footer />
