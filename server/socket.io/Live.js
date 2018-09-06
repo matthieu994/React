@@ -18,10 +18,7 @@ module.exports = function (io) {
         })
 
         client.on('updatePos', data => {
-            if (data.direction)
-                client.broadcast.to(data.code).emit('updatePos', data.direction);
-            else
-                client.broadcast.to(data.code).emit('updatePos', { X: data.beta, Y: data.gamma });
+            client.broadcast.to(data.code).emit('updatePos', { degX: data.gamma, degY: data.beta });
         })
     });
 }

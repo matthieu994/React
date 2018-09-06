@@ -102,48 +102,53 @@ export default class Live extends Component {
 
 class Game extends Component {
     state = {
-        direction: ''
+        x: 0,
+        y: 0,
+        speedX: 0,
+        speedY: 0
     }
+
 
     componentDidMount() {
         this.socket = this.props.socket;
-        this.socket.on('updatePos', direction => {
-            this.setState({ direction })
+        if (!this.beat) this.beat = setInterval(() => this.move(), 100)
+        this.socket.on('updatePos', data => {
+            this.setState({ speedX: data.degX, speedY: data.degY })
         })
+    }
+    componentWillUnmount() {
+        clearInterval(this.beat)
+    }
+
+    move() {
+        this.moveX(this.state.speedX)
+        this.moveY(this.state.speedY)
+    }
+    moveX(speed) {
+        let x = this.state.x + parseFloat(speed, 10);
+        this.setState({ x })
+    }
+    moveY(speed) {
+        let y = this.state.y + parseFloat(speed, 10);
+        this.setState({ y })
     }
 
     render() {
         return (
             <div className="live-game">
-                <Image direction={this.state.direction} />
+                <Image x={this.state.x} y={this.state.y} />
             </div>
         )
     }
 }
 
 class Image extends Component {
-    state = {
-        x: 0,
-        y: 0,
-    }
-
-    componentWillReceiveProps(newProps) {
-        // console.log(newProps)
-        if (newProps.direction === 'left')
-            this.setState({ x: this.state.x - 10 })
-        if (newProps.direction === 'right')
-            this.setState({ x: this.state.x + 10 })
-        if (newProps.direction === 'up')
-            this.setState({ y: this.state.y - 10 })
-        if (newProps.direction === 'down')
-            this.setState({ y: this.state.y + 10 })
-    }
-
     render() {
         let style = {
-            left: this.state.x,
-            top: this.state.y
+            left: this.props.x,
+            top: this.props.y
         }
+        console.log(this.props)
         return (
             <img style={style} src={SPRITE} alt='character'></img>
         )
@@ -166,7 +171,7 @@ class Commands extends Component {
                 beta: this.state.beta,
                 gamma: this.state.gamma
             })
-        }, 100)
+        }, 500)
     }
     handleOrientation() {
         window.addEventListener("deviceorientation", e => {
@@ -174,39 +179,10 @@ class Commands extends Component {
         }, true);
     }
 
-    move(direction) {
-        this.socket.emit('updatePos', {
-            code: this.props.code,
-            direction
-        })
-    }
-    moveDebug(e) {
-        let dir;
-        if (e.keyCode === 37)
-            dir = 'left'
-        if (e.keyCode === 39)
-            dir = 'right'
-        if (e.keyCode === 38)
-            dir = 'up'
-        if (e.keyCode === 40)
-            dir = 'down'
-        this.socket.emit('updatePos', {
-            code: this.props.code,
-            direction: dir
-        })
-    }
-
     render() {
         return (
             <div>
-                <div>
-                    <button onClick={() => this.move('left')}>Gauche</button>
-                    <button onClick={() => this.move('right')}>Droite</button>
-                    <button onClick={() => this.move('up')}>Haut</button>
-                    <button onClick={() => this.move('down')}>Bas</button>
-                    <input placeholder="debug" type="text" onKeyDown={e => this.moveDebug(e)} />
-                </div>
-                {this.state.alpha + ' ' + this.state.beta + ' ' + this.state.gamma}
+                {this.state.alpha + '    ' + this.state.beta + '    ' + this.state.gamma}
             </div>
         )
     }
