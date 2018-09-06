@@ -2,11 +2,9 @@ module.exports = function (app, port) {
     const http = require('http')
     var server = http.createServer(app).listen(port)
     var io = require('socket.io').listen(server);
-
-
     io.set('origins', '*:*');
+
     io.on('connection', function (client) {
-        console.log('connected client')
         client.on('joinRoom', (num) => {
             if (io.nsps['/'].adapter.rooms[num] && io.nsps['/'].adapter.rooms[num].length >= 2)
                 return fullRoom(client, num);
@@ -15,9 +13,10 @@ module.exports = function (app, port) {
             var clientsCount = io.sockets.adapter.rooms[num].length;
             if (clientsCount === 1)
                 playerIs(client, 'X')
-            else
+            else {
                 playerIs(client, 'O')
-
+                io.in(num).emit('start', true);
+            }
             client.emit('inRoom', "Vous avez rejoint la salle #" + num);
         })
 

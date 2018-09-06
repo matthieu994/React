@@ -52,7 +52,7 @@ export default class TicTacToe extends Component {
                             <form className="form-inline">
                                 <div className="form-group">
                                     <input className="form-control" type="text" value={this.state.room} onChange={e => this.setState({ room: e.target.value })} />
-                                    <button className="btn btn-outline-primary" onClick={(e) => this.joinRoom(e)}>Rejoindre</button>
+                                    <button className="btn btn-outline-primary ml-2" onClick={(e) => this.joinRoom(e)}>Rejoindre</button>
                                 </div>
                             </form>
                         }
@@ -92,7 +92,7 @@ class Board extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="d-inline-block">
                 <div className="board-row">
                     {this.renderSquare(0)}
                     {this.renderSquare(1)}
@@ -123,16 +123,21 @@ class Game extends React.Component {
                 }
             ],
             stepNumber: 0,
-            xIsNext: true
+            xIsNext: true,
+            start: false
         };
     }
 
     componentDidMount() {
         this.socket = this.props.socket;
-        if(!this.socket) return;
-        
+        if (!this.socket) return;
+
         this.socket.on('nextPlayer', msg => {
             this.play(msg.i)
+        })
+
+        this.socket.on('start', () => {
+            this.setState({ start: true })
         })
     }
 
@@ -140,7 +145,7 @@ class Game extends React.Component {
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
         const current = history[history.length - 1];
         const squares = current.squares.slice();
-        if (calculateWinner(squares) || squares[i]) {
+        if (calculateWinner(squares) || squares[i] || !this.state.start) {
             return;
         }
 
@@ -165,7 +170,7 @@ class Game extends React.Component {
         const current = history[history.length - 1];
         const squares = current.squares.slice();
 
-        if (calculateWinner(squares) || squares[i]) {
+        if (calculateWinner(squares) || squares[i] || !this.state.start) {
             return;
         }
         if ((!this.state.xIsNext && this.props.type === 'X') || (this.state.xIsNext && this.props.type === 'O'))
@@ -202,6 +207,9 @@ class Game extends React.Component {
         } else {
             status = "Next player: " + (this.state.xIsNext ? "X" : "O");
         }
+        if(!this.state.start) {
+            status = "En attente d'un joueur"
+        }
 
         return (
             <div className="game">
@@ -212,8 +220,6 @@ class Game extends React.Component {
                         squares={current.squares}
                         onClick={i => this.handleClick(i)}
                     />
-                </div>
-                <div className="game-info">
                 </div>
             </div>
         );
