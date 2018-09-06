@@ -63,13 +63,13 @@ function verifAuth(req, res) {
 app.post('/auth', (req, res) => verifAuth(req, res))
 
 // socket.io
-require('./socket')(app)
+require('./socket')(app, PORT)
 
 // All remaining requests return the React app, so it can handle routing.
 app.use('', function (req, response, next) {
   response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
 });
 
-app.listen(PORT, function () {
-  console.error(`Node cluster worker ${process.pid}: listening on port ${PORT}`);
-});
+// app.listen(PORT, function () {
+//   console.error(`Node cluster worker ${process.pid}: listening on port ${PORT}`);
+// });

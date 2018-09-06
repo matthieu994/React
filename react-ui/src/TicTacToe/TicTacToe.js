@@ -14,7 +14,7 @@ export default class TicTacToe extends Component {
 
     constructor() {
         super()
-        this.socket = io()
+        this.socket = io.connect()
     }
 
     componentDidMount() {

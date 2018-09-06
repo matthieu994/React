@@ -1,8 +1,8 @@
-module.exports = function (app) {
+module.exports = function (app, port) {
     const http = require('http')
-    const socketIO = require('socket.io')
-    const server = http.createServer(app)
-    const io = socketIO(server)
+    var server = http.createServer(app).listen(port)
+    var io = require('socket.io').listen(server);
+
 
     io.set('origins', '*:*');
     io.on('connection', function (client) {
