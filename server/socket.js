@@ -6,7 +6,7 @@ module.exports = function (app) {
 
     io.set('origins', '*:*');
     io.on('connection', function (client) {
-        console.log('connected client', client)
+        console.log('connected client')
         client.on('joinRoom', (num) => {
             if (io.nsps['/'].adapter.rooms[num] && io.nsps['/'].adapter.rooms[num].length >= 2)
                 return fullRoom(client, num);

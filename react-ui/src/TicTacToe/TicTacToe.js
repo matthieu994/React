@@ -29,11 +29,6 @@ export default class TicTacToe extends Component {
         this.socket.on('playerIs', type => {
             this.setState({ type })
         })
-
-        this.socket.on('nextPlayer', data => {
-            this.i = data.i;
-            this.render()
-        })
     }
 
     componentWillUnmount() {
