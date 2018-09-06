@@ -8,6 +8,7 @@ import Register from './Auth/Register';
 import Profile from './Profile/Profile'
 import Transports from './Transports/Transports'
 import TicTacToe from './TicTacToe/TicTacToe'
+import Live from './Live/Live'
 
 class App extends Component {
   render() {
@@ -20,6 +21,7 @@ class App extends Component {
           <PrivateRoute path='/TodoList' component={TodoList} />
           <PrivateRoute path='/Transports' component={Transports} />
           <PrivateRoute path='/TicTacToe' component={TicTacToe} />
+          <PrivateRoute path='/Live' component={Live} />
         </div>
     );
   }

@@ -13,5 +13,10 @@
         "title": "TicTacToe",
         "desc": "Jouez en ligne avec vos amis.",
         "Component": "TicTacToe"
+    },
+    {
+        "title": "Live",
+        "desc": "Synchronisez votre téléphone pour l'utiliser comme manette.",
+        "Component": "Live"
     }
 ]

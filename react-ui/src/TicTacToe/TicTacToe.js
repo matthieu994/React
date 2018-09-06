@@ -37,6 +37,8 @@ export default class TicTacToe extends Component {
 
     joinRoom(e) {
         e.preventDefault();
+        if (isNaN(this.state.room))
+            return toast.error("Salle non valide")
         this.socket.emit('joinRoom', this.state.room);
     }
 
@@ -47,11 +49,11 @@ export default class TicTacToe extends Component {
                     <div className="col">
                         <h1>Online TicTacToe</h1>
                         {this.state.joined &&
-                            <h4>Vous êtes dans la salle {this.state.joined}</h4>}
+                            <h4>Salle #{this.state.joined}</h4>}
                         {!this.state.joined &&
                             <form className="form-inline">
                                 <div className="form-group">
-                                    <input className="form-control" type="text" value={this.state.room} onChange={e => this.setState({ room: e.target.value })} />
+                                    <input className="form-control" value={this.state.room} onChange={e => this.setState({ room: e.target.value })} />
                                     <button className="btn btn-outline-primary ml-2" onClick={(e) => this.joinRoom(e)}>Rejoindre</button>
                                 </div>
                             </form>
@@ -207,7 +209,7 @@ class Game extends React.Component {
         } else {
             status = "Next player: " + (this.state.xIsNext ? "X" : "O");
         }
-        if(!this.state.start) {
+        if (!this.state.start) {
             status = "En attente d'un joueur"
         }
 
