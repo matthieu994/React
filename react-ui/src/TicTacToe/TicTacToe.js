@@ -18,6 +18,11 @@ export default class TicTacToe extends Component {
     }
 
     componentDidMount() {
+        const hash = window.location.hash;
+        if (hash !== "") {
+            this.socket.emit('joinRoom', hash.slice(1, hash.length));
+            this.setState({ room: hash.slice(1, hash.length) })
+        }
         this.socket.on('inRoom', msg => {
             toast.info(msg)
             this.setState({ joined: this.state.room })
