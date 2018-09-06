@@ -171,7 +171,7 @@ class Commands extends Component {
                 beta: this.state.beta,
                 gamma: this.state.gamma
             })
-        }, 500)
+        }, 100)
     }
     handleOrientation() {
         window.addEventListener("deviceorientation", e => {
