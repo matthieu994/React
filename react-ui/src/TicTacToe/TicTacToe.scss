@@ -10,6 +10,8 @@
 .Toastify__toast {
     border-radius: 10px !important;
     min-height: 55px !important;
+    max-width: 60vw;
+    margin: auto;
 }
 
 ol,
