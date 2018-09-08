@@ -15,6 +15,7 @@
     "react-alert": "^4.0.4",
     "react-alert-template-basic": "^1.0.0",
     "react-dom": "^16.4.2",
+    "react-p5-wrapper": "0.0.4",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-s-alert": "^1.4.1",

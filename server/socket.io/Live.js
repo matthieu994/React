@@ -20,6 +20,10 @@ module.exports = function (io) {
         client.on('updatePos', data => {
             client.broadcast.to(data.code).emit('updatePos', { degX: data.gamma, degY: data.beta });
         })
+
+        client.on('leave', code => {
+            client.broadcast.to(code).emit('leave');
+        })
     });
 }
 

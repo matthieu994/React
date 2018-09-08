@@ -13,6 +13,13 @@
         width: 20vw;
         display: inline-block;
     }
+    span {
+        display: inline-block;
+        font-size: 2rem;
+        background-color: #b3e0e7;
+        border-radius: 5px;
+        padding: 0.6rem;
+    }
 }
 
 @media screen and (max-width: 550px) {
