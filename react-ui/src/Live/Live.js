@@ -16,12 +16,13 @@ export default class Live extends Component {
         this.state = {
             code: '',
             mobile: false,
-            linked: false
+            linked: false,
+            id: null
         }
     }
     componentDidMount() {
-        this.socket.on('getCode', (code) => {
-            this.setState({ code })
+        this.socket.on('getCode', data => {
+            this.setState({ code: data.code, id: data.id })
         })
 
         this.socket.on('linkDone', (res) => {
@@ -118,7 +119,7 @@ export default class Live extends Component {
                         {(this.state.code || this.state.mobile) && input}
                     </div>
                 </div>
-                {this.state.linked && !this.state.mobile && <Game code={this.state.code} mobile={this.state.mobile} socket={this.socket} />}
+                {this.state.linked && !this.state.mobile && <Game id={this.state.id} code={this.state.code} mobile={this.state.mobile} socket={this.socket} />}
                 {this.state.linked && this.state.mobile && <Commands code={this.state.code} mobile={this.state.mobile} socket={this.socket} />}
                 <ToastContainer
                     position="top-center"
@@ -136,7 +137,8 @@ export default class Live extends Component {
 class Game extends Component {
     state = {
         speedX: 0,
-        speedY: 0
+        speedY: 0,
+        blobs: []
     }
 
     componentDidMount() {
@@ -146,12 +148,17 @@ class Game extends Component {
         this.socket.on('updatePos', data => {
             this.setState({ speedX: data.degX, speedY: data.degY })
         })
+
+        this.socket.on('beat', data => {
+            this.setState({ blobs: data })
+            // console.log(data)
+        })
     }
 
     render() {
         return (
             <div className="live-game">
-                <P5Wrapper sketch={sketch} speedX={this.state.speedX} speedY={this.state.speedY} />
+                <P5Wrapper id={this.props.id} code={this.props.code} socket={this.socket} sketch={sketch} blobs={this.state.blobs} speedX={this.state.speedX} speedY={this.state.speedY} />
                 {/* <Image x={this.state.x} y={this.state.y} /> */}
             </div>
         )
