@@ -1,3 +1,5 @@
+const DEV = true;
+
 module.exports = function (io) {
     var lio = io.of('/Live');
     lio.on('connection', function (client) {
@@ -28,6 +30,8 @@ module.exports = function (io) {
 }
 
 const generateCode = function () {
+    if (DEV)
+        return "DEVCODE"
     return Math.random().toString(36).substring(2, 7).toUpperCase();
 }
 
