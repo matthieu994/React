@@ -8,17 +8,6 @@ export default class Blob {
 		this.radius = radius;
 	}
 
-	constrain() {}
-
-	eats(other) {
-		let dist = Math.hypot(this.x - other.x, this.y - other.y);
-		if (dist < other.radius) {
-			this.radius += other.radius;
-			return true;
-		}
-		return false;
-	}
-
 	update(x, y) {
 		this.x = x;
 		this.y = y;
