@@ -7,7 +7,7 @@ class Blob {
 		this.id = id;
 		this.x = x;
 		this.y = y;
-		this.radius = 50;
+		this.radius = 50 + Util.random(0, 1);
 	}
 	update(data) {
 		this.x = data.x;
