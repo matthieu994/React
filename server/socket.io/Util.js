@@ -1,6 +1,6 @@
 const DEV = false,
-	WIDTH = 1920,
-	HEIGHT = 1080;
+	WIDTH = 2000,
+	HEIGHT = 2000;
 
 module.exports = {
 	generateCode: () => {

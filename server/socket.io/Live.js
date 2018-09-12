@@ -15,11 +15,21 @@ class Blob {
 	}
 	eats(other) {
 		let dist = Math.hypot(this.x - other.x, this.y - other.y);
-		if (dist < other.radius && this.radius > other.radius) {
-			this.radius += other.radius;
+		if (dist < this.radius / 2 + other.radius / 2 && this.radius > other.radius) {
+			var sum =
+				Math.PI * this.radius * this.radius + Math.PI * other.radius * other.radius;
+			this.radius = Math.sqrt(sum / Math.PI);
 			return true;
 		}
 		return false;
+	}
+	eatsFood() {
+		foods.forEach(food => {
+			if (this.eats(food)) {
+				foods.splice(foods.indexOf(food), 1);
+				generateFood(1)
+			}
+		});
 	}
 }
 
@@ -27,6 +37,7 @@ class Food {
 	constructor() {
 		this.x = Util.random(0, Util.WIDTH);
 		this.y = Util.random(0, Util.HEIGHT);
+		this.radius = 15;
 		this.color = {
 			r: Util.random(0, 255),
 			g: Util.random(0, 255),
@@ -39,34 +50,17 @@ module.exports = function(io) {
 	var lio = io.of("/Live");
 
 	lio.on("connection", function(client) {
-		// Sent by PC
-		client.on("createCode", () => {
-			const code = Util.generateCode();
-			if (usersCount(io, code) != 0) return noRoom(client, code);
-			client.emit("getCode", code);
-			client.join(code);
-		});
-
-		// Sent by phone
-		client.on("link", code => {
-			if (usersCount(io, code) != 1) return noRoom(client, code);
-			client.join(code);
-			lio.in(code).emit("linkDone", "Link réussi !");
-		});
-
 		// Sent by PC after link to init game communication
 		client.on("createBlob", () => {
 			var blob = new Blob(client.id);
 			blobs.push(blob);
-			client.emit("createBlob", { x: blob.x, y: blob.y });
+			client.emit("createBlob", {
+				x: blob.x,
+				y: blob.y,
+				width: Util.WIDTH,
+				height: Util.HEIGHT
+			});
 			generateFood(20);
-		});
-
-		// Phone => PC
-		client.on("updatePos", data => {
-			client.broadcast
-				.to(data.code)
-				.emit("updatePos", { degX: data.gamma, degY: data.beta });
 		});
 
 		// PC => Server
@@ -74,6 +68,7 @@ module.exports = function(io) {
 			let blob = blobs.find(blob => blob.id === client.id);
 			if (!blob) return;
 			blob.update(data);
+			blob.eatsFood();
 
 			blobs.forEach(item => {
 				if (item.id !== client.id && blob.eats(item)) {
@@ -82,12 +77,11 @@ module.exports = function(io) {
 			});
 		});
 
-		client.on("leave", code => {
-			lio.in(code).emit("leave");
-			client.leave(code);
+		client.on("leave", () => {
+			deleteBlob(client.id);
 		});
 
-		client.on("disconnect", () => {
+		client.once("disconnect", () => {
 			deleteBlob(client.id);
 		});
 
@@ -95,7 +89,7 @@ module.exports = function(io) {
 			lio.emit("beat", { blobs, foods });
 		};
 
-		setInterval(beat, 33);
+		setInterval(beat, 100);
 	});
 };
 

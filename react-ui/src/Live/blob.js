@@ -5,18 +5,21 @@ export default class Blob {
 		this.vel = p.createVector(0, 0);
 	}
 
-	update(x, y) {
-		// this.x = x;
-		// this.y = y;
+	update(deltaTime) {
 		var newvel = this.p.createVector(
 			this.p.mouseX - this.p.width / 2,
 			this.p.mouseY - this.p.height / 2
 		);
-		newvel.div(50);
-		//newvel.setMag(3);
-		newvel.limit(3);
+		newvel.div(120 / deltaTime);
+		// newvel.setMag(deltaTime/10);
+		newvel.limit(5);
 		this.vel.lerp(newvel, 0.2);
 		this.pos.add(this.vel);
+	}
+
+	constrain(width, height) {
+		this.pos.x = this.p.constrain(this.pos.x, 0+this.radius/2, width-this.radius/2);
+		this.pos.y = this.p.constrain(this.pos.y, 0+this.radius/2, height-this.radius/2);
 	}
 
 	draw() {
