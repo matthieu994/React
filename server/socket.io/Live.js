@@ -3,10 +3,10 @@ let blobs = [];
 let foods = [];
 
 class Blob {
-	constructor(id, x, y) {
+	constructor(id) {
 		this.id = id;
-		this.x = x;
-		this.y = y;
+		this.x = Util.random(0, Util.WIDTH);
+		this.y = Util.random(0, Util.HEIGHT);
 		this.radius = 50 + Util.random(0, 1);
 	}
 	update(data) {
@@ -56,8 +56,9 @@ module.exports = function(io) {
 
 		// Sent by PC after link to init game communication
 		client.on("createBlob", () => {
-			blobs.push(new Blob(client.id, 0, 0));
-			client.emit("beat", blobs);
+			var blob = new Blob(client.id);
+			blobs.push(blob);
+			client.emit("createBlob", { x: blob.x, y: blob.y });
 			generateFood(20);
 		});
 
@@ -101,8 +102,10 @@ module.exports = function(io) {
 const deleteBlob = id => {
 	if (!blobs) return;
 	var index = blobs.findIndex(blob => blob.id === id);
-	if (index !== -1) blobs.splice(index, 1);
-	removeFood(20);
+	if (index !== -1) {
+		blobs.splice(index, 1);
+		removeFood(20);
+	}
 };
 
 const usersCount = (io, room) => {

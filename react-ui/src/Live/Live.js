@@ -7,7 +7,7 @@ import io from "socket.io-client";
 import p5 from "p5";
 import sketch from "./sketch";
 
-const DEV = true;
+const DEV = false;
 export default class Live extends Component {
 	constructor() {
 		super();
@@ -43,11 +43,6 @@ export default class Live extends Component {
 			this.loadSocket();
 		});
 
-		this.setState({ mobile: mobile(), code: "" });
-		if (!mobile()) {
-			this.generateCode();
-		}
-
 		if (DEV) {
 			if (mobile()) {
 				this.setState({
@@ -59,6 +54,11 @@ export default class Live extends Component {
 					mobile: false
 				});
 				this.socket.emit("createCode");
+			}
+		} else {
+			this.setState({ mobile: mobile(), code: "" });
+			if (!mobile()) {
+				this.generateCode();
 			}
 		}
 	}
@@ -131,36 +131,44 @@ export default class Live extends Component {
 
 		return (
 			<div className="container live">
-				<div className="row">
-					<div className="col">
-						<div>
-							<h1>Live</h1>
-							{this.state.linked && <h2>#{this.state.code}</h2>}
-						</div>
-						{this.state.linked && (
+				{this.state.linked && (
+					<div className="row">
+						<div className="col">
 							<button className="btn btn-outline-info" onClick={() => this.leave()}>
 								Retour
 							</button>
-						)}
-						{!this.state.code &&
-							!this.state.mobile && (
-								<div>
-									<button
-										className="btn btn-outline-primary mr-2"
-										onClick={() => this.generateCode()}>
-										Ordinateur
-									</button>
-									<button className="btn btn-outline-info" onClick={() => this.mobile()}>
-										Mobile
-									</button>
-								</div>
-							)}
-						{(this.state.code || this.state.mobile) && input}
-						<p className="mt-3">
-							Connectez votre mobile et votre ordinateur à l'aide du code fourni.
-						</p>
+						</div>
 					</div>
-				</div>
+				)}
+				{!this.state.linked && (
+					<div className="row">
+						<div className="col">
+							<div>
+								<h1>Live</h1>
+								{this.state.linked && <h2>#{this.state.code}</h2>}
+							</div>
+							{!this.state.code &&
+								!this.state.mobile && (
+									<div>
+										<button
+											className="btn btn-outline-primary mr-2"
+											onClick={() => this.generateCode()}>
+											Ordinateur
+										</button>
+										<button
+											className="btn btn-outline-info"
+											onClick={() => this.mobile()}>
+											Mobile
+										</button>
+									</div>
+								)}
+							{(this.state.code || this.state.mobile) && input}
+							<p className="mt-3">
+								Connectez votre mobile et votre ordinateur à l'aide du code fourni.
+							</p>
+						</div>
+					</div>
+				)}
 				{this.state.linked &&
 					!this.state.mobile && (
 						<Game
@@ -205,6 +213,10 @@ class Game extends Component {
 		this.socket = this.props.socket;
 
 		this.socket.emit("createBlob");
+		this.socket.on("createBlob", data => {
+			this.x = data.x;
+			this.y = data.y;
+		});
 
 		this.socket.on("updatePos", data => {
 			this.setState({ speedX: data.degX, speedY: data.degY });
@@ -248,6 +260,8 @@ class Game extends Component {
 					radius={this.state.radius}
 					blobs={this.state.blobs}
 					foods={this.state.foods}
+					initX={this.x}
+					initY={this.y}
 				/>
 			</div>
 		);

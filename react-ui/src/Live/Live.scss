@@ -32,20 +32,11 @@
     margin: 0;
     position: absolute;
     bottom: 0;
-    left: 50%;
-    -webkit-transform: translate(-50%, 0);
-    -ms-transform: translate(-50%, 0);
-    transform: translate(-50%, 0);
+    left: 0;
     text-align: center;
     width: 100%;
-    height: 85%;
-    border: 1px solid rgb(0, 126, 148);
+    height: 100%;
     overflow: hidden;
-    img {
-        width: 100px;
-        position: absolute;
-        transition: linear 0.05s;
-    }
 }
 footer {
     display: none;
