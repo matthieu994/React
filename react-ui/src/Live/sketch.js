@@ -10,7 +10,8 @@ export default function sketch(p) {
 		resized = false,
 		socket;
 	let blobs = [],
-		foods = [];
+		foods = [],
+		viruses = [];
 
 	p.setup = () => {
 		p.createCanvas(p.windowWidth, p.windowHeight, p.P2D);
@@ -34,6 +35,7 @@ export default function sketch(p) {
 		socket = props.socket;
 		blobs = props.blobs;
 		foods = props.foods;
+		viruses = props.viruses;
 		blob.radius = props.radius;
 
 		socket.emit("updateBlobPos", {
@@ -58,7 +60,6 @@ export default function sketch(p) {
 
 		p.translate(p.width / 2, p.height / 2);
 		var newzoom = p.map(64/blob.radius, 0, 2, 0.7, 1.2);
-		console.log(newzoom)
 		zoom = p.lerp(zoom, newzoom, 0.2);
 		p.scale(zoom);
 		p.translate(-blob.pos.x, -blob.pos.y);
@@ -78,6 +79,12 @@ export default function sketch(p) {
 			p.stroke(food.color.r - 10, food.color.g - 10, food.color.b - 10);
 			p.fill(food.color.r, food.color.g, food.color.b);
 			p.ellipse(food.x, food.y, food.radius, food.radius);
+		});
+
+		viruses.forEach(virus => {
+			p.stroke(virus.color.r - 10, virus.color.g - 10, virus.color.b - 10);
+			p.fill(virus.color.r, virus.color.g, virus.color.b);
+			p.ellipse(virus.x, virus.y, virus.radius, virus.radius);
 		});
 
 		p.noFill();

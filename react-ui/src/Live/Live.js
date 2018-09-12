@@ -53,7 +53,8 @@ class Game extends Component {
 		speedY: 0,
 		radius: 0,
 		blobs: [],
-		foods: []
+		foods: [],
+		viruses: []
 	};
 
 	componentDidMount() {
@@ -68,7 +69,7 @@ class Game extends Component {
 		});
 
 		this.socket.on("beat", data => {
-			this.setState({ blobs: data.blobs, foods: data.foods });
+			this.setState({ blobs: data.blobs, foods: data.foods, viruses: data.viruses });
 			this.setState({ radius: this.findRadius() });
 		});
 	}
@@ -86,6 +87,7 @@ class Game extends Component {
 		let index = this.state.blobs.findIndex(blob => blob.id === this.socket.id);
 		if (index > -1) return this.state.blobs[index].radius;
 		else if (this.state.radius) {
+			window.location.reload()
 			this.socket.disconnect();
 		}
 	}
@@ -103,6 +105,7 @@ class Game extends Component {
 					radius={this.state.radius}
 					blobs={this.state.blobs}
 					foods={this.state.foods}
+					viruses={this.state.viruses}
 					initX={this.x}
 					initY={this.y}
 					width={this.width}
