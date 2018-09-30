@@ -1,7 +1,7 @@
 [
     {
         "title": "TodoList",
-        "desc": "Créer et partagez votre liste de courses, de choses à faire, de films à voir...",
+        "desc": "Créer et partagez vos listes avec vos amis.",
         "Component": "TodoList"
     },
     {
@@ -15,8 +15,13 @@
         "Component": "TicTacToe"
     },
     {
-        "title": "Live",
-        "desc": "Synchronisez votre téléphone pour l'utiliser comme manette.",
-        "Component": "Live"
+        "title": "AgarClone",
+        "desc": "Un simple clone du jeu agar.io.",
+        "Component": "AgarClone"
+    },
+    {
+        "title": "Chat",
+        "desc": "Discutez en ligne avec vos amis.",
+        "Component": "Chat"
     }
 ]

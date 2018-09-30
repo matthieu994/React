@@ -7,16 +7,17 @@ import io from "socket.io-client";
 import p5 from "p5";
 import sketch from "./sketch";
 
-export default class Live extends Component {
+export default class AgarClone extends Component {
 	constructor() {
 		super();
 		this.socket = io("/Live");
 	}
 
 	leave() {
-		this.update = true
-		this.forceUpdate()
+		this.update = true;
+		this.forceUpdate();
 		this.socket.disconnect();
+		window.history.back();
 	}
 
 	componentWillUnmount() {
@@ -33,7 +34,7 @@ export default class Live extends Component {
 						</button>
 					</div>
 				</div>
-				<Game socket={this.socket} props={this.update}/>
+				<Game socket={this.socket} props={this.update} />
 				<ToastContainer
 					position="top-center"
 					autoClose={2500}
@@ -64,8 +65,8 @@ class Game extends Component {
 		this.socket.on("createBlob", data => {
 			this.x = data.x;
 			this.y = data.y;
-			this.width = data.width
-			this.height = data.height
+			this.width = data.width;
+			this.height = data.height;
 		});
 
 		this.socket.on("beat", data => {
@@ -75,19 +76,23 @@ class Game extends Component {
 	}
 
 	componentWillReceiveProps(props) {
-		if(props.update) this.forceUpdate()
+		if (props.update) this.forceUpdate();
 		this.socket.disconnect();
 	}
 
 	findRadius() {
 		if (!this.state.blobs || this.state.blobs.length < 1) {
+			if (this.state.radius) {
+				window.location.reload();
+				this.socket.disconnect();
+			}
 			return 0;
 		}
 
 		let index = this.state.blobs.findIndex(blob => blob.id === this.socket.id);
 		if (index > -1) return this.state.blobs[index].radius;
 		else if (this.state.radius) {
-			window.location.reload()
+			window.location.reload();
 			this.socket.disconnect();
 		}
 	}
@@ -136,7 +141,7 @@ class P5Wrapper extends React.Component {
 
 	componentWillUnmount() {
 		this.canvas.remove();
-		this.socket.disconnect();
+		this.socket && this.socket.disconnect();
 	}
 
 	render() {
