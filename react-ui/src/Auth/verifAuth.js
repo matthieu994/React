@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export default async function verifAuth() {
+	if (!localStorage.getItem("token")) return false;
 	return await axios
 		.post("/auth", {
 			token: localStorage.getItem("token")

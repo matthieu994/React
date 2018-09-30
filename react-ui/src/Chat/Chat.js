@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
+import io from "socket.io-client";
 
 export default class Chat extends Component {
 	constructor() {
 		super();
+		this.socket = io("/Chat");
 		axios.defaults.headers.common["token"] = localStorage.getItem("token");
 	}
 
@@ -11,9 +13,13 @@ export default class Chat extends Component {
 		this.getMessages();
 	}
 
+	componentWillUnmount() {
+		this.socket.disconnect();
+	}
+
 	getMessages() {
-		axios.post("/chat").then(data => {
-			console.log(data);
+		axios.get("/chat").then(data => {
+			console.log(data.data);
 		});
 	}
 

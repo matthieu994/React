@@ -9,4 +9,5 @@ module.exports = function (app, port) {
     require('./tictactoe')(io)
     // server.listen(5001, 'localhost');
     require('./Live')(io)
+    require('./Chat')(io)
 }

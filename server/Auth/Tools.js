@@ -6,7 +6,7 @@ module.exports = {
 		return await jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
 			if (err) return res.sendStatus(403);
 			return User.findById(decoded.user, props, (err, user) => {
-                if (err) return err;
+				if (err) return err;
 				return user;
 			});
 		});

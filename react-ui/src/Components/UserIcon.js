@@ -1,18 +1,40 @@
 import React, { Component } from "react";
+import verifAuth from "../Auth/verifAuth";
 import { withRouter } from "react-router-dom";
 
 class UserIcon extends Component {
 	state = {
-		isAuth: true,
-		isMounted: true
+		isAuth: false,
+		isMounted: false
 	};
+
+	componentDidMount() {
+		this.isAuth();
+
+		this.unlisten = this.props.history.listen(() => {
+			this.isAuth();
+		});
+	}
+
+	isAuth() {
+		verifAuth().then(isAuth => {
+			this.setState({
+				isMounted: true,
+				isAuth
+			});
+		});
+	}
+
+	componentWillUnmount() {
+		this.unlisten();
+	}
 
 	logout() {
 		localStorage.clear("token");
 		this.setState({
 			isAuth: false
 		});
-		this.props.history.push("/");
+		this.props.history.push("/login");
 	}
 
 	redirectProfile() {
@@ -20,8 +42,7 @@ class UserIcon extends Component {
 	}
 
 	render() {
-		if (!this.state.isMounted) return null;
-		if (!this.state.isAuth || !localStorage.getItem("token")) return null;
+		if (!this.state.isMounted || !this.state.isAuth) return null;
 
 		return (
 			<div className="user">

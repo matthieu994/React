@@ -2,29 +2,9 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var User = require("./UserSchema");
 
-const ChatUser = new Schema({
-	user: {
-		type: User,
-		required: true
-	},
-	socket: {
-		type: String,
-		required: false
-	}
-});
-
-const Conversation = new Schema({
-	users: {
-		type: [ChatUser]
-	},
-	messages: {
-		type: [Message]
-	}
-});
-
 const Message = new Schema({
 	sender: {
-		type: ChatUser
+		type: User.schema
 	},
 	message: {
 		type: String,
@@ -32,5 +12,16 @@ const Message = new Schema({
 	}
 });
 
-export const ChatUser = mongoose.model("ChatUser", ChatUser);
-export const Conversation = mongoose.model("Conversation", Conversation);
+const Conversation = new Schema({
+	users: {
+		type: [User.schema],
+		required: true
+	},
+	messages: {
+		type: [Message]
+	}
+});
+
+module.exports = {
+	Conversation: mongoose.model("Conversation", Conversation)
+};

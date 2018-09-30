@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import verifAuth from "../Auth/verifAuth";
 import "./Links.css";
-import Redirect from "react-router-dom/Redirect";
 
 class Links extends Component {
 	state = {
@@ -11,6 +10,14 @@ class Links extends Component {
 	};
 
 	componentDidMount() {
+		this.isAuth();
+
+		this.unlisten = this.props.history.listen(() => {
+			this.isAuth();
+		});
+	}
+
+	isAuth() {
 		verifAuth().then(isAuth => {
 			this.setState({
 				isMounted: true,
@@ -19,9 +26,14 @@ class Links extends Component {
 		});
 	}
 
+	componentWillUnmount() {
+		this.unlisten();
+	}
+
 	render() {
+		// this.changeLocation();
 		let links;
-		if (this.state.isMounted && this.state.isAuth) {
+		if (this.state.isMounted && !this.state.isAuth) {
 			if (this.props.location.pathname === "/login") {
 				links = (
 					<div className="register">
@@ -61,7 +73,7 @@ class Links extends Component {
 			this.props.location.pathname !== "/register" &&
 			this.props.location.pathname !== "/login"
 		) {
-			links = <Redirect to="/login" />;
+			this.props.history.push("/login");
 		}
 
 		return (
