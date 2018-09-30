@@ -22,6 +22,4 @@ const Conversation = new Schema({
 	}
 });
 
-module.exports = {
-	Conversation: mongoose.model("Conversation", Conversation)
-};
+module.exports = mongoose.model("Conversation", Conversation);

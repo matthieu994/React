@@ -67,9 +67,9 @@ app.use((req, res, next) => {
 	let token = req.body.token ? req.body.token : req.headers.token;
 	verifAuth(token).then(isAuth => {
 		if (!isAuth) res.sendStatus(403);
-		else res.sendStatus(200);
 		if (app.get("env") != "development")
 			res.sendFile(path.resolve(__dirname, "../react-ui/build", "index.html"));
+		else res.sendStatus(200);
 	});
 });
 
