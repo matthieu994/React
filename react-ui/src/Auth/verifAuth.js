@@ -7,6 +7,7 @@ export default async function verifAuth() {
 			token: localStorage.getItem("token")
 		})
 		.then(res => {
+			console.log(res)
 			if (res) return true;
 			else return false;
 		})

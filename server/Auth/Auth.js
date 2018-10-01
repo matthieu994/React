@@ -37,7 +37,6 @@ module.exports = function (app) {
 
     app.post('/login', (req, res) => {
         const { username, password } = req.body;
-        var hash;
 
         User.find({ username: username }, (err, user) => {
             if (err) return err;
