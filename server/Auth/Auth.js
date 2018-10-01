@@ -2,7 +2,7 @@ var User = require('../models/UserSchema');
 const jwt = require('jsonwebtoken')
 
 module.exports = function (app) {
-    var bcrypt = require('bcrypt');
+    var bcrypt = require('bcryptjs');
     const saltRounds = 10;
 
     app.post('/register', (req, res) => {
