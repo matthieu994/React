@@ -12,6 +12,7 @@ export default async function verifAuth() {
 			else return false;
 		})
 		.catch(err => {
+			console.log(err)
 			return false;
 		});
 }
