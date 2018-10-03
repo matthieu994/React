@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import verifAuth from "../Auth/verifAuth";
+import UserIcon from "../Components/UserIcon";
 import "./Links.css";
 
 class Links extends Component {
@@ -34,39 +35,41 @@ class Links extends Component {
 		// this.changeLocation();
 		let links;
 		if (this.state.isMounted && !this.state.isAuth) {
-			if (this.props.location.pathname === "/login") {
-				links = (
-					<div className="register">
-						<span>Pas de compte ?</span>
-						<button onClick={() => this.props.history.push("/register")}>
-							S'inscrire
-						</button>
-					</div>
-				);
-			} else if (this.props.location.pathname === "/register") {
-				links = (
-					<div className="login">
-						<span>Déjà inscrit ?</span>
-						<button onClick={() => this.props.history.push("/login")}>
-							Se connecter
-						</button>
-					</div>
-				);
-			} else {
-				links = (
-					<div className="auth">
-						<a className="login" onClick={() => this.props.history.push("/login")}>
-							Login
-						</a>
-						<button
-							className="register"
-							onClick={() => this.props.history.push("register")}>
-							Register
-						</button>
-					</div>
-				);
-			}
-		} else if (
+			links = (
+				<div className="auth">
+					{this.props.location.pathname === "/login" && (
+						<div className="register">
+							<span>Pas de compte ?</span>
+							<button onClick={() => this.props.history.push("register")}>
+								S'inscrire
+							</button>
+						</div>
+					)}
+					{this.props.location.pathname === "/register" && (
+						<div className="login">
+							<span>Déjà inscrit ?</span>
+							<button onClick={() => this.props.history.push("login")}>
+								Se connecter
+							</button>
+						</div>
+					)}
+					{this.props.location.pathname !== "/register" &&
+						this.props.location.pathname !== "/login" && (
+							<div className="auth">
+								<a className="login" onClick={() => this.props.history.push("/login")}>
+									Login
+								</a>
+								<button
+									className="register"
+									onClick={() => this.props.history.push("register")}>
+									Register
+								</button>
+							</div>
+						)}
+				</div>
+			);
+		}
+		if (
 			this.state.isMounted &&
 			!this.state.isAuth &&
 			this.props.location.pathname !== "/" &&
@@ -77,15 +80,16 @@ class Links extends Component {
 		}
 
 		return (
-			<div>
-				<div className="nav-links">{links}</div>
+			<header>
+				{links}
 				{this.props.location.pathname !== "/" && (
 					<i
 						className="fas fa-home btn btn-primary"
 						onClick={() => this.props.history.push("/")}
 					/>
 				)}
-			</div>
+				{this.state.isMounted && this.state.isAuth && <UserIcon />}
+			</header>
 		);
 	}
 }

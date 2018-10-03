@@ -7,12 +7,12 @@ export default async function verifAuth() {
 			token: localStorage.getItem("token")
 		})
 		.then(res => {
-			console.log(res)
+			// console.log(res)
 			if (res) return true;
 			else return false;
 		})
 		.catch(err => {
-			console.log(err)
+			// console.log(err)
 			return false;
 		});
 }

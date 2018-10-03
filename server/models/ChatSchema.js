@@ -4,7 +4,8 @@ var User = require("./UserSchema");
 
 const Message = new Schema({
 	sender: {
-		type: User.schema
+		type: User.schema,
+		required: true
 	},
 	message: {
 		type: String,

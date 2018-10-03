@@ -1,12 +1,13 @@
 @import "https://fonts.googleapis.com/css?family=Lato:400,900i";
-.nav-links {
-    display: inline-block;
-    position: absolute;
+header {
+    display: flex;
+    width: 100%;
+    height: 60px;
     top: 0;
     right: 0;
-    margin: 10px;
+    background-color: #2460da;
     span {
-        font-family: 'Lato';
+        font-family: "Lato";
         font-weight: 400;
         font-size: 22px;
         letter-spacing: 1.5px;
@@ -15,7 +16,7 @@
     }
     button {
         margin-left: 10px;
-        font-family: 'Lato';
+        font-family: "Lato";
         transition: 0.15s ease-in;
         outline: none;
         background-color: unset;
@@ -32,36 +33,59 @@
             border-color: #0062cc;
         }
     }
-}
-
-.auth {
-    .register {
-        padding: 0px 15px 2px 15px;
-        color: #fff;
-        background-color: #0069d9;
-        text-transform: uppercase;
-        box-shadow: 1px 2px 8px 0px rgba(0, 0, 0, 0.6);
-        &:hover {
-            box-shadow: 1px 2px 8px 0px rgba(0, 0, 0, 0.3);
+    .auth {
+        float: right;
+        .register {
+            padding: 0px 15px 2px 15px;
+            color: #fff;
+            background-color: #0069d9;
+            text-transform: uppercase;
+            box-shadow: 1px 2px 8px 0px rgba(0, 0, 0, 0.6);
+            &:hover {
+                box-shadow: 1px 2px 8px 0px rgba(0, 0, 0, 0.3);
+            }
+        }
+        .login {
+            color: #fff;
+            font-size: 18px;
+            text-transform: uppercase;
+            cursor: pointer;
+            &:hover {
+                color: #1b519a;
+            }
         }
     }
-    .login {
-        color: #0069d9 !important;
-        font-size: 18px;
-        text-transform: uppercase;
-        cursor: pointer;
-        &:hover {
-            color: #1b519a;
+    .fa-home {
+        left: 0;
+        top: 0;
+        padding: 5px;
+        margin: 5.5px;
+        font-size: 35px;
+        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.15); // border: 1px solid white;
+    }
+    .user {
+        position: absolute;
+        right: 0;
+        .fa-user-circle {
+            float: right;
+            color: white;
+            margin: 6px 6px;
+            padding: 2px 4px;
+            font-size: 45px;
+            cursor: pointer;
+        }
+        span {
+            font-family: 'Roboto';
+            font-weight: 300;
+            font-size: 25px;
+            letter-spacing: 1px;
+            float: right;
+            color: white !important;
+            margin-top: 10.5px;
+            padding: 0 5px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 5px;
         }
     }
-}
-
-.fa-home {
-    position: absolute;
-    left: 0;
-    top: 0;
-    padding: 10px;
-    margin: 10px;
-    font-size: 45px;
-    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.15);
 }

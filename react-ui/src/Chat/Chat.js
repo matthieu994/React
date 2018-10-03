@@ -1,27 +1,59 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 import io from "socket.io-client";
+import "./Chat.css";
 
-export default class Chat extends Component {
+class Chat extends Component {
 	state = {
 		conversation: "",
-		friends: []
+		friends: [],
+		friend: ""
 	};
 
 	componentDidMount() {
 		axios.defaults.headers.common["token"] = localStorage.getItem("token");
 		this.socket = io("/Chat");
 
+		window.addEventListener("resize", this.updateDimensions);
+		window.addEventListener("hashchange", this.handleUrl);
+
 		this.socket.on("connect", () => {
-			this.getMessages();
+			this.getData().then(() => {
+				this.handleUrl();
+				this.updateDimensions();
+			});
 		});
 	}
 
 	componentWillUnmount() {
 		this.socket.disconnect();
+		window.removeEventListener("resize", this.updateDimensions);
+		window.removeEventListener("hashchange", this.handleUrl);
 	}
 
-	getMessages() {
+	updateDimensions() {
+		document.querySelector(".chat .row > div").style.height =
+			window.innerHeight - document.querySelector("header").clientHeight + "px";
+	}
+
+	handleUrl() {
+		if (!this.state.friends || !window.location.hash) return;
+		let username = window.location.hash.substr(1);
+		let friend = this.state.friends.find(friend => friend._id === username);
+		if (friend) {
+			this.setState({
+				friend: friend
+			});
+		} else {
+			this.setState({
+				friend: ""
+			});
+			this.props.history.push(`#`);
+		}
+	}
+
+	async getData() {
 		axios
 			.post("/chat", {
 				socket: this.socket.id
@@ -31,40 +63,37 @@ export default class Chat extends Component {
 			});
 	}
 
-	createConversation(e) {
-		e.preventDefault();
-	}
-
 	render() {
 		let friends = this.state.friends.map(friend => {
-			if (friend.status !== "OK") return null;
+			if (!friend) return null;
 			return (
 				<div key={friend._id}>
-					<span>{friend._id}</span>
+					<div className="img-container">
+						<img alt="profile" src={friend.url} />
+					</div>
+					<div className="text-container">
+						<span
+							onClick={() => {
+								this.props.history.push(`#${friend._id}`);
+								this.handleUrl();
+							}}>
+							{friend._id}
+						</span>
+						<span>Last message</span>
+					</div>
 				</div>
 			);
 		});
 
 		return (
-			<div className="container">
+			<div className="container-fluid chat">
 				<div className="row">
-					<div className="col">
-						<h1>Chat</h1>
-						<div className="col">
-							<form className="form-inline d-inline-block">
-								<div className="form-group">
-									<button
-										className="btn btn-outline-primary ml-2 "
-										onClick={e => this.createConversation(e)}>
-										Créer conversation
-									</button>
-									{friends}
-								</div>
-							</form>
-						</div>
-					</div>
+					<div className="col-3 friends-list">{friends}</div>
+					<div className="col-9 conversation" />
 				</div>
 			</div>
 		);
 	}
 }
+
+export default withRouter(Chat);

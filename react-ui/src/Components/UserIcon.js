@@ -49,9 +49,7 @@ class UserIcon extends Component {
 				{this.props.location.pathname !== "/Profile" && (
 					<i className="fas fa-user-circle" onClick={this.redirectProfile.bind(this)} />
 				)}
-				<a className="btn btn-info" onClick={this.logout.bind(this)}>
-					Log Out
-				</a>
+				<span onClick={this.logout.bind(this)}>Log-Out</span>
 			</div>
 		);
 	}

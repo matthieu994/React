@@ -1,0 +1,39 @@
+$friend-height: 80px;
+$img-size: 55px;
+.chat {
+    .friends-list {
+        background-color: rgb(250, 252, 255);
+        border-right: 1px solid rgba(0, 98, 211, 0.5);
+        padding: 0px;
+        &>div {
+            height: $friend-height;
+            border-bottom: 1px solid rgba(0, 98, 211, 0.15);
+            display: flex;
+            &:hover {
+                box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.15);
+            }
+            .img-container {
+                padding: 0 10px;
+                display: inline-block;
+                img {
+                    margin-top: calc((#{$friend-height} - #{$img-size}) / 2);
+                    height: $img-size;
+                    border: 1px solid rgba(0, 0, 0, 0.25);
+                    border-radius: 50%;
+                }
+            }
+            .text-container {
+                padding: 10px 13px;
+                span:first-of-type {
+                    font-weight: 500;
+                    font-size: 23px;
+                    letter-spacing: 1px;
+                    display: inline;
+                }
+                span:last-of-type {
+                    display: block;
+                }
+            }
+        }
+    }
+}
