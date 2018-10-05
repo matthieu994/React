@@ -10,6 +10,9 @@ const Message = new Schema({
 	message: {
 		type: String,
 		required: true
+	},
+	time: {
+		type: Date
 	}
 });
 

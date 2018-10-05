@@ -6,7 +6,7 @@ import "./Chat.css";
 
 class Chat extends Component {
 	state = {
-		conversation: "",
+		conversations: "",
 		friends: [],
 		friend: ""
 	};
@@ -59,12 +59,39 @@ class Chat extends Component {
 				socket: this.socket.id
 			})
 			.then(data => {
-				this.setState({ friends: data.data.friends });
+				this.setState({
+					friends: data.data.friends,
+					conversations: data.data.conversations
+				});
 			});
 	}
 
-	render() {
-		let friends = this.state.friends.map(friend => {
+	renderConversationsList() {
+		if (this.state.conversations.length === 0) return this.renderFriendsList();
+		return this.state.conversations.map(conversation => {
+			if (!conversation) return null;
+			return (
+				<div key={conversation._id}>
+					<div className="img-container">
+						<img alt="conversation" src={conversation.url} />
+					</div>
+					<div className="text-container">
+						<span
+							onClick={() => {
+								this.props.history.push(`#${conversation._id}`);
+								this.handleUrl();
+							}}>
+							{conversation._id}
+						</span>
+						<span>Last message</span>
+					</div>
+				</div>
+			);
+		});
+	}
+
+	renderFriendsList() {
+		return this.state.friends.map(friend => {
 			if (!friend) return null;
 			return (
 				<div key={friend._id}>
@@ -79,16 +106,20 @@ class Chat extends Component {
 							}}>
 							{friend._id}
 						</span>
-						<span>Last message</span>
+						<span>
+							<i>Envoyez le premier message !</i>
+						</span>
 					</div>
 				</div>
 			);
 		});
+	}
 
+	render() {
 		return (
 			<div className="container-fluid chat">
 				<div className="row">
-					<div className="col-3 friends-list">{friends}</div>
+					<div className="col-3 friends-list">{this.renderConversationsList()}</div>
 					<div className="col-9 conversation" />
 				</div>
 			</div>

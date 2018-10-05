@@ -20,6 +20,7 @@ $img-size: 55px;
                     height: $img-size;
                     border: 1px solid rgba(0, 0, 0, 0.25);
                     border-radius: 50%;
+                    box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.15);
                 }
             }
             .text-container {
@@ -27,7 +28,6 @@ $img-size: 55px;
                 span:first-of-type {
                     font-weight: 500;
                     font-size: 23px;
-                    letter-spacing: 1px;
                     display: inline;
                 }
                 span:last-of-type {

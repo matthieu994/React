@@ -1,14 +1,18 @@
 import React, { Component } from "react";
 import verifAuth from "../Auth/verifAuth";
 import { withRouter } from "react-router-dom";
+import Axios from "axios";
+import { DEFAULT_IMG } from "../Const/const";
 
 class UserIcon extends Component {
 	state = {
 		isAuth: false,
-		isMounted: false
+		isMounted: false,
+		user: []
 	};
 
 	componentDidMount() {
+		Axios.defaults.headers.common["token"] = localStorage.getItem("token");
 		this.isAuth();
 
 		this.unlisten = this.props.history.listen(() => {
@@ -22,6 +26,11 @@ class UserIcon extends Component {
 				isMounted: true,
 				isAuth
 			});
+			if (isAuth) {
+				Axios.get("/Profile").then(data => {
+					this.setState({ user: data.data });
+				});
+			}
 		});
 	}
 
@@ -47,9 +56,18 @@ class UserIcon extends Component {
 		return (
 			<div className="user">
 				{this.props.location.pathname !== "/Profile" && (
-					<i className="fas fa-user-circle" onClick={this.redirectProfile.bind(this)} />
+					<div>
+						<span>{this.state.user.username}</span>
+						<img
+							src={this.state.user.image ? this.state.user.image : DEFAULT_IMG}
+							onClick={this.redirectProfile.bind(this)}
+							alt="profile"
+						/>
+					</div>
 				)}
-				<span onClick={this.logout.bind(this)}>Log-Out</span>
+				<span className="logout" onClick={this.logout.bind(this)}>
+					Log-Out
+				</span>
 			</div>
 		);
 	}

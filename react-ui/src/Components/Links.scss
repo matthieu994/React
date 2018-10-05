@@ -1,19 +1,11 @@
 @import "https://fonts.googleapis.com/css?family=Lato:400,900i";
 header {
-    display: flex;
+    display: inline-block;
     width: 100%;
     height: 60px;
     top: 0;
     right: 0;
     background-color: #2460da;
-    span {
-        font-family: "Lato";
-        font-weight: 400;
-        font-size: 22px;
-        letter-spacing: 1.5px;
-        color: #1b519a;
-        margin-right: 8px;
-    }
     button {
         margin-left: 10px;
         font-family: "Lato";
@@ -64,28 +56,42 @@ header {
         box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.15); // border: 1px solid white;
     }
     .user {
-        position: absolute;
-        right: 0;
-        .fa-user-circle {
-            float: right;
-            color: white;
-            margin: 6px 6px;
-            padding: 2px 4px;
-            font-size: 45px;
-            cursor: pointer;
+        display: flex;
+        float: right;
+        height: 100%;
+        div {
+            height: 80%;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img {
+                float: right;
+                padding: 2px;
+                width: 55px;
+                border-radius: 50%;
+                cursor: pointer;
+            }
+            span {
+                color: white;
+                font-family: "Roboto";
+                font-weight: 400;
+                letter-spacing: 1.2px;
+                font-size: 25px;
+            }
         }
-        span {
-            font-family: 'Roboto';
+        .logout {
+            font-family: "Roboto";
             font-weight: 300;
             font-size: 25px;
             letter-spacing: 1px;
-            float: right;
             color: white !important;
-            margin-top: 10.5px;
+            margin: auto 6px;
             padding: 0 5px;
             cursor: pointer;
             border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 5px;
+            height: 70%;
         }
     }
 }
