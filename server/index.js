@@ -70,7 +70,7 @@ require("./chat/chat")(app);
 app.use((req, res, next) => {
 	let token = req.body.token ? req.body.token : req.headers.token;
 	verifAuth(token).then(isAuth => {
-		if (app.get("env") != "development") {
+		// if (app.get("env") != "development") {
 			if (!isAuth)
 				return res
 					.sendFile(path.resolve(__dirname, "../react-ui/build", "index.html"))
@@ -78,10 +78,10 @@ app.use((req, res, next) => {
 			res
 				.sendFile(path.resolve(__dirname, "../react-ui/build", "index.html"))
 				.sendStatus(200);
-		} else {
-			if (!isAuth) return res.sendStatus(403);
-			res.sendStatus(200);
-		}
+		// } else {
+		// 	if (!isAuth) return res.sendStatus(403);
+		// 	res.sendStatus(200);
+		// }
 	});
 });
 

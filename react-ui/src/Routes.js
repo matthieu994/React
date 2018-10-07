@@ -15,7 +15,7 @@ class App extends Component {
 	render() {
 		return (
 			<div>
-				<Switch>
+				{/* <Switch> */}
 					<Route path="/" exact component={Applications} />
 					<Route path="/register" component={Register} />
 					<Route path="/login" component={Login} />
@@ -25,8 +25,8 @@ class App extends Component {
 					<PrivateRoute path="/TicTacToe" component={TicTacToe} />
 					<PrivateRoute path="/Chat" component={Chat} />
 					<PrivateRoute path="/AgarClone" component={AgarClone} />
-					<Redirect to="/" />
-				</Switch>
+					{/* <Redirect to="/" /> */}
+				{/* </Switch> */}
 			</div>
 		);
 	}
