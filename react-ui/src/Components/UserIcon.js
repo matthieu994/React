@@ -27,7 +27,7 @@ class UserIcon extends Component {
 				isAuth
 			});
 			if (isAuth) {
-				Axios.get("/Profile").then(data => {
+				Axios.get("/Profile/data").then(data => {
 					this.setState({ user: data.data });
 				});
 			}

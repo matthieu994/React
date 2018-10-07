@@ -12,7 +12,7 @@ module.exports = function(io) {
 			client.token = decoded.user;
 		});
 
-		client.on("createConversation", data => {
+		client.on("createConversation", (data, cb) => {
 			User.findById(client.token, "username conversations", (err, user) => {
 				if (err) return err;
 				var conversation = new models.Conversation();
@@ -32,6 +32,7 @@ module.exports = function(io) {
 					if (err) return err;
 					friend.conversations.push(conversation);
 					friend.save();
+					cb("OK");
 				});
 			});
 		});

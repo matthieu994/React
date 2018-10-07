@@ -25,12 +25,13 @@ module.exports = app => {
 					var promisesConversations = newUser.conversations.map(convo => {
 						return models.Conversation.findById(convo, (err, convoDetails) => {
 							if (err) return err;
+							if (!convoDetails) return null;
 							convo = convoDetails;
 							return convo;
 						});
 					});
 					Promise.all(promisesConversations).then(results => {
-						newUser.conversations = results;
+						newUser.conversations = results.filter(convo => convo);
 						res.send(newUser);
 					});
 				});

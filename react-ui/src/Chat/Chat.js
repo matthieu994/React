@@ -18,6 +18,7 @@ class Chat extends Component {
 
 	componentDidMount() {
 		Axios.defaults.headers.common["token"] = localStorage.getItem("token");
+		this.updateDimensions();
 		this.socket = io("/Chat", {
 			transportOptions: {
 				polling: {
@@ -32,7 +33,6 @@ class Chat extends Component {
 
 		this.socket.on("connect", () => {
 			this.getData().then(() => {
-				this.updateDimensions();
 				this.handleUrl();
 			});
 		});
@@ -56,6 +56,12 @@ class Chat extends Component {
 		window.removeEventListener("resize", this.updateDimensions);
 	}
 
+	componentDidUpdate() {
+		if (this.state.conversation >= 0) {
+			this.scrollBottom();
+		}
+	}
+
 	updateDimensions() {
 		document.querySelectorAll(".chat .row > div").forEach(el => {
 			el.style.height =
@@ -74,7 +80,7 @@ class Chat extends Component {
 		let convo;
 		this.state.conversations.forEach((conversation, index) => {
 			conversation.users.forEach(user => {
-				if (user === name) convo = index;
+				if (user === name && user !== this.username) convo = index;
 			});
 		});
 		return convo;
@@ -83,27 +89,29 @@ class Chat extends Component {
 	handleUrl() {
 		if (!this.state.friends || !window.location.hash) return;
 
-		this.setState({ new: "", conversation: "" });
-
 		let hash = window.location.hash.substr(1);
 		let conversation = this.findConversation(hash);
-		if (conversation === 0) {
+		if (conversation >= 0 && conversation !== this.state.conversation) {
 			this.setState({
+				new: "",
 				conversation
 			});
-		} else {
+		} else if (conversation === undefined) {
 			let friend = this.state.friends.find(friend => friend._id === hash);
 			if (!friend) {
 				this.props.history.push(`#`);
-			} else {
-				this.setState({ new: friend });
+			} else if (friend !== this.state.new) {
+				this.setState({
+					new: friend,
+					conversation: ""
+				});
 				this.renderConversation();
 			}
 		}
 	}
 
 	async getData() {
-		Axios.get("/Chat/data", {
+		return await Axios.get("/Chat/data", {
 			params: {
 				socket: this.socket.id
 			}
@@ -129,9 +137,10 @@ class Chat extends Component {
 					<div
 						key={index}
 						onClick={() => {
-							this.props.history.push(
-								`#${this.state.friends.find(user => user._id === friend[0])._id}`
-							);
+							this.state.conversation !== index &&
+								this.props.history.push(
+									`#${this.state.friends.find(user => user._id === friend[0])._id}`
+								);
 						}}>
 						<div className="img-container">
 							<img
@@ -179,10 +188,18 @@ class Chat extends Component {
 	}
 
 	createConversation(input) {
-		this.socket.emit("createConversation", {
-			message: input.value,
-			user: this.state.new._id
-		});
+		this.socket.emit(
+			"createConversation",
+			{
+				message: input.value,
+				user: this.state.new._id
+			},
+			data => {
+				this.getData().then(() => {
+					this.handleUrl();
+				});
+			}
+		);
 		input.value = "";
 	}
 
@@ -227,6 +244,7 @@ class Chat extends Component {
 				{this.state.conversations[this.state.conversation].messages.map(message => {
 					return (
 						<div
+							onLoad={() => console.log("loaded")}
 							key={message.time}
 							className={message.sender === this.username ? "message me" : "message"}>
 							<span>{message.message}</span>
