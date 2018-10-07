@@ -66,9 +66,6 @@ require("./chat/chat")(app);
 
 // All remaining requests return the React app, so it can handle routing.
 app.use((req, res, next) => {
-	return res
-		.status(200)
-		.sendFile(path.resolve(__dirname, "../react-ui/build", "index.html"));
 	let token = req.body.token ? req.body.token : req.headers.token;
 	verifAuth(token).then(isAuth => {
 		if (app.get("env") != "development") {
