@@ -6,7 +6,7 @@ module.exports = function(app) {
 		userTools
 			.getUser(req.headers.token, res, "-_id username image")
 			.then(user => {
-				if (!user) return res.sendStatus(403);
+				// if (!user) return res.sendStatus(403);
 				return res.send(user);
 			})
 			.catch(err => {
