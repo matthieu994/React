@@ -71,11 +71,11 @@ app.use((req, res, next) => {
 		if (app.get("env") != "development") {
 			if (!isAuth)
 				return res
-					.sendFile(path.resolve(__dirname, "../react-ui/build", "index.html"))
-					.sendStatus(403);
+					.status(403)
+					.sendFile(path.resolve(__dirname, "../react-ui/build", "index.html"));
 			res
-				.sendFile(path.resolve(__dirname, "../react-ui/build", "index.html"))
-				.sendStatus(200);
+				.status(200)
+				.sendFile(path.resolve(__dirname, "../react-ui/build", "index.html"));
 		} else {
 			if (!isAuth) return res.sendStatus(403);
 			res.sendStatus(200);
