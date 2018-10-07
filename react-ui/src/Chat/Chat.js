@@ -103,7 +103,7 @@ class Chat extends Component {
 	}
 
 	async getData() {
-		Axios.get("/chat", {
+		Axios.get("/Chat/data", {
 			params: {
 				socket: this.socket.id
 			}

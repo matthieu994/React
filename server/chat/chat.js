@@ -4,8 +4,7 @@ var User = require("../models/UserSchema");
 var Tools = require("../Auth/Tools");
 
 module.exports = app => {
-	app.get("/Chat", (req, res) => {
-		if (!req.headers.token) return;
+	app.get("/Chat/data", (req, res) => {
 		Tools.getUser(req.headers.token, res, "socket username friends conversations")
 			.then(user => {
 				user.socket = req.query.socket;

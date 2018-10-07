@@ -32,7 +32,7 @@ export default class Profile extends Component {
 
 	getData() {
 		axios
-			.get("/Profile", this.getHeaders())
+			.get("/Profile/data", this.getHeaders())
 			.then(res => {
 				this.getFriends();
 				this.setState({
