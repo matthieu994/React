@@ -59,8 +59,6 @@ require("./Auth/Auth")(app);
 // Profile management
 require("./Auth/Profile")(app);
 
-// app.post("/auth", (req, res, next) => verifAuth(req, res, next));
-
 // socket.io
 require("./socket.io/socket")(app, PORT);
 
@@ -68,7 +66,9 @@ require("./chat/chat")(app);
 
 // All remaining requests return the React app, so it can handle routing.
 app.use((req, res, next) => {
-	return res.sendFile(path.resolve(__dirname, "../react-ui/build", "index.html"));
+	return res
+		.sendFile(path.resolve(__dirname, "../react-ui/build", "index.html"))
+		.sendStatus(200);
 	let token = req.body.token ? req.body.token : req.headers.token;
 	verifAuth(token).then(isAuth => {
 		if (app.get("env") != "development") {
