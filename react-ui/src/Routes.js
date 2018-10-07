@@ -23,8 +23,8 @@ class App extends Component {
 					<PrivateRoute path="/TodoList" component={TodoList} />
 					<PrivateRoute path="/Transports" component={Transports} />
 					<PrivateRoute path="/TicTacToe" component={TicTacToe} />
-					<PrivateRoute path="/AgarClone" component={AgarClone} />
 					<PrivateRoute path="/Chat" component={Chat} />
+					<PrivateRoute path="/AgarClone" component={AgarClone} />
 					<Redirect to="/" />
 				</Switch>
 			</div>
