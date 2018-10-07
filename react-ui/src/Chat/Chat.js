@@ -39,7 +39,7 @@ class Chat extends Component {
 
 		this.socket.on("newMessage", data => {
 			let conversations = this.state.conversations;
-			conversations[this.state.conversation].messages.push(data);
+			conversations.find(convo => convo._id === data.id).messages.push(data.message);
 			this.setState({
 				conversations
 			});
@@ -63,9 +63,15 @@ class Chat extends Component {
 	}
 
 	updateDimensions() {
+		const padding = 50;
+		document.querySelector(".chat").style.padding =
+			padding / 2 + "px " + padding * 2 + "px";
 		document.querySelectorAll(".chat .row > div").forEach(el => {
 			el.style.height =
-				window.innerHeight - document.querySelector("header").clientHeight + "px";
+				window.innerHeight -
+				padding -
+				document.querySelector("header").clientHeight +
+				"px";
 		});
 	}
 
@@ -164,10 +170,22 @@ class Chat extends Component {
 		];
 	}
 
+	handleKey(e) {
+		if (e.keyCode === 13) {
+			if (e.ctrlKey) {
+				let el = document.querySelector(".text-input textarea");
+				el.value =
+					el.value.substr(0, el.selectionStart) +
+					"\n" +
+					el.value.substr(el.selectionStart);
+			} else this.sendMessage(e);
+		}
+	}
+
 	renderInput() {
 		return (
 			<form key="form" className="text-input">
-				<textarea type="text" />
+				<textarea type="text" onKeyDown={e => this.handleKey(e)} />
 				<button className="btn btn-primary" onClick={e => this.sendMessage(e)}>
 					Envoyer
 				</button>
@@ -178,10 +196,11 @@ class Chat extends Component {
 	sendMessage(e) {
 		e.preventDefault();
 		let input = document.querySelector(".text-input textarea");
+		if (input.value.trim() === "") return;
 		if (this.state.new) return this.createConversation(input);
 		this.socket.emit("sendMessage", {
 			conversation: this.state.conversations[this.state.conversation]._id,
-			message: input.value,
+			message: input.value.trim(),
 			sender: this.username
 		});
 		input.value = "";
@@ -247,7 +266,7 @@ class Chat extends Component {
 							onLoad={() => console.log("loaded")}
 							key={message.time}
 							className={message.sender === this.username ? "message me" : "message"}>
-							<span>{message.message}</span>
+							<p>{message.message}</p>
 						</div>
 					);
 				})}

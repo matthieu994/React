@@ -50,14 +50,14 @@ module.exports = function(io) {
 				conversation.save();
 				conversation.users.forEach(username => {
 					User.findOne({ username }, "socket", (err, user) => {
-						lio.to(`${user.socket}`).emit(
-							"newMessage",
-							new models.Message({
+						lio.to(`${user.socket}`).emit("newMessage", {
+							message: new models.Message({
 								sender: data.sender,
 								message: data.message,
 								time: new Date().getTime()
-							})
-						);
+							}),
+							id: data.conversation
+						});
 					});
 				});
 			});
