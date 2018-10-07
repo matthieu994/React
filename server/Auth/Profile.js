@@ -1,12 +1,13 @@
 var User = require("../models/UserSchema");
-const userTools = require("./Tools");
+var userTools = require("./Tools");
 
 module.exports = function(app) {
 	app.get("/Profile", (req, res) => {
+		if (!req.headers.token) return;
 		userTools
-			.getUser(req.headers.token, res, "-_id username image")
+			.getUser(req.headers.token, res, "username image")
 			.then(user => {
-				// if (!user) return res.sendStatus(403);
+				if (!user) return res.sendStatus(403);
 				return res.send(user);
 			})
 			.catch(err => {
