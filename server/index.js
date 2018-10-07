@@ -18,6 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const mongoose = require("mongoose");
 var Todo = require("./models/TodoSchema");
 var User = require("./models/UserSchema");
+var models = require("./models/ChatSchema");
 
 // Priority serve any static files.
 app.use(express.static(path.resolve(__dirname, "../react-ui/build")));
@@ -38,11 +39,14 @@ mongoose.connect(
 	function(err, db) {
 		if (err) return err;
 		// tools.removeCollection(User);
-		// tools.showCollections();
+		// tools.showCollections(db);
 		// tools.deleteAllTokens(User);
-		// tools.show(db, 'users', {username: 'test'});
+		// tools.show(db, 'conversations', {});
 		// tools.removeFriends(User, 'admin')
+		// tools.removeAllFriends(User)
 		// tools.showFriends(User, 'admin')
+		// db.collection("users").remove({ username: "abc" });
+		// db.collection("conversations").remove({});
 	}
 );
 

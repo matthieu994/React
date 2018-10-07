@@ -1,10 +1,10 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-var User = require("./UserSchema");
 
-const Message = new Schema({
+const MessageSchema = new Schema({
+	_id: false,
 	sender: {
-		type: User.schema,
+		type: String,
 		required: true
 	},
 	message: {
@@ -16,14 +16,19 @@ const Message = new Schema({
 	}
 });
 
-const Conversation = new Schema({
+const ConversationSchema = new Schema({
 	users: {
-		type: [User.schema],
-		required: true
+		type: [String]
 	},
 	messages: {
-		type: [Message]
+		type: [MessageSchema]
 	}
 });
 
-module.exports = mongoose.model("Conversation", Conversation);
+var Conversation = mongoose.model("Conversation", ConversationSchema);
+var Message = mongoose.model("Message", MessageSchema);
+
+module.exports = {
+	Conversation: Conversation,
+	Message: Message
+};

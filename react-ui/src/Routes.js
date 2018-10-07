@@ -19,7 +19,7 @@ class App extends Component {
 					<Route path="/" exact component={Applications} />
 					<Route path="/register" component={Register} />
 					<Route path="/login" component={Login} />
-					<PrivateRoute path="/profile" component={Profile} />
+					<PrivateRoute path="/Profile" component={Profile} />
 					<PrivateRoute path="/TodoList" component={TodoList} />
 					<PrivateRoute path="/Transports" component={Transports} />
 					<PrivateRoute path="/TicTacToe" component={TicTacToe} />

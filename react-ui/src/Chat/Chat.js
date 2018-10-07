@@ -1,126 +1,249 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import axios from "axios";
+import Axios from "axios";
 import io from "socket.io-client";
+import { DEFAULT_IMG } from "../Const/const";
 import "./Chat.css";
 
 class Chat extends Component {
-	state = {
-		conversations: "",
-		friends: [],
-		friend: ""
-	};
+	constructor() {
+		super();
+		this.state = {
+			conversations: [],
+			conversation: "",
+			friends: [],
+			new: ""
+		};
+	}
 
 	componentDidMount() {
-		axios.defaults.headers.common["token"] = localStorage.getItem("token");
-		this.socket = io("/Chat");
+		Axios.defaults.headers.common["token"] = localStorage.getItem("token");
+		this.socket = io("/Chat", {
+			transportOptions: {
+				polling: {
+					extraHeaders: {
+						token: localStorage.getItem("token")
+					}
+				}
+			}
+		});
 
 		window.addEventListener("resize", this.updateDimensions);
-		window.addEventListener("hashchange", this.handleUrl);
 
 		this.socket.on("connect", () => {
 			this.getData().then(() => {
-				this.handleUrl();
 				this.updateDimensions();
+				this.handleUrl();
 			});
 		});
+
+		this.socket.on("newMessage", data => {
+			let conversations = this.state.conversations;
+			conversations[this.state.conversation].messages.push(data);
+			this.setState({
+				conversations
+			});
+			this.scrollBottom();
+		});
+	}
+
+	componentWillReceiveProps() {
+		this.handleUrl();
 	}
 
 	componentWillUnmount() {
 		this.socket.disconnect();
 		window.removeEventListener("resize", this.updateDimensions);
-		window.removeEventListener("hashchange", this.handleUrl);
 	}
 
 	updateDimensions() {
-		document.querySelector(".chat .row > div").style.height =
-			window.innerHeight - document.querySelector("header").clientHeight + "px";
+		document.querySelectorAll(".chat .row > div").forEach(el => {
+			el.style.height =
+				window.innerHeight - document.querySelector("header").clientHeight + "px";
+		});
+	}
+
+	scrollBottom() {
+		let el = document.querySelector(".messages");
+		if (!el) return;
+		el.scrollTop = el.scrollHeight;
+	}
+
+	findConversation(name) {
+		if (this.state.conversations.length < 1) return;
+		let convo;
+		this.state.conversations.forEach((conversation, index) => {
+			conversation.users.forEach(user => {
+				if (user === name) convo = index;
+			});
+		});
+		return convo;
 	}
 
 	handleUrl() {
 		if (!this.state.friends || !window.location.hash) return;
-		let username = window.location.hash.substr(1);
-		let friend = this.state.friends.find(friend => friend._id === username);
-		if (friend) {
+
+		this.setState({ new: "", conversation: "" });
+
+		let hash = window.location.hash.substr(1);
+		let conversation = this.findConversation(hash);
+		if (conversation === 0) {
 			this.setState({
-				friend: friend
+				conversation
 			});
 		} else {
-			this.setState({
-				friend: ""
-			});
-			this.props.history.push(`#`);
+			let friend = this.state.friends.find(friend => friend._id === hash);
+			if (!friend) {
+				this.props.history.push(`#`);
+			} else {
+				this.setState({ new: friend });
+				this.renderConversation();
+			}
 		}
 	}
 
 	async getData() {
-		axios
-			.post("/chat", {
+		Axios.get("/chat", {
+			params: {
 				socket: this.socket.id
-			})
-			.then(data => {
-				this.setState({
-					friends: data.data.friends,
-					conversations: data.data.conversations
-				});
+			}
+		}).then(data => {
+			this.username = data.data.username;
+			this.setState({
+				friends: data.data.friends,
+				conversations: data.data.conversations
 			});
+		});
 	}
 
 	renderConversationsList() {
 		if (this.state.conversations.length === 0) return this.renderFriendsList();
-		return this.state.conversations.map(conversation => {
-			if (!conversation) return null;
+		return [
+			this.state.conversations.map((conversation, index) => {
+				if (!conversation) return null;
+				let friend;
+				if (conversation.users.length === 2) {
+					friend = conversation.users.filter(user => user !== this.username);
+				}
+				return (
+					<div
+						key={index}
+						onClick={() => {
+							this.props.history.push(
+								`#${this.state.friends.find(user => user._id === friend[0])._id}`
+							);
+						}}>
+						<div className="img-container">
+							<img
+								alt="conversation"
+								src={
+									this.state.friends.find(user => user._id === friend[0]).url ||
+									DEFAULT_IMG
+								}
+							/>
+						</div>
+						<div className="text-container">
+							<span>{this.state.friends.find(user => user._id === friend[0])._id}</span>
+							<span>
+								{conversation.messages[conversation.messages.length - 1].message}
+							</span>
+						</div>
+					</div>
+				);
+			}),
+			this.renderFriendsList()
+		];
+	}
+
+	renderInput() {
+		return (
+			<form key="form" className="text-input">
+				<textarea type="text" />
+				<button className="btn btn-primary" onClick={e => this.sendMessage(e)}>
+					Envoyer
+				</button>
+			</form>
+		);
+	}
+
+	sendMessage(e) {
+		e.preventDefault();
+		let input = document.querySelector(".text-input textarea");
+		if (this.state.new) return this.createConversation(input);
+		this.socket.emit("sendMessage", {
+			conversation: this.state.conversations[this.state.conversation]._id,
+			message: input.value,
+			sender: this.username
+		});
+		input.value = "";
+	}
+
+	createConversation(input) {
+		this.socket.emit("createConversation", {
+			message: input.value,
+			user: this.state.new._id
+		});
+		input.value = "";
+	}
+
+	renderFriendsList() {
+		return this.state.friends.map(friend => {
+			if (!friend || this.findConversation(friend._id) !== undefined) return null;
 			return (
-				<div key={conversation._id}>
+				<div
+					onClick={() => {
+						this.props.history.push(`#${friend._id}`);
+					}}
+					key={friend._id}>
 					<div className="img-container">
-						<img alt="conversation" src={conversation.url} />
+						<img alt="profile" src={friend.url || DEFAULT_IMG} />
 					</div>
 					<div className="text-container">
-						<span
-							onClick={() => {
-								this.props.history.push(`#${conversation._id}`);
-								this.handleUrl();
-							}}>
-							{conversation._id}
+						<span>{friend._id}</span>
+						<span>
+							<i>Envoyez un message à {friend._id} !</i>
 						</span>
-						<span>Last message</span>
 					</div>
 				</div>
 			);
 		});
 	}
 
-	renderFriendsList() {
-		return this.state.friends.map(friend => {
-			if (!friend) return null;
+	renderConversation() {
+		if (!this.state.new && this.state.conversation === "")
 			return (
-				<div key={friend._id}>
-					<div className="img-container">
-						<img alt="profile" src={friend.url} />
-					</div>
-					<div className="text-container">
-						<span
-							onClick={() => {
-								this.props.history.push(`#${friend._id}`);
-								this.handleUrl();
-							}}>
-							{friend._id}
-						</span>
-						<span>
-							<i>Envoyez le premier message !</i>
-						</span>
-					</div>
+				<div className="first-conversation">
+					<span>Commencez votre première conversation !</span>
 				</div>
 			);
-		});
+		if (this.state.new)
+			return (
+				<div className="first-conversation">
+					Envoyez un message à {this.state.new._id} !{this.renderInput()}
+				</div>
+			);
+		return [
+			<div key="messages" className="messages">
+				{this.state.conversations[this.state.conversation].messages.map(message => {
+					return (
+						<div
+							key={message.time}
+							className={message.sender === this.username ? "message me" : "message"}>
+							<span>{message.message}</span>
+						</div>
+					);
+				})}
+			</div>,
+			this.renderInput()
+		];
 	}
 
 	render() {
 		return (
 			<div className="container-fluid chat">
 				<div className="row">
-					<div className="col-3 friends-list">{this.renderConversationsList()}</div>
-					<div className="col-9 conversation" />
+					<div className="col-3 conversations-list">{this.renderConversationsList()}</div>
+					<div className="col-9 conversation">{this.renderConversation()}</div>
 				</div>
 			</div>
 		);

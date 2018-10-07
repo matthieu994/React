@@ -40,6 +40,15 @@ module.exports = {
             user.save();
         })
     },
+    removeAllFriends: function (collection) {
+        collection.find({}, (err, users) => {
+            if (err) return err;
+            users.forEach(function(user) {
+                user.friends.pop();
+                user.save();
+            });
+        })
+    },
     showFriends: function (collection, username) {
         collection.findOne({ username: username }, (err, user) => {
             if (err) return err;
