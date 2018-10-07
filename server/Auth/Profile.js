@@ -4,6 +4,7 @@ const userTools = require("./Tools");
 module.exports = function(app) {
 	app.get("/Profile", (req, res) => {
 		userTools.getUser(req.headers.token, res, "-_id username image").then(user => {
+			if (!user) return res.sendStatus(403);
 			return res.send(user);
 		});
 	});
