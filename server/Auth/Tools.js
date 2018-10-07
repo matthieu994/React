@@ -5,6 +5,7 @@ module.exports = {
 	getUser: async function(token, res, props) {
 		return await jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
 			if (err) return res.sendStatus(403);
+			console.log(decoded)
 			return User.findById(decoded.user, props, (err, user) => {
 				if (err) res.sendStatus(403);
 				return user;
