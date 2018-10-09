@@ -64,12 +64,7 @@ require("./socket.io/socket")(app, PORT);
 
 require("./chat/chat")(app);
 
-app.get("/auth", (req, res) => {
-	res.sendStatus(200);
-});
-
-// All remaining requests return the React app, so it can handle routing.
-app.use((req, res, next) => {
+app.post("/auth", (req, res) => {
 	let token = req.body.token ? req.body.token : req.headers.token;
 	verifAuth(token).then(isAuth => {
 		if (app.get("env") != "development") {
@@ -85,6 +80,12 @@ app.use((req, res, next) => {
 			res.sendStatus(200);
 		}
 	});
+});
+
+// All remaining requests return the React app, so it can handle routing.
+app.use((req, res, next) => {
+	if (app.get("env") != "development")
+		res.sendFile(path.resolve(__dirname, "../react-ui/build", "index.html"));
 });
 
 // app.listen(PORT, function () {
