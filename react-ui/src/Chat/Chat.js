@@ -93,7 +93,11 @@ class Chat extends Component {
 	}
 
 	handleUrl() {
-		if (!this.state.friends || !window.location.hash) return;
+		if (!this.state.friends) return;
+
+		if (!window.location.hash) {
+			return this.setState({ new: "", conversation: "" });
+		}
 
 		let hash = window.location.hash.substr(1);
 		let conversation = this.findConversation(hash);
@@ -143,7 +147,7 @@ class Chat extends Component {
 					<div
 						key={index}
 						onClick={() => {
-							this.state.conversation !== index &&
+							window.location.hash.substr(1) !== friend._id &&
 								this.props.history.push(
 									`#${this.state.friends.find(user => user._id === friend[0])._id}`
 								);
@@ -228,7 +232,8 @@ class Chat extends Component {
 			return (
 				<div
 					onClick={() => {
-						this.props.history.push(`#${friend._id}`);
+						window.location.hash.substr(1) !== friend._id &&
+							this.props.history.push(`#${friend._id}`);
 					}}
 					key={friend._id}>
 					<div className="img-container">
