@@ -1,36 +1,26 @@
 import React, { Component } from "react";
-import verifAuth from "../Auth/verifAuth";
 import { withRouter } from "react-router-dom";
 import Axios from "axios";
 import { DEFAULT_IMG } from "../Const/const";
 
 class UserIcon extends Component {
 	state = {
-		isAuth: false,
 		isMounted: false,
 		user: []
 	};
 
 	componentDidMount() {
 		Axios.defaults.headers.common["token"] = localStorage.getItem("token");
-		this.isAuth();
+		this.getData();
 
 		this.unlisten = this.props.history.listen(() => {
-			this.isAuth();
+			this.getData();
 		});
 	}
 
-	isAuth() {
-		verifAuth().then(isAuth => {
-			this.setState({
-				isMounted: true,
-				isAuth
-			});
-			if (isAuth) {
-				Axios.get("/Profile/data").then(data => {
-					this.setState({ user: data.data });
-				});
-			}
+	getData() {
+		Axios.get("/Profile/data").then(data => {
+			this.setState({ isMounted: true, user: data.data });
 		});
 	}
 
@@ -51,7 +41,7 @@ class UserIcon extends Component {
 	}
 
 	render() {
-		if (!this.state.isMounted || !this.state.isAuth) return null;
+		if (!this.state.isMounted) return null;
 
 		return (
 			<div className="user">
