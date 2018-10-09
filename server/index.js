@@ -64,6 +64,8 @@ require("./socket.io/socket")(app, PORT);
 
 require("./chat/chat")(app);
 
+app.get("/auth", (req, res) => {});
+
 // All remaining requests return the React app, so it can handle routing.
 app.use((req, res, next) => {
 	let token = req.body.token ? req.body.token : req.headers.token;
