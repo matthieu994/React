@@ -5,7 +5,7 @@ import io from "socket.io-client";
 import { DEFAULT_IMG } from "../Const/const";
 import "./Chat.css";
 import "emoji-mart/css/emoji-mart.css";
-import { Picker, Emoji } from "emoji-mart";
+import { Picker, Emoji, emojiIndex } from "emoji-mart";
 
 class Chat extends Component {
 	constructor() {
@@ -174,34 +174,49 @@ class Chat extends Component {
 	}
 
 	handleKey(e) {
+		let el = document.querySelector(".input-container textarea");
+		let emoji = replaceEmoji(document.querySelector(".input-container textarea").value);
+
+		if (emoji) {
+			let selStart = el.selectionStart;
+			let prev = document.querySelector(".input-container textarea").value.length;
+			document.querySelector(".input-container textarea").value = emoji;
+			let newSel = emoji.length - prev;
+			el.setSelectionRange(selStart + newSel, selStart + newSel);
+		}
+
 		if (e.keyCode === 13) {
 			if (e.ctrlKey) {
-				let el = document.querySelector(".text-input textarea");
 				el.value =
 					el.value.substr(0, el.selectionStart) +
 					"\n" +
 					el.value.substr(el.selectionStart);
-			} else this.sendMessage(e);
+			} else {
+				this.sendMessage(e);
+			}
 		}
 	}
 
 	renderInput() {
 		return (
-			<form key="form" className="text-input">
-				<textarea type="text" onKeyDown={e => this.handleKey(e)} />
-				<div className="form-buttons">
-					<Emojis />
-					<button className="btn btn-info send" onClick={e => this.sendMessage(e)}>
-						Envoyer
-					</button>
+			<div key="form" className="input-container">
+				<FavEmojis />
+				<div className="input-buttons-container">
+					<textarea type="text" onKeyDown={e => this.handleKey(e)} />
+					<div className="form-buttons">
+						<Emojis />
+						<button className="btn btn-info send" onClick={e => this.sendMessage(e)}>
+							Envoyer
+						</button>
+					</div>
 				</div>
-			</form>
+			</div>
 		);
 	}
 
 	sendMessage(e) {
 		e.preventDefault();
-		let input = document.querySelector(".text-input textarea");
+		let input = document.querySelector(".input-container textarea");
 		if (input.value.trim() === "") return;
 		if (this.state.new) return this.createConversation(input);
 		this.socket.emit("sendMessage", {
@@ -312,7 +327,7 @@ class Emojis extends Component {
 		let parent = document.querySelector(".emojis");
 		let overlay = document.querySelector(".emojis .overlay");
 		overlay.style.top = totalOffset(parent).top - overlay.offsetHeight - 7 + "px";
-		overlay.style.left = totalOffset(parent).left - overlay.offsetWidth/2 + "px";
+		overlay.style.left = totalOffset(parent).left - overlay.offsetWidth / 2 + "px";
 	}
 
 	componentWillUnmount() {
@@ -338,11 +353,12 @@ class Emojis extends Component {
 	}
 
 	insertEmoji(data) {
-		let el = document.querySelector(".text-input textarea");
+		let el = document.querySelector(".input-container textarea");
 		el.value =
 			el.value.substr(0, el.selectionStart) +
 			data.native +
 			el.value.substr(el.selectionStart);
+		el.focus();
 	}
 
 	toggle() {
@@ -389,11 +405,80 @@ var totalOffset = function(element) {
 var replaceEmoji = function(string) {
 	let regex = new RegExp("(^|\\s)(:[a-zA-Z0-9-_+]+:(:skin-tone-[2-6]:)?)", "g");
 	let match;
+	let hasEmoji = false;
 	while ((match = regex.exec(string))) {
 		let colons = match[2];
-		let offset = match.index + match[1].length;
-		let length = colons.length;
 
-		console.log(colons, offset, length);
+		// console.log(emojiIndex.search(colons.slice(1, -1))[0]);
+		if (emojiIndex.search(colons.slice(1, -1)).length > 0) {
+			hasEmoji = true;
+			string = string.replace(
+				":" + colons.slice(1, -1) + ":",
+				emojiIndex.search(colons.slice(1, -1))[0].native
+			);
+		}
 	}
+	if (!hasEmoji) return hasEmoji;
+	return string;
 };
+
+class FavEmojis extends Component {
+	state = {
+		emojis: []
+	};
+	componentDidMount() {
+		this.getFavs();
+	}
+
+	getFavs() {
+		let favs = JSON.parse(localStorage.getItem("emoji-mart.frequently"));
+		var map = new Map();
+		let arr = [];
+		for (var k in favs) {
+			map.set(k, favs[k]);
+		}
+		map[Symbol.iterator] = function*() {
+			yield* [...this.entries()].sort((a, b) => b[1] - a[1]);
+		};
+		let i = 0;
+		for (let [key] of map) {
+			arr[i] = key;
+			i++;
+		}
+		this.setState({ emojis: arr });
+	}
+
+	insertEmoji(data) {
+		let el = document.querySelector(".input-container textarea");
+		el.value =
+			el.value.substr(0, el.selectionStart) +
+			data.native +
+			el.value.substr(el.selectionStart);
+		el.focus();
+	}
+
+	renderEmojis() {
+		if (this.state.emojis.length < 1) return;
+
+		let parent = document.querySelector(".input-container");
+		let overlay = document.querySelector(".input-container .fav-emojis");
+		overlay.style.top = totalOffset(parent).top - overlay.offsetHeight - 35 + "px";
+		overlay.style.left = totalOffset(parent).left - overlay.offsetWidth + 300 + "px";
+
+		return this.state.emojis.map(emoji => {
+			return (
+				<Emoji
+					key={emoji}
+					emoji={emoji}
+					set="messenger"
+					size={32}
+					onClick={this.insertEmoji}
+				/>
+			);
+		});
+	}
+
+	render() {
+		return <div className="fav-emojis">{this.renderEmojis()}</div>;
+	}
+}
