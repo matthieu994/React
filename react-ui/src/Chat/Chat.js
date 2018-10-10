@@ -446,6 +446,11 @@ class FavEmojis extends Component {
 			i++;
 		}
 		this.setState({ emojis: arr });
+
+		let parent = document.querySelector(".input-container");
+		let overlay = document.querySelector(".input-container .fav-emojis");
+		overlay.style.top = totalOffset(parent).top - overlay.offsetHeight - 35 + "px";
+		overlay.style.left = totalOffset(parent).left - overlay.offsetWidth + 300 + "px";
 	}
 
 	insertEmoji(data) {
@@ -459,11 +464,6 @@ class FavEmojis extends Component {
 
 	renderEmojis() {
 		if (this.state.emojis.length < 1) return;
-
-		let parent = document.querySelector(".input-container");
-		let overlay = document.querySelector(".input-container .fav-emojis");
-		overlay.style.top = totalOffset(parent).top - overlay.offsetHeight - 35 + "px";
-		overlay.style.left = totalOffset(parent).left - overlay.offsetWidth + 300 + "px";
 
 		return this.state.emojis.map(emoji => {
 			return (
