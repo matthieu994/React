@@ -315,7 +315,7 @@ class Emojis extends Component {
 	updateDimensions() {
 		let parent = document.querySelector(".emojis");
 		let overlay = document.querySelector(".emojis .overlay");
-		overlay.style.top = totalOffset(parent).top - overlay.offsetHeight + "px";
+		overlay.style.top = totalOffset(parent).top - overlay.offsetHeight - 7 + "px";
 		overlay.style.left = totalOffset(parent).left - overlay.offsetWidth / 2 + "px";
 	}
 
@@ -332,6 +332,7 @@ class Emojis extends Component {
 				emoji="point_up"
 				color="#17a2b8"
 				notFoundEmoji="see_no_evil"
+				onClick={this.insertEmoji}
 				i18n={{
 					search: "Recherche",
 					notfound: "Aucun emoji trouvé",
@@ -339,6 +340,13 @@ class Emojis extends Component {
 				}}
 			/>
 		);
+	}
+
+	insertEmoji(data) {
+		let el = document.querySelector(".text-input textarea");
+		el.value =
+			el.value.substr(0, el.selectionStart) + data.native + el.value.substr(el.selectionStart);
+		console.log(data);
 	}
 
 	toggle() {
@@ -388,5 +396,4 @@ var replaceEmoji = function(string) {
 
 		console.log(colons, offset, length);
 	}
-	console.log(string);
 };

@@ -93,8 +93,10 @@ $text-input: 80px;
                 .emojis {
                     margin: auto;
                     .overlay {
-                        position: fixed;
-                        cursor: pointer;
+						position: fixed;
+						.emoji-mart-emoji > span {
+							cursor: pointer;
+						}
                     }
                     .emoji-mart-preview {
                         height: 50px;
