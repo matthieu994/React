@@ -94,6 +94,7 @@ $text-input: 80px;
                     margin: auto;
                     .overlay {
 						position: fixed;
+						visibility: hidden;
 						.emoji-mart-emoji > span {
 							cursor: pointer;
 						}

@@ -303,10 +303,6 @@ class Chat extends Component {
 export default withRouter(Chat);
 
 class Emojis extends Component {
-	state = {
-		display: true
-	};
-
 	componentDidMount() {
 		this.updateDimensions();
 		window.addEventListener("resize", this.updateDimensions);
@@ -316,7 +312,7 @@ class Emojis extends Component {
 		let parent = document.querySelector(".emojis");
 		let overlay = document.querySelector(".emojis .overlay");
 		overlay.style.top = totalOffset(parent).top - overlay.offsetHeight - 7 + "px";
-		overlay.style.left = totalOffset(parent).left - overlay.offsetWidth / 2 + "px";
+		overlay.style.left = totalOffset(parent).left - overlay.offsetWidth/2 + "px";
 	}
 
 	componentWillUnmount() {
@@ -324,7 +320,6 @@ class Emojis extends Component {
 	}
 
 	renderEmojis() {
-		if (!this.state.display) return;
 		return (
 			<Picker
 				set="messenger"
@@ -345,12 +340,17 @@ class Emojis extends Component {
 	insertEmoji(data) {
 		let el = document.querySelector(".text-input textarea");
 		el.value =
-			el.value.substr(0, el.selectionStart) + data.native + el.value.substr(el.selectionStart);
-		console.log(data);
+			el.value.substr(0, el.selectionStart) +
+			data.native +
+			el.value.substr(el.selectionStart);
 	}
 
 	toggle() {
-		this.setState({ display: !this.state.display });
+		this.updateDimensions();
+		document.querySelector(".emojis .overlay").style.visibility =
+			document.querySelector(".emojis .overlay").style.visibility === "visible"
+				? "hidden"
+				: "visible";
 	}
 
 	render() {
