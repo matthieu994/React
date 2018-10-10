@@ -428,8 +428,21 @@ class FavEmojis extends Component {
 	};
 	componentDidMount() {
 		this.getFavs();
+		window.addEventListener("resize", this.updateDimensions);
 	}
-
+	
+	componentWillUnmount() {
+		window.removeEventListener("resize", this.updateDimensions);
+	}
+	
+	updateDimensions() {
+		let parent = document.querySelector(".input-container textarea");
+		let bar = document.querySelector(".input-container .fav-emojis");
+		bar.style.width = parent.offsetWidth / 3 + "px";
+		bar.style.top = totalOffset(parent).top - bar.offsetHeight + "px";
+		bar.style.left = totalOffset(parent).left + parent.offsetWidth / 3 + "px";
+	}
+	
 	getFavs() {
 		let favs = JSON.parse(localStorage.getItem("emoji-mart.frequently"));
 		var map = new Map();
@@ -446,13 +459,9 @@ class FavEmojis extends Component {
 			i++;
 		}
 		this.setState({ emojis: arr });
-
-		let parent = document.querySelector(".input-container");
-		let overlay = document.querySelector(".input-container .fav-emojis");
-		overlay.style.top = totalOffset(parent).top - overlay.offsetHeight - 35 + "px";
-		overlay.style.left = totalOffset(parent).left - overlay.offsetWidth + 300 + "px";
+		this.updateDimensions();
 	}
-
+	
 	insertEmoji(data) {
 		let el = document.querySelector(".input-container textarea");
 		el.value =
