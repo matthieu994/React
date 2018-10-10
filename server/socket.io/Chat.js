@@ -32,6 +32,7 @@ module.exports = function(io) {
 					if (err) return err;
 					friend.conversations.push(conversation);
 					friend.save();
+					lio.to(`${friend.socket}`).emit("createConversation", conversation);
 					cb("OK");
 				});
 			});

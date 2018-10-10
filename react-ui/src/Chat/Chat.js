@@ -40,6 +40,17 @@ class Chat extends Component {
 			});
 		});
 
+		this.socket.on("createConversation", conv => {
+			this.setState(
+				{
+					conversations: [...this.state.conversations, conv]
+				},
+				() => {
+					this.handleUrl();
+				}
+			);
+		});
+
 		this.socket.on("newMessage", data => {
 			let conversations = this.state.conversations;
 			conversations.find(convo => convo._id === data.id).messages.push(data.message);
