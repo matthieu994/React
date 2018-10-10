@@ -22,17 +22,9 @@ export default class Profile extends Component {
 		axios.defaults.headers.common["token"] = localStorage.getItem("token");
 	}
 
-	getHeaders() {
-		return {
-			headers: {
-				token: localStorage.getItem("token")
-			}
-		};
-	}
-
 	getData() {
 		axios
-			.get("/Profile/data", this.getHeaders())
+			.get("/Profile/data")
 			.then(res => {
 				this.getFriends();
 				this.setState({
@@ -46,7 +38,7 @@ export default class Profile extends Component {
 
 	getFriends() {
 		axios
-			.get("/Profile/friends", this.getHeaders())
+			.get("/Profile/friends")
 			.then(res => {
 				res.data.sort(function(a, b) {
 					return a._id > b._id ? 1 : b._id > a._id ? -1 : 0;
@@ -60,13 +52,9 @@ export default class Profile extends Component {
 
 	getUsers(value) {
 		axios
-			.post(
-				"/Profile/users",
-				{
-					startingWith: value
-				},
-				this.getHeaders()
-			)
+			.post("/Profile/users", {
+				startingWith: value
+			})
 			.then(res => {
 				this.setState({
 					users: res.data
@@ -77,13 +65,9 @@ export default class Profile extends Component {
 
 	addFriend(username) {
 		axios
-			.post(
-				"/Profile/friend",
-				{
-					username: username
-				},
-				this.getHeaders()
-			)
+			.post("/Profile/friend", {
+				username: username
+			})
 			.then(res => {
 				this.getFriends();
 			})
@@ -92,13 +76,9 @@ export default class Profile extends Component {
 
 	acceptFriend(username) {
 		axios
-			.put(
-				"/Profile/friend",
-				{
-					username: username
-				},
-				this.getHeaders()
-			)
+			.put("/Profile/friend", {
+				username: username
+			})
 			.then(res => {
 				this.getFriends();
 			})
@@ -110,9 +90,6 @@ export default class Profile extends Component {
 			.delete("/Profile/friend", {
 				data: {
 					username: username
-				},
-				headers: {
-					token: localStorage.getItem("token")
 				}
 			})
 			.then(res => {

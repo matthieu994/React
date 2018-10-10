@@ -4,6 +4,8 @@ import Axios from "axios";
 import io from "socket.io-client";
 import { DEFAULT_IMG } from "../Const/const";
 import "./Chat.css";
+import "emoji-mart/css/emoji-mart.css";
+import { Picker, Emoji } from "emoji-mart";
 
 class Chat extends Component {
 	constructor() {
@@ -139,30 +141,27 @@ class Chat extends Component {
 		return [
 			this.state.conversations.map((conversation, index) => {
 				if (!conversation) return null;
-				let friend;
-				if (conversation.users.length === 2) {
-					friend = conversation.users.filter(user => user !== this.username);
-				}
+				let users = conversation.users.filter(user => user !== this.username); //liste users in conv
 				return (
 					<div
 						key={index}
 						onClick={() => {
-							window.location.hash.substr(1) !== friend._id &&
+							!users.find(user => window.location.hash.substr(1) === user) &&
 								this.props.history.push(
-									`#${this.state.friends.find(user => user._id === friend[0])._id}`
+									`#${this.state.friends.find(user => user._id === users[0])._id}`
 								);
 						}}>
 						<div className="img-container">
 							<img
 								alt="conversation"
 								src={
-									this.state.friends.find(user => user._id === friend[0]).url ||
+									this.state.friends.find(user => user._id === users[0]).url ||
 									DEFAULT_IMG
 								}
 							/>
 						</div>
 						<div className="text-container">
-							<span>{this.state.friends.find(user => user._id === friend[0])._id}</span>
+							<span>{this.state.friends.find(user => user._id === users[0])._id}</span>
 							<span>
 								{conversation.messages[conversation.messages.length - 1].message}
 							</span>
@@ -190,9 +189,12 @@ class Chat extends Component {
 		return (
 			<form key="form" className="text-input">
 				<textarea type="text" onKeyDown={e => this.handleKey(e)} />
-				<button className="btn btn-primary" onClick={e => this.sendMessage(e)}>
-					Envoyer
-				</button>
+				<div className="form-buttons">
+					<Emojis />
+					<button className="btn btn-info send" onClick={e => this.sendMessage(e)}>
+						Envoyer
+					</button>
+				</div>
 			</form>
 		);
 	}
@@ -251,6 +253,13 @@ class Chat extends Component {
 	}
 
 	renderConversation() {
+		if (
+			!window.location.hash &&
+			this.state.friends.length > 0 &&
+			this.state.conversations.length > 0
+		) {
+			this.props.history.push(`#${this.state.friends[0]._id}`);
+		}
 		if (!this.state.new && this.state.conversation === "")
 			return (
 				<div className="first-conversation">
@@ -268,7 +277,6 @@ class Chat extends Component {
 				{this.state.conversations[this.state.conversation].messages.map(message => {
 					return (
 						<div
-							onLoad={() => console.log("loaded")}
 							key={message.time}
 							className={message.sender === this.username ? "message me" : "message"}>
 							<p>{message.message}</p>
@@ -293,3 +301,92 @@ class Chat extends Component {
 }
 
 export default withRouter(Chat);
+
+class Emojis extends Component {
+	state = {
+		display: true
+	};
+
+	componentDidMount() {
+		this.updateDimensions();
+		window.addEventListener("resize", this.updateDimensions);
+	}
+
+	updateDimensions() {
+		let parent = document.querySelector(".emojis");
+		let overlay = document.querySelector(".emojis .overlay");
+		overlay.style.top = totalOffset(parent).top - overlay.offsetHeight + "px";
+		overlay.style.left = totalOffset(parent).left - overlay.offsetWidth / 2 + "px";
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener("resize", this.updateDimensions);
+	}
+
+	renderEmojis() {
+		if (!this.state.display) return;
+		return (
+			<Picker
+				set="messenger"
+				title="Choisissez…"
+				emoji="point_up"
+				color="#17a2b8"
+				notFoundEmoji="see_no_evil"
+				i18n={{
+					search: "Recherche",
+					notfound: "Aucun emoji trouvé",
+					categories: { search: "Résultats de la recherche", recent: "Récents" }
+				}}
+			/>
+		);
+	}
+
+	toggle() {
+		this.setState({ display: !this.state.display });
+	}
+
+	render() {
+		return (
+			<div className="emojis">
+				<div className="button">
+					<Emoji
+						emoji="grinning"
+						set="messenger"
+						size={32}
+						onClick={() => this.toggle()}
+					/>
+				</div>
+				<div className="overlay">{this.renderEmojis()}</div>
+			</div>
+		);
+	}
+}
+
+var totalOffset = function(element) {
+	var top = 0,
+		left = 0;
+	do {
+		top += element.offsetTop || 0;
+		left += element.offsetLeft || 0;
+		element = element.offsetParent;
+	} while (element);
+
+	return {
+		top: top,
+		left: left
+	};
+};
+
+// eslint-disable-next-line
+var replaceEmoji = function(string) {
+	let regex = new RegExp("(^|\\s)(:[a-zA-Z0-9-_+]+:(:skin-tone-[2-6]:)?)", "g");
+	let match;
+	while ((match = regex.exec(string))) {
+		let colons = match[2];
+		let offset = match.index + match[1].length;
+		let length = colons.length;
+
+		console.log(colons, offset, length);
+	}
+	console.log(string);
+};
