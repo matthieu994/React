@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import { Picker, Emoji, emojiIndex } from "emoji-mart";
 import Axios from "axios";
 import io from "socket.io-client";
 import { DEFAULT_IMG } from "../Const/const";
 import "./Chat.css";
 import "emoji-mart/css/emoji-mart.css";
-import { Picker, Emoji, emojiIndex } from "emoji-mart";
+import Dropdown from "./Dropdown";
 
 class Chat extends Component {
 	constructor() {
@@ -46,6 +47,29 @@ class Chat extends Component {
 				conversations
 			});
 			this.scrollBottom();
+		});
+
+		this.socket.on("deleteConversation", id => {
+			if (
+				this.state.conversation >= 0 &&
+				this.state.conversations[this.state.conversation] &&
+				this.state.conversations[this.state.conversation]._id === id
+			) {
+				if (this.state.conversations[this.state.conversation].users.length === 2) {
+					let friend = this.state.conversations[this.state.conversation].users.find(
+						user => user !== this.username
+					);
+					this.setState({
+						new: this.state.friends.find(fr => fr._id === friend)
+					});
+				} else {
+					this.props.history.push(`#`);
+				}
+				this.setState({ conversation: "" });
+			}
+			let convs = this.state.conversations;
+			convs.splice(convs.indexOf(convs.find(conv => conv._id === id)), 1);
+			this.setState({ conversations: convs });
 		});
 	}
 
@@ -145,8 +169,9 @@ class Chat extends Component {
 				return (
 					<div
 						key={index}
-						onClick={() => {
-							!users.find(user => window.location.hash.substr(1) === user) &&
+						onClick={e => {
+							!e.target.className.includes("fas") &&
+								!users.find(user => window.location.hash.substr(1) === user) &&
 								this.props.history.push(
 									`#${this.state.friends.find(user => user._id === users[0])._id}`
 								);
@@ -162,9 +187,12 @@ class Chat extends Component {
 						</div>
 						<div className="text-container">
 							<span>{this.state.friends.find(user => user._id === users[0])._id}</span>
-							<span>
-								{conversation.messages[conversation.messages.length - 1].message}
-							</span>
+							<Dropdown socket={this.socket} id={conversation._id} />
+							<div className="text-preview">
+								<span>
+									{conversation.messages[conversation.messages.length - 1].message}
+								</span>
+							</div>
 						</div>
 					</div>
 				);
@@ -186,7 +214,8 @@ class Chat extends Component {
 		}
 
 		if (e.keyCode === 13) {
-			if (e.ctrlKey) {
+			if (e.ctrlKey || e.shiftKey) {
+				e.preventDefault();
 				el.value =
 					el.value.substr(0, el.selectionStart) +
 					"\n" +
@@ -195,6 +224,7 @@ class Chat extends Component {
 				this.sendMessage(e);
 			}
 		}
+		document.querySelector(".emojis .overlay").style.visibility = "hidden";
 	}
 
 	renderInput() {
@@ -225,6 +255,7 @@ class Chat extends Component {
 			sender: this.username
 		});
 		input.value = "";
+		document.querySelector(".emojis .overlay").style.visibility = "hidden";
 	}
 
 	createConversation(input) {
@@ -241,6 +272,7 @@ class Chat extends Component {
 			}
 		);
 		input.value = "";
+		document.querySelector(".input-container textarea").focus();
 	}
 
 	renderFriendsList() {
@@ -258,9 +290,11 @@ class Chat extends Component {
 					</div>
 					<div className="text-container">
 						<span>{friend._id}</span>
-						<span>
-							<i>Envoyez un message à {friend._id} !</i>
-						</span>
+						<div className="text-preview">
+							<span>
+								<i>Envoyez un message à {friend._id} !</i>
+							</span>
+						</div>
 					</div>
 				</div>
 			);
@@ -285,6 +319,7 @@ class Chat extends Component {
 			return (
 				<div className="first-conversation">
 					Envoyez un message à {this.state.new._id} !{this.renderInput()}
+					<Emoji emoji="wave" set="messenger" size={32} />
 				</div>
 			);
 		return [
@@ -320,6 +355,7 @@ export default withRouter(Chat);
 class Emojis extends Component {
 	componentDidMount() {
 		this.updateDimensions();
+		window.addEventListener("click", this.closeMenu);
 		window.addEventListener("resize", this.updateDimensions);
 	}
 
@@ -331,6 +367,7 @@ class Emojis extends Component {
 	}
 
 	componentWillUnmount() {
+		window.removeEventListener("click", this.closeMenu);
 		window.removeEventListener("resize", this.updateDimensions);
 	}
 
@@ -361,7 +398,19 @@ class Emojis extends Component {
 		el.focus();
 	}
 
-	toggle() {
+	closeMenu(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		if (
+			(document.querySelector(".emojis .overlay").style.visibility = "visible") &&
+			!document.querySelector(".emojis .overlay").contains(e.target)
+		)
+			document.querySelector(".emojis .overlay").style.visibility = "hidden";
+	}
+
+	toggle(e) {
+		e.preventDefault();
+		e.stopPropagation();
 		this.updateDimensions();
 		document.querySelector(".emojis .overlay").style.visibility =
 			document.querySelector(".emojis .overlay").style.visibility === "visible"
@@ -372,13 +421,8 @@ class Emojis extends Component {
 	render() {
 		return (
 			<div className="emojis">
-				<div className="button">
-					<Emoji
-						emoji="grinning"
-						set="messenger"
-						size={32}
-						onClick={() => this.toggle()}
-					/>
+				<div className="button" onClick={e => this.toggle(e)}>
+					<Emoji emoji="grinning" set="messenger" size={32} />
 				</div>
 				<div className="overlay">{this.renderEmojis()}</div>
 			</div>
@@ -430,19 +474,19 @@ class FavEmojis extends Component {
 		this.getFavs();
 		window.addEventListener("resize", this.updateDimensions);
 	}
-	
+
 	componentWillUnmount() {
 		window.removeEventListener("resize", this.updateDimensions);
 	}
-	
+
 	updateDimensions() {
-		let parent = document.querySelector(".input-container textarea");
+		let parent = document.querySelector(".input-container");
 		let bar = document.querySelector(".input-container .fav-emojis");
 		bar.style.width = parent.offsetWidth / 3 + "px";
 		bar.style.top = totalOffset(parent).top - bar.offsetHeight + "px";
 		bar.style.left = totalOffset(parent).left + parent.offsetWidth / 3 + "px";
 	}
-	
+
 	getFavs() {
 		let favs = JSON.parse(localStorage.getItem("emoji-mart.frequently"));
 		var map = new Map();
@@ -461,7 +505,7 @@ class FavEmojis extends Component {
 		this.setState({ emojis: arr });
 		this.updateDimensions();
 	}
-	
+
 	insertEmoji(data) {
 		let el = document.querySelector(".input-container textarea");
 		el.value =

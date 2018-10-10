@@ -62,5 +62,23 @@ module.exports = function(io) {
 				});
 			});
 		});
+
+		client.on("deleteConversation", id => {
+			models.Conversation.findById(id, (err, conversation) => {
+				if (err) return err;
+				conversation.users.forEach(convUser => {
+					User.findOne({ username: convUser }, (err, user) => {
+						if (err) return err;
+						user.conversations.splice(user.conversations.indexOf(id), 1);
+						user.save((err, doc) => {
+							lio.to(`${user.socket}`).emit("deleteConversation", id);
+						});
+					});
+				});
+				models.Conversation.findByIdAndDelete(id, err => {
+					if (err) return err;
+				});
+			});
+		});
 	});
 };
