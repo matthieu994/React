@@ -478,12 +478,16 @@ var replaceEmoji = function(string) {
 };
 
 class FavEmojis extends Component {
-	state = {
-		emojis: []
-	};
+	constructor() {
+		super();
+		this.state = {
+			emojis: [],
+			favs: []
+		};
+	}
 	componentDidMount() {
 		this.getFavs();
-		window.addEventListener("resize", this.updateDimensions);
+		window.addEventListener("resize", () => this.updateDimensions());
 	}
 
 	componentWillUnmount() {
@@ -491,9 +495,21 @@ class FavEmojis extends Component {
 	}
 
 	updateDimensions() {
-		let parent = document.querySelector(".input-container");
+		if (!this.state.emojis) return;
 		let bar = document.querySelector(".input-container .fav-emojis");
-		bar.style.width = parent.offsetWidth / 3 + "px";
+		let parent = document.querySelector(".input-container");
+		let width = parent.offsetWidth / 3;
+		let favsCount = Math.floor(width / (32 + 10));
+		this.setState(
+			{
+				favs: this.state.emojis.slice(0, favsCount)
+			},
+			() => {
+				bar.style.width = this.state.favs.length * (32 + 11) + "px";
+				if (this.state.favs.length === 0) bar.style.visibility = "hidden";
+				else bar.style.visibility = "";
+			}
+		);
 		bar.style.top = totalOffset(parent).top - bar.offsetHeight + "px";
 		bar.style.left = totalOffset(parent).left + parent.offsetWidth / 3 + "px";
 	}
@@ -513,7 +529,7 @@ class FavEmojis extends Component {
 			arr[i] = key;
 			i++;
 		}
-		this.setState({ emojis: arr });
+		this.setState({ emojis: arr }, this.updateDimensions);
 		this.updateDimensions();
 	}
 
@@ -529,7 +545,7 @@ class FavEmojis extends Component {
 	renderEmojis() {
 		if (this.state.emojis.length < 1) return;
 
-		return this.state.emojis.map(emoji => {
+		return this.state.favs.map(emoji => {
 			return (
 				<Emoji
 					key={emoji}

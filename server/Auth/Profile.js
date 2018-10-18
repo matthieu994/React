@@ -1,7 +1,7 @@
 var User = require("../models/UserSchema");
 var userTools = require("./Tools");
 
-module.exports = function(app) {
+module.exports = app => {
 	app.get("/Profile/data", (req, res) => {
 		userTools
 			.getUser(req.headers.token, res, "username image")

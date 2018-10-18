@@ -2,6 +2,7 @@ var models = require("../models/ChatSchema");
 var User = require("../models/UserSchema");
 var Tools = require("../Auth/Tools");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
 
 module.exports = function(io) {
 	var lio = io.of("/Chat");
@@ -32,6 +33,7 @@ module.exports = function(io) {
 					if (err) return err;
 					friend.conversations.push(conversation);
 					friend.save();
+					sendMail(friend, user);
 					lio.to(`${friend.socket}`).emit("createConversation", conversation);
 					cb("OK");
 				});
@@ -83,3 +85,30 @@ module.exports = function(io) {
 		});
 	});
 };
+
+function sendMail(friend, sender) {
+	let transporter = nodemailer.createTransport({
+		host: "mail.matthieu-petit.ml",
+		port: 465,
+		secure: true, // true: 465
+		auth: {
+			user: "contact@matthieu-petit.ml", // generated ethereal user
+			pass: process.env.MAIL_PASSWORD // generated ethereal password
+		}
+	});
+
+	let mailOptions = {
+		from: `${sender.username}`, // sender address
+		to: "nograe117@gmail.com", // list of receivers
+		subject: `Hey ${friend.username} ✔`, // Subject line
+		html: `<b>You have recieved a message from ${sender.username}</b>` // html body
+	};
+
+	transporter.sendMail(mailOptions, (error, info) => {
+		if (error) {
+			return console.log(error);
+		}
+		console.log("Message sent: %s", info.messageId);
+		console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+	});
+}
