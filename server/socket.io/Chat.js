@@ -2,7 +2,6 @@ var models = require("../models/ChatSchema");
 var User = require("../models/UserSchema");
 var Tools = require("../Auth/Tools");
 const jwt = require("jsonwebtoken");
-const nodemailer = require("nodemailer");
 
 module.exports = function(io) {
 	var lio = io.of("/Chat");
@@ -33,9 +32,9 @@ module.exports = function(io) {
 					if (err) return err;
 					friend.conversations.push(conversation);
 					friend.save();
-					sendMail(friend, user);
 					lio.to(`${friend.socket}`).emit("createConversation", conversation);
 					cb("OK");
+					// sendMail(friend, user, data.message);
 				});
 			});
 		});
@@ -86,29 +85,37 @@ module.exports = function(io) {
 	});
 };
 
-function sendMail(friend, sender) {
-	let transporter = nodemailer.createTransport({
-		host: "mail.matthieu-petit.ml",
-		port: 465,
-		secure: true, // true: 465
-		auth: {
-			user: "contact@matthieu-petit.ml", // generated ethereal user
-			pass: process.env.MAIL_PASSWORD // generated ethereal password
-		}
+function sendMail(friend, sender, message) {
+	const mailjet = require("node-mailjet").connect(
+		process.env.MJ_APIKEY_PUBLIC,
+		process.env.MJ_APIKEY_PRIVATE
+	);
+	const request = mailjet.post("send", { version: "v3.1" }).request({
+		Messages: [
+			{
+				From: {
+					Email: "contact@matthieu-petit.ml",
+					Name: "Matthieu-Apps"
+				},
+				To: [
+					{
+						Email: `nograe117@gmail.com `,
+						Name: `${friend.username}`
+					}
+				],
+				Subject: `Nouvelle conversation avec ${sender.username} !`,
+				HTMLPart: `<h2>Hey ${friend.username} !, <i>${
+					sender.username
+				}</i> vous a envoyé un message !</h2><br />
+				<h4>${sender.username}</h4>: ${message}`
+			}
+		]
 	});
-
-	let mailOptions = {
-		from: `${sender.username}`, // sender address
-		to: "nograe117@gmail.com", // list of receivers
-		subject: `Hey ${friend.username} ✔`, // Subject line
-		html: `<b>You have recieved a message from ${sender.username}</b>` // html body
-	};
-
-	transporter.sendMail(mailOptions, (error, info) => {
-		if (error) {
-			return console.log(error);
-		}
-		console.log("Message sent: %s", info.messageId);
-		console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-	});
+	request
+		.then(result => {
+			console.log(result.body);
+		})
+		.catch(err => {
+			console.log(err.statusCode);
+		});
 }
