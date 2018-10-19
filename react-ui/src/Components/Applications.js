@@ -30,6 +30,7 @@ export class Applications extends Component {
 	}
 }
 
+let cards = [];
 class Card extends Component {
 	constructor() {
 		super();
@@ -52,6 +53,7 @@ class Card extends Component {
 		});
 		window.addEventListener("mousemove", this.elementDrag);
 		window.addEventListener("mouseup", this.closeDragElement);
+		cards[this.props.index].classList.add("active");
 	}
 
 	elementDrag = e => {
@@ -65,8 +67,14 @@ class Card extends Component {
 				pos4: e.clientY
 			}),
 			() => {
-                console.log(cards[this.props.index].getBoundingClientRect())
-				if (cards[this.props.index].getBoundingClientRect().x - this.state.pos1 > 0 && cards[this.props.index].getBoundingClientRect().x- this.state.pos1 + cards[this.props.index].getBoundingClientRect().width < window.innerWidth)
+				console.log(cards[this.props.index].getBoundingClientRect());
+				if (
+					cards[this.props.index].getBoundingClientRect().x - this.state.pos1 > 20 &&
+					cards[this.props.index].getBoundingClientRect().x -
+						this.state.pos1 +
+						cards[this.props.index].getBoundingClientRect().width <
+						window.innerWidth - 20
+				)
 					cards[this.props.index].style.left =
 						cards[this.props.index].style.left.slice(0, -2) - this.state.pos1 + "px";
 				// cards[this.props.index].style.top =
@@ -78,6 +86,7 @@ class Card extends Component {
 	closeDragElement = () => {
 		window.removeEventListener("mousemove", this.elementDrag);
 		window.removeEventListener("mouseup", this.closeDragElement);
+		cards[this.props.index].classList.remove("active");
 	};
 
 	render() {
@@ -96,5 +105,3 @@ class Card extends Component {
 		);
 	}
 }
-
-let cards = [];
