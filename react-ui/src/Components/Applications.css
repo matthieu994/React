@@ -34,4 +34,5 @@ footer a:hover {
     padding: 20px;
     height: 250px;
     width: 280px;
-    background-color: #e0edff; }
+    background-color: #e0edff;
+    cursor: grab; }
