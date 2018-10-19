@@ -28,18 +28,17 @@ footer a:hover {
     text-align: justify;
 }
 
-.wrapper {
+.apps-wrapper {
     margin: 0 auto;
     text-align: center;
-}
-
-.wrapper>div {
-    border-radius: 15px;
-    box-sizing: border-box;
-    display: inline-flex;
-    margin: 10px;
-    padding: 20px;
-    height: 250px;
-    width: 280px;
-    background-color: #e0edff;
+    &>div {
+        border-radius: 15px;
+        box-sizing: border-box;
+        display: inline-flex;
+        margin: 10px;
+        padding: 20px;
+        height: 250px;
+        width: 280px;
+        background-color: #e0edff;
+    }
 }
