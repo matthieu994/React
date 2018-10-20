@@ -37,12 +37,15 @@ footer a:hover {
         box-sizing: border-box;
         display: inline-flex;
         margin: 10px;
-        padding: 20px;
-        height: 250px;
-        width: 280px;
-        background-color: #e0edff;
-        cursor: grab;
+        padding: 0 0 20px 0;
+        height: 14vmax;
+        width: 13vmax;
         z-index: 0;
+        .card-header {
+            border-radius: 15px 15px 0 0;
+            background-color: rgba(44, 104, 218, 0.61);
+            cursor: grab;
+        }
         &.active {
             z-index: 1;
             box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.3);

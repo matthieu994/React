@@ -11,10 +11,6 @@ export class Applications extends Component {
 		};
 	}
 
-	handleDrag(e) {
-		e.preventDefault();
-	}
-
 	renderApplications() {
 		return this.state.apps.map((app, index) => {
 			return <Card key={index} index={index} app={app} />;
@@ -31,6 +27,7 @@ export class Applications extends Component {
 }
 
 let cards = [];
+
 class Card extends Component {
 	constructor() {
 		super();
@@ -53,7 +50,11 @@ class Card extends Component {
 		});
 		window.addEventListener("mousemove", this.elementDrag);
 		window.addEventListener("mouseup", this.closeDragElement);
-		cards[this.props.index].classList.add("active");
+		this.current = document.querySelector(
+			`.apps-wrapper > .card[index="${this.props.index}"]`
+		);
+		this.current.classList.add("active");
+		this.oldBounds = this.current.getBoundingClientRect();
 	}
 
 	elementDrag = e => {
@@ -67,18 +68,18 @@ class Card extends Component {
 				pos4: e.clientY
 			}),
 			() => {
-				console.log(cards[this.props.index].getBoundingClientRect());
+				// console.log(this.current.getBoundingClientRect());
 				if (
-					cards[this.props.index].getBoundingClientRect().x - this.state.pos1 > 20 &&
-					cards[this.props.index].getBoundingClientRect().x -
+					this.current.getBoundingClientRect().x - this.state.pos1 > 20 &&
+					this.current.getBoundingClientRect().x -
 						this.state.pos1 +
-						cards[this.props.index].getBoundingClientRect().width <
+						this.current.getBoundingClientRect().width <
 						window.innerWidth - 20
 				)
-					cards[this.props.index].style.left =
-						cards[this.props.index].style.left.slice(0, -2) - this.state.pos1 + "px";
-				// cards[this.props.index].style.top =
-				// cards[this.props.index].style.top.slice(0, -2) - this.state.pos2 + "px";
+					this.current.style.left =
+						this.current.style.left.slice(0, -2) - this.state.pos1 + "px";
+				this.current.style.top =
+					this.current.style.top.slice(0, -2) - this.state.pos2 + "px";
 			}
 		);
 	};
@@ -86,12 +87,38 @@ class Card extends Component {
 	closeDragElement = () => {
 		window.removeEventListener("mousemove", this.elementDrag);
 		window.removeEventListener("mouseup", this.closeDragElement);
-		cards[this.props.index].classList.remove("active");
+		this.checkSize();
 	};
+
+	checkSize() {
+		let current = this.current;
+		let currentBounds = this.current.getBoundingClientRect();
+		let swapped;
+		cards.forEach(card => {
+			if (card.getAttribute("index") === this.props.index || swapped) return;
+			let bounds = card.getBoundingClientRect();
+			if (
+				currentBounds.x + currentBounds.width < bounds.x + bounds.width &&
+				currentBounds.x + currentBounds.width > bounds.x + bounds.width / 2
+			) {
+				swapped = true;
+				this.swapChild(card.getAttribute("index"));
+			}
+		});
+		current.style.left = "";
+		current.style.top = "";
+		this.current.classList.remove("active");
+	}
+
+	swapChild(index) {
+		cards[index].parentNode.insertBefore(cards[index], this.current);
+		cards = document.querySelectorAll(".apps-wrapper > .card");
+	}
 
 	render() {
 		return (
-			<div className="card" onMouseDown={e => this.handleDrag(e)} key={this.props.index}>
+			<div className="card" key={this.props.index} index={this.props.index}>
+				<div className="card-header" onMouseDown={e => this.handleDrag(e)} />
 				<div className="card-body">
 					<h5 className="card-title">{this.props.app.title}</h5>
 					<p className="card-text">{this.props.app.desc}</p>
