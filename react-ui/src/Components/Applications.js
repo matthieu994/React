@@ -18,11 +18,7 @@ export class Applications extends Component {
 	}
 
 	render() {
-		return (
-			<div>
-				<div className="apps-wrapper">{this.renderApplications()}</div>
-			</div>
-		);
+		return <div className="apps-wrapper">{this.renderApplications()}</div>;
 	}
 }
 
@@ -54,7 +50,10 @@ class Card extends Component {
 			`.apps-wrapper > .card[index="${this.props.index}"]`
 		);
 		this.current.classList.add("active");
-		this.oldBounds = this.current.getBoundingClientRect();
+		this.oldBounds = {
+			left: this.current.offsetLeft,
+			top: this.current.offsetTop
+		};
 	}
 
 	elementDrag = e => {
@@ -75,11 +74,12 @@ class Card extends Component {
 						this.state.pos1 +
 						this.current.getBoundingClientRect().width <
 						window.innerWidth - 20
-				)
+				) {
 					this.current.style.left =
 						this.current.style.left.slice(0, -2) - this.state.pos1 + "px";
-				this.current.style.top =
-					this.current.style.top.slice(0, -2) - this.state.pos2 + "px";
+					this.current.style.top =
+						this.current.style.top.slice(0, -2) - this.state.pos2 + "px";
+				}
 			}
 		);
 	};
@@ -87,32 +87,52 @@ class Card extends Component {
 	closeDragElement = () => {
 		window.removeEventListener("mousemove", this.elementDrag);
 		window.removeEventListener("mouseup", this.closeDragElement);
-		this.checkSize();
+		this.check();
 	};
 
-	checkSize() {
+	check() {
 		let current = this.current;
-		let currentBounds = this.current.getBoundingClientRect();
-		let swapped;
+		let swapped = false;
 		cards.forEach(card => {
 			if (card.getAttribute("index") === this.props.index || swapped) return;
-			let bounds = card.getBoundingClientRect();
-			if (
-				currentBounds.x + currentBounds.width < bounds.x + bounds.width &&
-				currentBounds.x + currentBounds.width > bounds.x + bounds.width / 2
-			) {
+			if (this.isWithin(card)) {
 				swapped = true;
-				this.swapChild(card.getAttribute("index"));
+				this.swapChild(card);
 			}
 		});
-		current.style.left = "";
-		current.style.top = "";
+		if (!swapped) {
+			current.style.left = "";
+			current.style.top = "";
+			this.current.classList.remove("active");
+		}
+	}
+	
+	swapChild(card) {
 		this.current.classList.remove("active");
+		this.current.style.left = card.offsetLeft - this.oldBounds.left + "px";
+		this.current.style.top = card.offsetTop - this.oldBounds.top + "px";
+		
+		card.style.left = this.oldBounds.left - card.offsetLeft + "px";
+		card.style.top = this.oldBounds.top - card.offsetTop + "px";
+		setTimeout(() => {
+			card.parentNode.insertBefore(card, this.current);
+			this.current.style.left = "";
+			this.current.style.top = "";
+			card.style.left = "";
+			card.style.top = "";
+		}, 300);
+		cards = document.querySelectorAll(".apps-wrapper > .card");
 	}
 
-	swapChild(index) {
-		cards[index].parentNode.insertBefore(cards[index], this.current);
-		cards = document.querySelectorAll(".apps-wrapper > .card");
+	isWithin(card) {
+		let currentBounds = this.current.getBoundingClientRect();
+		let bounds = card.getBoundingClientRect();
+		if (
+			currentBounds.x + currentBounds.width < bounds.x + bounds.width &&
+			currentBounds.x + currentBounds.width > bounds.x + bounds.width / 2
+		)
+			return true;
+		else return false;
 	}
 
 	render() {
@@ -132,3 +152,12 @@ class Card extends Component {
 		);
 	}
 }
+
+(function() {
+	document.onmousemove = handleMouseMove;
+	var node = document.createElement("span");
+	document.querySelector("body").appendChild(node);
+	function handleMouseMove(event) {
+		node.innerText = `${event.x}, ${event.y}`;
+	}
+})();

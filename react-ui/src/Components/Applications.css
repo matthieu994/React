@@ -25,21 +25,34 @@ footer a:hover {
 
 .apps-wrapper {
   margin: 0 auto;
-  text-align: center; }
+  text-align: center;
+  position: relative; }
   .apps-wrapper > .card {
-    box-shadow: 0px 1.5px 8px 0.5px rgba(0, 0, 0, 0.15);
+    left: 0px;
+    top: 0px;
+    border: unset;
+    box-shadow: 0px 1.5px 8px 0.5px rgba(0, 0, 0, 0.2);
     border-radius: 15px;
     box-sizing: border-box;
     display: inline-flex;
     margin: 10px;
     padding: 0 0 20px 0;
-    height: 14vmax;
+    height: 12vmax;
+    min-height: 230px;
     width: 13vmax;
-    z-index: 0; }
+    min-width: 230px;
+    z-index: 0;
+    overflow: hidden; }
+    .apps-wrapper > .card .card-body {
+      padding-top: 10px; }
     .apps-wrapper > .card .card-header {
       border-radius: 15px 15px 0 0;
       background-color: rgba(44, 104, 218, 0.61);
       cursor: grab; }
+    .apps-wrapper > .card:not(.active) {
+      transition: all 0.3s; }
     .apps-wrapper > .card.active {
       z-index: 1;
       box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.3); }
+      .apps-wrapper > .card.active .card-header {
+        background-color: rgba(44, 104, 218, 0.8); }
