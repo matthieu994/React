@@ -323,7 +323,7 @@ class Chat extends Component {
 		if (
 			!window.location.hash &&
 			this.state.friends.length > 0 &&
-			this.state.conversations.length > 0
+			this.state.conversations.length < 0
 		) {
 			this.props.history.push(`#${this.state.friends[0]._id}`);
 		}
