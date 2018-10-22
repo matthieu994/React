@@ -23,5 +23,10 @@
         "title": "Chat 💬",
         "desc": "Discutez en ligne avec vos amis.",
         "Component": "Chat"
+    },
+    {
+        "title": "Profil 👤",
+        "desc": "Gérez votre profil.",
+        "Component": "Profile"
     }
 ]

@@ -57,10 +57,15 @@ class Chat extends Component {
 		this.socket.on("newMessage", data => {
 			let conversations = this.state.conversations;
 			conversations.find(convo => convo._id === data.id).messages.push(data.message);
-			this.setState({
-				conversations
-			});
-			this.scrollBottom();
+			this.setState(
+				{
+					conversations: this.sortConvs(this.state.conversations)
+				},
+				() => {
+					this.handleUrl();
+					this.scrollBottom();
+				}
+			);
 		});
 
 		this.socket.on("deleteConversation", id => {
@@ -170,11 +175,20 @@ class Chat extends Component {
 			}
 		}).then(data => {
 			currentUsername = data.data.username;
+			this.sortConvs(data.data.conversations);
 			this.setState({
 				friends: data.data.friends,
 				conversations: data.data.conversations
 			});
 		});
+	}
+
+	sortConvs(arr) {
+		return arr.sort(
+			(a, b) =>
+				Date.parse(b.messages[b.messages.length - 1].time) -
+				Date.parse(a.messages[a.messages.length - 1].time)
+		);
 	}
 
 	renderConversationsList() {
@@ -320,13 +334,13 @@ class Chat extends Component {
 
 	renderConversation() {
 		if (!this.state.mounted) return;
-		if (
-			!window.location.hash &&
-			this.state.friends.length > 0 &&
-			this.state.conversations.length < 0
-		) {
-			this.props.history.push(`#${this.state.friends[0]._id}`);
+		// Si pas de hash et conv>=1
+		if (!window.location.hash) {
+			if (this.state.conversations.length > 0) {
+				// return this.props.history.push(`#${this.state.conversation._id}`);
+			}
 		}
+		// Si pas de new conv et pas de conv active
 		if (!this.state.new && this.state.conversation === "")
 			return (
 				<div className="first-conversation">

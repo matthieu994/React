@@ -29,7 +29,7 @@ class UserIcon extends Component {
 	}
 
 	logout() {
-		localStorage.clear("token");
+		localStorage.removeItem("token");
 		this.setState({
 			isAuth: false
 		});

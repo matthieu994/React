@@ -26,7 +26,8 @@ footer a:hover {
 .apps-wrapper {
   margin: 0 auto;
   text-align: center;
-  position: relative; }
+  position: relative;
+  padding: 0 4vw; }
   .apps-wrapper > .card {
     left: 0px;
     top: 0px;

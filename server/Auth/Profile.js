@@ -26,11 +26,13 @@ module.exports = app => {
 		userTools.getUser(req.headers.token, res, "-_id friends").then(user => {
 			var promises = JSON.parse(JSON.stringify(user.friends)).map(friend => {
 				return userTools.getUserImg(friend._id).then(img => {
+					if (!img) return friend;
 					friend.url = img.image;
 					return friend;
 				});
 			});
 			Promise.all(promises).then(function(results) {
+				// results.filter(a => a);
 				res.send(results);
 			});
 		});
