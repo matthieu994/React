@@ -16,7 +16,8 @@ class Chat extends Component {
 			conversations: [],
 			conversation: "",
 			friends: [],
-			new: ""
+			new: "",
+			mounted: false
 		};
 	}
 
@@ -33,11 +34,12 @@ class Chat extends Component {
 			}
 		});
 
-		window.addEventListener("resize", this.updateDimensions.bind(this));
+		window.addEventListener("resize", this.updateDimensions);
 
 		this.socket.on("connect", () => {
 			this.getData().then(() => {
 				this.handleUrl();
+				this.setState({ mounted: true });
 			});
 		});
 
@@ -91,7 +93,7 @@ class Chat extends Component {
 
 	componentWillUnmount() {
 		this.socket.disconnect();
-		window.removeEventListener("resize", this.updateDimensions.bind(this));
+		window.removeEventListener("resize", this.updateDimensions);
 	}
 
 	componentDidUpdate() {
@@ -100,7 +102,7 @@ class Chat extends Component {
 		}
 	}
 
-	updateDimensions() {
+	updateDimensions = () => {
 		const padding = 50;
 		document.querySelector(".chat").style.padding =
 			padding / 2 + "px " + padding * 2 + "px";
@@ -111,7 +113,7 @@ class Chat extends Component {
 				document.querySelector("header").clientHeight +
 				"px";
 		});
-	}
+	};
 
 	scrollBottom() {
 		let el = document.querySelector(".messages");
@@ -317,6 +319,7 @@ class Chat extends Component {
 	}
 
 	renderConversation() {
+		if (!this.state.mounted) return;
 		if (
 			!window.location.hash &&
 			this.state.friends.length > 0 &&
@@ -415,20 +418,20 @@ class Message extends Component {
 class Emojis extends Component {
 	componentDidMount() {
 		this.updateDimensions();
-		window.addEventListener("click", this.closeMenu.bind(this));
-		window.addEventListener("resize", this.updateDimensions.bind(this));
+		window.addEventListener("click", this.closeMenu);
+		window.addEventListener("resize", this.updateDimensions);
 	}
 
-	updateDimensions() {
+	updateDimensions = () => {
 		let parent = document.querySelector(".emojis");
 		let overlay = document.querySelector(".emojis .overlay");
 		overlay.style.top = totalOffset(parent).top - overlay.offsetHeight - 7 + "px";
 		overlay.style.left = totalOffset(parent).left - overlay.offsetWidth / 2 + "px";
-	}
+	};
 
 	componentWillUnmount() {
-		window.removeEventListener("click", this.closeMenu.bind(this));
-		window.removeEventListener("resize", this.updateDimensions.bind(this));
+		window.removeEventListener("click", this.closeMenu);
+		window.removeEventListener("resize", this.updateDimensions);
 	}
 
 	renderEmojis() {
@@ -458,7 +461,7 @@ class Emojis extends Component {
 		el.focus();
 	}
 
-	closeMenu(e) {
+	closeMenu = e => {
 		e.preventDefault();
 		e.stopPropagation();
 		if (
@@ -466,7 +469,7 @@ class Emojis extends Component {
 			!document.querySelector(".emojis .overlay").contains(e.target)
 		)
 			document.querySelector(".emojis .overlay").style.visibility = "hidden";
-	}
+	};
 
 	toggle(e) {
 		e.preventDefault();
@@ -536,14 +539,14 @@ class FavEmojis extends Component {
 	}
 	componentDidMount() {
 		this.getFavs();
-		window.addEventListener("resize", this.updateDimensions.bind(this));
+		window.addEventListener("resize", this.updateDimensions);
 	}
 
 	componentWillUnmount() {
-		window.removeEventListener("resize", this.updateDimensions.bind(this));
+		window.removeEventListener("resize", this.updateDimensions);
 	}
 
-	updateDimensions() {
+	updateDimensions = () => {
 		if (!this.state.emojis) return;
 		let bar = document.querySelector(".input-container .fav-emojis");
 		let parent = document.querySelector(".input-container");
@@ -561,7 +564,7 @@ class FavEmojis extends Component {
 		);
 		bar.style.top = totalOffset(parent).top - bar.offsetHeight + "px";
 		bar.style.left = totalOffset(parent).left + parent.offsetWidth / 3 + "px";
-	}
+	};
 
 	getFavs() {
 		let favs = JSON.parse(localStorage.getItem("emoji-mart.frequently"));

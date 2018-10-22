@@ -16,7 +16,8 @@
   .friends .fa-check {
     font-size: 1.4rem; }
   .friends h5 {
-    margin-bottom: 0; }
+    margin-bottom: 0;
+    word-break: break-all; }
   .friends h1 {
     font-family: 'Roboto';
     font-weight: 100; }

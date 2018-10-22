@@ -1,26 +1,26 @@
 [
     {
-        "title": "TodoList",
+        "title": "TodoList 📒",
         "desc": "Créer et partagez vos listes avec vos amis.",
         "Component": "TodoList"
     },
     {
-        "title": "Transports",
+        "title": "Transports 🚎",
         "desc": "Consultez les différents moyens de transports près de chez vous.",
         "Component": "Transports"
     },
     {
-        "title": "TicTacToe",
+        "title": "TicTacToe ❌⭕",
         "desc": "Jouez en ligne avec vos amis.",
         "Component": "TicTacToe"
     },
     {
-        "title": "AgarClone",
+        "title": "AgarClone 🔘",
         "desc": "Un simple clone du jeu agar.io.",
         "Component": "AgarClone"
     },
     {
-        "title": "Chat",
+        "title": "Chat 💬",
         "desc": "Discutez en ligne avec vos amis.",
         "Component": "Chat"
     }

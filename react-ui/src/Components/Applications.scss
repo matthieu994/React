@@ -42,12 +42,12 @@ footer a:hover {
         display: inline-flex;
         margin: 10px;
         padding: 0 0 20px 0;
-        height: 12vmax;
-        min-height: 230px;
-        width: 13vmax;
+        max-height: 13vmax;
+        min-height: 240px;
+        max-width: 15vmax;
         min-width: 230px;
         z-index: 0;
-        overflow: hidden;
+        overflow: overlay;
         .card-body {
             padding-top: 10px;
         }
