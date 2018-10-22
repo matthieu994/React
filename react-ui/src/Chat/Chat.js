@@ -33,7 +33,7 @@ class Chat extends Component {
 			}
 		});
 
-		window.addEventListener("resize", this.updateDimensions);
+		window.addEventListener("resize", this.updateDimensions.bind(this));
 
 		this.socket.on("connect", () => {
 			this.getData().then(() => {
@@ -91,7 +91,7 @@ class Chat extends Component {
 
 	componentWillUnmount() {
 		this.socket.disconnect();
-		window.removeEventListener("resize", this.updateDimensions);
+		window.removeEventListener("resize", this.updateDimensions.bind(this));
 	}
 
 	componentDidUpdate() {
@@ -415,8 +415,8 @@ class Message extends Component {
 class Emojis extends Component {
 	componentDidMount() {
 		this.updateDimensions();
-		window.addEventListener("click", this.closeMenu);
-		window.addEventListener("resize", this.updateDimensions);
+		window.addEventListener("click", this.closeMenu.bind(this));
+		window.addEventListener("resize", this.updateDimensions.bind(this));
 	}
 
 	updateDimensions() {
@@ -427,8 +427,8 @@ class Emojis extends Component {
 	}
 
 	componentWillUnmount() {
-		window.removeEventListener("click", this.closeMenu);
-		window.removeEventListener("resize", this.updateDimensions);
+		window.removeEventListener("click", this.closeMenu.bind(this));
+		window.removeEventListener("resize", this.updateDimensions.bind(this));
 	}
 
 	renderEmojis() {
@@ -536,11 +536,11 @@ class FavEmojis extends Component {
 	}
 	componentDidMount() {
 		this.getFavs();
-		window.addEventListener("resize", () => this.updateDimensions());
+		window.addEventListener("resize", this.updateDimensions.bind(this));
 	}
 
 	componentWillUnmount() {
-		window.removeEventListener("resize", this.updateDimensions);
+		window.removeEventListener("resize", this.updateDimensions.bind(this));
 	}
 
 	updateDimensions() {
