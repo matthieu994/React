@@ -8,6 +8,7 @@ import "./Chat.css";
 import "emoji-mart/css/emoji-mart.css";
 import Dropdown from "./Dropdown";
 
+let currentUsername;
 class Chat extends Component {
 	constructor() {
 		super();
@@ -68,7 +69,7 @@ class Chat extends Component {
 			) {
 				if (this.state.conversations[this.state.conversation].users.length === 2) {
 					let friend = this.state.conversations[this.state.conversation].users.find(
-						user => user !== this.username
+						user => user !== currentUsername
 					);
 					this.setState({
 						new: this.state.friends.find(fr => fr._id === friend)
@@ -116,6 +117,9 @@ class Chat extends Component {
 		let el = document.querySelector(".messages");
 		if (!el) return;
 		el.scrollTop = el.scrollHeight;
+		el.addEventListener("scroll", () => {
+			document.querySelector(".messages > .time").style.visibility = "hidden";
+		});
 	}
 
 	findConversation(name) {
@@ -123,7 +127,7 @@ class Chat extends Component {
 		let convo;
 		this.state.conversations.forEach((conversation, index) => {
 			conversation.users.forEach(user => {
-				if (user === name && user !== this.username) convo = index;
+				if (user === name && user !== currentUsername) convo = index;
 			});
 		});
 		return convo;
@@ -163,7 +167,7 @@ class Chat extends Component {
 				socket: this.socket.id
 			}
 		}).then(data => {
-			this.username = data.data.username;
+			currentUsername = data.data.username;
 			this.setState({
 				friends: data.data.friends,
 				conversations: data.data.conversations
@@ -176,7 +180,7 @@ class Chat extends Component {
 		return [
 			this.state.conversations.map((conversation, index) => {
 				if (!conversation) return null;
-				let users = conversation.users.filter(user => user !== this.username); //liste users in conv
+				let users = conversation.users.filter(user => user !== currentUsername); //liste users in conv
 				return (
 					<div
 						key={index}
@@ -263,7 +267,7 @@ class Chat extends Component {
 		this.socket.emit("sendMessage", {
 			conversation: this.state.conversations[this.state.conversation]._id,
 			message: input.value.trim(),
-			sender: this.username
+			sender: currentUsername
 		});
 		input.value = "";
 		document.querySelector(".emojis .overlay").style.visibility = "hidden";
@@ -336,14 +340,9 @@ class Chat extends Component {
 		return [
 			<div key="messages" className="messages">
 				{this.state.conversations[this.state.conversation].messages.map(message => {
-					return (
-						<div
-							key={message.time}
-							className={message.sender === this.username ? "message me" : "message"}>
-							<p>{message.message}</p>
-						</div>
-					);
+					return <Message key={message.time} message={message} />;
 				})}
+				<span className="time" />
 			</div>,
 			this.renderInput()
 		];
@@ -360,8 +359,58 @@ class Chat extends Component {
 		);
 	}
 }
-
 export default withRouter(Chat);
+
+class Message extends Component {
+	constructor(props) {
+		super(props);
+		this.message = React.createRef();
+		this.time = new Date(Date.parse(this.props.message.time));
+	}
+
+	showTime() {
+		let time = document.querySelector(".messages > .time");
+		time.style.visibility = "visible";
+		time.innerHTML = `${this.time.getHours()}:${this.time.getMinutes()}`;
+		if (this.message.current.parentElement.classList.contains("me")) {
+			time.style.left =
+				this.message.current.getBoundingClientRect().left - time.offsetWidth - 5 + "px";
+		} else {
+			time.style.left =
+				this.message.current.getBoundingClientRect().left +
+				5 +
+				this.message.current.offsetWidth +
+				"px";
+		}
+		time.style.top =
+			this.message.current.getBoundingClientRect().top +
+			this.message.current.offsetHeight / 2 -
+			time.offsetHeight / 2 +
+			"px";
+	}
+
+	hideTime() {
+		document.querySelector(".messages > .time").style.visibility = "hidden";
+	}
+
+	render() {
+		return (
+			<div
+				className={
+					this.props.message.sender === currentUsername ? "message me" : "message"
+				}>
+				<p
+					ref={this.message}
+					onMouseEnter={() => this.showTime()}
+					onMouseLeave={() => {
+						this.hideTime();
+					}}>
+					{this.props.message.message}
+				</p>
+			</div>
+		);
+	}
+}
 
 class Emojis extends Component {
 	componentDidMount() {
@@ -499,13 +548,13 @@ class FavEmojis extends Component {
 		let bar = document.querySelector(".input-container .fav-emojis");
 		let parent = document.querySelector(".input-container");
 		let width = parent.offsetWidth / 3;
-		let favsCount = Math.floor(width / (32 + 10));
+		let favsCount = Math.floor(width / (32 + 11));
 		this.setState(
 			{
 				favs: this.state.emojis.slice(0, favsCount)
 			},
 			() => {
-				bar.style.width = this.state.favs.length * (32 + 11) + "px";
+				bar.style.width = this.state.favs.length * (32 + 13) + "px";
 				if (this.state.favs.length === 0) bar.style.visibility = "hidden";
 				else bar.style.visibility = "";
 			}

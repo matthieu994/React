@@ -12,13 +12,30 @@ export class Applications extends Component {
 	}
 
 	renderApplications() {
-		return this.state.apps.map((app, index) => {
-			return <Card key={index} index={index} app={app} />;
-		});
+		let newApps = localStorage.getItem("apps");
+		if (newApps) {
+			return newApps.split(",").map((appIndex, index) => {
+				return <Card key={appIndex} index={appIndex} app={this.state.apps[appIndex]} />;
+			});
+		} else {
+			return this.state.apps.map((app, index) => {
+				return <Card key={index} index={index} app={app} />;
+			});
+		}
+	}
+
+	reset() {
+		localStorage.removeItem("apps");
+		this.render()
 	}
 
 	render() {
-		return <div className="apps-wrapper">{this.renderApplications()}</div>;
+		return (
+			<div className="apps-wrapper">
+				<i className="fas fa-undo" onClick={() => this.reset()} />
+				{this.renderApplications()}
+			</div>
+		);
 	}
 }
 
@@ -106,12 +123,12 @@ class Card extends Component {
 			this.current.classList.remove("active");
 		}
 	}
-	
+
 	swapChild(card) {
 		this.current.classList.remove("active");
 		this.current.style.left = card.offsetLeft - this.oldBounds.left + "px";
 		this.current.style.top = card.offsetTop - this.oldBounds.top + "px";
-		
+
 		card.style.left = this.oldBounds.left - card.offsetLeft + "px";
 		card.style.top = this.oldBounds.top - card.offsetTop + "px";
 		setTimeout(() => {
@@ -120,8 +137,13 @@ class Card extends Component {
 			this.current.style.top = "";
 			card.style.left = "";
 			card.style.top = "";
+			cards = document.querySelectorAll(".apps-wrapper > .card");
+			let apps = [];
+			cards.forEach(card => {
+				apps.push(card.getAttribute("index"));
+			});
+			localStorage.setItem("apps", apps);
 		}, 300);
-		cards = document.querySelectorAll(".apps-wrapper > .card");
 	}
 
 	isWithin(card) {
@@ -153,11 +175,11 @@ class Card extends Component {
 	}
 }
 
-(function() {
-	document.onmousemove = handleMouseMove;
-	var node = document.createElement("span");
-	document.querySelector("body").appendChild(node);
-	function handleMouseMove(event) {
-		node.innerText = `${event.x}, ${event.y}`;
-	}
-})();
+// (function() {
+// 	document.onmousemove = handleMouseMove;
+// 	var node = document.createElement("span");
+// 	document.querySelector("body").appendChild(node);
+// 	function handleMouseMove(event) {
+// 		node.innerText = `${event.x}, ${event.y}`;
+// 	}
+// })();
