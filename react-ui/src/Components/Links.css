@@ -26,22 +26,28 @@ header {
       background-color: #0069d9;
       border-color: #0062cc; }
   header .auth {
-    float: right; }
-    header .auth .register {
-      padding: 0px 15px 2px 15px;
-      color: #fff;
-      background-color: #0069d9;
-      text-transform: uppercase;
-      box-shadow: 1px 2px 8px 0px rgba(0, 0, 0, 0.6); }
-      header .auth .register:hover {
-        box-shadow: 1px 2px 8px 0px rgba(0, 0, 0, 0.3); }
-    header .auth .login {
-      color: #fff;
-      font-size: 18px;
-      text-transform: uppercase;
-      cursor: pointer; }
-      header .auth .login:hover {
-        color: #1b519a; }
+    float: right;
+    height: 100%;
+    color: #eef6ff;
+    font-size: 20px; }
+    header .auth a {
+      font-size: 25px;
+      padding: 2px 11px;
+      border-radius: 2px;
+      margin: 8px 8px;
+      display: inline-block;
+      transition: 0.3s all ease-out; }
+      header .auth a:hover {
+        border-radius: 7px;
+        box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.8); }
+    header .auth a.register {
+      color: #eef6ff;
+      background-color: #2460da;
+      border: 1px solid #eef6ff; }
+    header .auth a.login {
+      color: #2460da;
+      background-color: #eef6ff;
+      border: 1px solid #eef6ff; }
   header .fa-home {
     left: 0;
     top: 0;

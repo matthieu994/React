@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import verifAuth from "../Auth/verifAuth";
 import UserIcon from "../Components/UserIcon";
 import "./Links.css";
@@ -40,30 +40,28 @@ class Links extends Component {
 					{this.props.location.pathname === "/login" && (
 						<div className="register">
 							<span>Pas de compte ?</span>
-							<button onClick={() => this.props.history.push("register")}>
-								S'inscrire
-							</button>
+							<Link className="register" to={"/register"}>
+								Register
+							</Link>
 						</div>
 					)}
 					{this.props.location.pathname === "/register" && (
 						<div className="login">
 							<span>Déjà inscrit ?</span>
-							<button onClick={() => this.props.history.push("login")}>
-								Se connecter
-							</button>
+							<Link className="login" to={"/login"}>
+								Login
+							</Link>
 						</div>
 					)}
 					{this.props.location.pathname !== "/register" &&
 						this.props.location.pathname !== "/login" && (
-							<div className="auth">
-								<a className="login" onClick={() => this.props.history.push("/login")}>
+							<div className="buttons">
+								<Link className="login" to={"/login"}>
 									Login
-								</a>
-								<button
-									className="register"
-									onClick={() => this.props.history.push("register")}>
+								</Link>
+								<Link className="register" to={"/register"}>
 									Register
-								</button>
+								</Link>
 							</div>
 						)}
 				</div>
