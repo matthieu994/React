@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import verifAuth from "../Auth/verifAuth";
 import UserIcon from "../Components/UserIcon";
 import "./Links.css";
+import { toggleLoginModal } from "../redux/actions/index";
 
 class Links extends Component {
 	state = {
@@ -20,11 +22,26 @@ class Links extends Component {
 
 	isAuth() {
 		verifAuth().then(isAuth => {
-			this.setState({
-				isMounted: true,
-				isAuth
-			});
+			this.setState(
+				{
+					isMounted: true,
+					isAuth
+				},
+				() => this.handleUrl()
+			);
 		});
+	}
+
+	handleUrl() {
+		if (
+			!this.state.isAuth &&
+			this.state.isMounted &&
+			this.props.location.pathname !== "/" &&
+			this.props.location.pathname !== "/register" &&
+			this.props.location.pathname !== "/login"
+		) {
+			this.props.history.push("/login");
+		}
 	}
 
 	componentWillUnmount() {
@@ -33,6 +50,16 @@ class Links extends Component {
 
 	render() {
 		// this.changeLocation();
+		let login = (
+			<a className="login" onClick={() => this.props.toggleLoginModal()}>
+				Login
+			</a>
+		);
+		let register = (
+			<Link className="register" to={"/register"}>
+				Register
+			</Link>
+		);
 		let links;
 		if (this.state.isMounted && !this.state.isAuth) {
 			links = (
@@ -40,41 +67,24 @@ class Links extends Component {
 					{this.props.location.pathname === "/login" && (
 						<div className="register">
 							<span>Pas de compte ?</span>
-							<Link className="register" to={"/register"}>
-								Register
-							</Link>
+							{register}
 						</div>
 					)}
 					{this.props.location.pathname === "/register" && (
 						<div className="login">
 							<span>Déjà inscrit ?</span>
-							<Link className="login" to={"/login"}>
-								Login
-							</Link>
+							{login}
 						</div>
 					)}
 					{this.props.location.pathname !== "/register" &&
 						this.props.location.pathname !== "/login" && (
 							<div className="buttons">
-								<Link className="login" to={"/login"}>
-									Login
-								</Link>
-								<Link className="register" to={"/register"}>
-									Register
-								</Link>
+								{login}
+								{register}
 							</div>
 						)}
 				</div>
 			);
-		}
-		if (
-			this.state.isMounted &&
-			!this.state.isAuth &&
-			this.props.location.pathname !== "/" &&
-			this.props.location.pathname !== "/register" &&
-			this.props.location.pathname !== "/login"
-		) {
-			this.props.history.push("/login");
 		}
 
 		return (
@@ -92,4 +102,20 @@ class Links extends Component {
 	}
 }
 
-export default withRouter(Links);
+const mapStateToProps = state => {
+	return {
+		modal: state.loginModal
+	};
+};
+const mapDispatchToProps = dispatch => {
+	return {
+		toggleLoginModal: () => dispatch(toggleLoginModal())
+	};
+};
+
+export default withRouter(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(Links)
+);

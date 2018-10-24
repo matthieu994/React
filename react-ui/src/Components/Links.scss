@@ -30,8 +30,8 @@ header {
     .auth {
         float: right;
         height: 100%;
-        color: rgb(238, 246, 255);
         font-size: 20px;
+        color: rgb(238, 246, 255);
         a {
             font-size: 25px;
             padding: 2px 11px;
@@ -45,12 +45,12 @@ header {
             }
         }
         a.register {
-            color: rgb(238, 246, 255);
+            color: rgb(238, 246, 255) !important;
             background-color: #2460da;
             border: 1px solid rgb(238, 246, 255);
         }
         a.login {
-            color: #2460da;
+            color: #2460da !important;
             background-color: rgb(238, 246, 255);
             border: 1px solid rgb(238, 246, 255);
         }
