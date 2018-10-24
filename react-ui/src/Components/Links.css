@@ -30,21 +30,25 @@ header {
     height: 100%;
     font-size: 20px;
     color: #eef6ff; }
-    header .auth a {
+    header .auth a,
+    header .auth span {
       font-size: 25px;
       padding: 2px 11px;
       border-radius: 2px;
       margin: 8px 8px;
       display: inline-block;
       transition: 0.3s all ease-out; }
-      header .auth a:hover {
+      header .auth a:hover,
+      header .auth span:hover {
         border-radius: 7px;
         box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.8); }
-    header .auth a.register {
+    header .auth .register:not(div) {
+      cursor: pointer;
       color: #eef6ff !important;
       background-color: #2460da;
       border: 1px solid #eef6ff; }
-    header .auth a.login {
+    header .auth .login:not(div) {
+      cursor: pointer;
       color: #2460da !important;
       background-color: #eef6ff;
       border: 1px solid #eef6ff; }

@@ -56,7 +56,8 @@ class Login extends Component {
 	}
 
 	render() {
-		if (this.state.redirect || this.state.isAuth) {
+		if ((this.state.redirect || this.state.isAuth) && !this.props.location.pathname !== "/") {
+			console.log(this.props.location)
 			return <Redirect to="/" />;
 		}
 

@@ -32,7 +32,8 @@ header {
         height: 100%;
         font-size: 20px;
         color: rgb(238, 246, 255);
-        a {
+        a,
+        span {
             font-size: 25px;
             padding: 2px 11px;
             border-radius: 2px;
@@ -44,12 +45,14 @@ header {
                 box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.8);
             }
         }
-        a.register {
+        .register:not(div) {
+            cursor: pointer;
             color: rgb(238, 246, 255) !important;
             background-color: #2460da;
             border: 1px solid rgb(238, 246, 255);
         }
-        a.login {
+        .login:not(div) {
+            cursor: pointer;
             color: #2460da !important;
             background-color: rgb(238, 246, 255);
             border: 1px solid rgb(238, 246, 255);

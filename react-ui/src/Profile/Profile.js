@@ -18,8 +18,8 @@ export default class Profile extends Component {
 	};
 
 	componentDidMount() {
-		this.getData();
 		axios.defaults.headers.common["token"] = localStorage.getItem("token");
+		this.getData();
 	}
 
 	getData() {
@@ -166,11 +166,11 @@ export default class Profile extends Component {
 								Accepter
 							</button>
 						)}
-						<a
+						<span
 							className="removeFriend"
 							onClick={this.removeFriend.bind(this, friend._id)}>
 							{removeText}
-						</a>
+						</span>
 					</div>
 				</div>
 			);

@@ -24,6 +24,7 @@ module.exports = app => {
 
 	app.get("/Profile/friends", (req, res) => {
 		userTools.getUser(req.headers.token, res, "-_id friends").then(user => {
+			if (!user) return;
 			var promises = JSON.parse(JSON.stringify(user.friends)).map(friend => {
 				return userTools.getUserImg(friend._id).then(img => {
 					if (!img) return friend;

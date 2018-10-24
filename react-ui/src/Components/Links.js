@@ -5,6 +5,7 @@ import verifAuth from "../Auth/verifAuth";
 import UserIcon from "../Components/UserIcon";
 import "./Links.css";
 import { toggleLoginModal } from "../redux/actions/index";
+import Modal from "../Components/Modal";
 
 class Links extends Component {
 	state = {
@@ -48,33 +49,25 @@ class Links extends Component {
 		this.unlisten();
 	}
 
-	render() {
-		// this.changeLocation();
+	renderLinks() {
 		let login = (
-			<a className="login" onClick={() => this.props.toggleLoginModal()}>
+			<span className="login" onClick={() => this.props.toggleLoginModal()}>
 				Login
-			</a>
+			</span>
 		);
 		let register = (
 			<Link className="register" to={"/register"}>
 				Register
 			</Link>
 		);
-		let links;
 		if (this.state.isMounted && !this.state.isAuth) {
-			links = (
+			return (
 				<div className="auth">
 					{this.props.location.pathname === "/login" && (
-						<div className="register">
-							<span>Pas de compte ?</span>
-							{register}
-						</div>
+						<div className="register">Pas de compte ?{register}</div>
 					)}
 					{this.props.location.pathname === "/register" && (
-						<div className="login">
-							<span>Déjà inscrit ?</span>
-							{login}
-						</div>
+						<div className="login">Déjà inscrit ?{login}</div>
 					)}
 					{this.props.location.pathname !== "/register" &&
 						this.props.location.pathname !== "/login" && (
@@ -86,18 +79,23 @@ class Links extends Component {
 				</div>
 			);
 		}
+	}
 
+	render() {
 		return (
-			<header>
-				{links}
-				{this.props.location.pathname !== "/" && (
-					<i
-						className="fas fa-home btn btn-primary"
-						onClick={() => this.props.history.push("/")}
-					/>
-				)}
-				{this.state.isMounted && this.state.isAuth && <UserIcon />}
-			</header>
+			<>
+				<header>
+					{this.renderLinks()}
+					{this.props.location.pathname !== "/" && (
+						<i
+							className="fas fa-home btn btn-primary"
+							onClick={() => this.props.history.push("/")}
+						/>
+					)}
+					{this.state.isMounted && this.state.isAuth && <UserIcon />}
+				</header>
+				<Modal display={this.props.modal} />
+			</>
 		);
 	}
 }
