@@ -1,18 +1,17 @@
 import React, { Component } from "react";
 import "./Modal.css";
-import Login from "../../Auth/Login";
+import { Route } from "react-router-dom";
+// import Login from "../../Auth/Login";
 
 export default class Modal extends Component {
-	constructor(props) {
-		super();
-	}
-
 	render() {
 		if (!this.props.display) return null;
+
+		const { component: Component, ...rest } = this.props;
 		return (
 			<div className="modal-container">
 				<div className="modal-dialog">
-					<Login />
+					<Route {...rest} render={props => <Component {...this.props} />} />
 				</div>
 			</div>
 		);

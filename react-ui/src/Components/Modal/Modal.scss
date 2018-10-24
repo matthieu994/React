@@ -5,6 +5,8 @@
     left: 0;
     background-color: rgba(0, 0, 0, 0.7);
     z-index: 1;
+    transition: 0.2s all;
+    animation: fade-in 0.7s;
     .modal-dialog {
         z-index: 2;
         width: 25vw;
@@ -20,5 +22,23 @@
         border-radius: 5px;
         box-shadow: 0px 2px 16px 1px rgba(0, 0, 0, 0.55);
         pointer-events: all;
+        animation: zoom-in 1s;
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes zoom-in {
+    0% {
+        transform: translate(-50%, -50%) scale(0.3);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
     }
 }

@@ -2,10 +2,15 @@ import React, { Component } from "react";
 import { Link, Redirect, withRouter } from "react-router-dom";
 import verifAuth from "../Auth/verifAuth";
 import "./Login.css";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import Alerts from "../Components/Alerts";
+import { ToastContainer, Zoom, toast } from "react-toastify";
+import { connect } from "react-redux";
+import { toggleLoginModal } from "../redux/actions/index";
 
 class Login extends Component {
+	_mounted = false;
+
 	constructor() {
 		super();
 		this.state = {
@@ -18,23 +23,22 @@ class Login extends Component {
 	}
 
 	componentDidMount() {
+		this._mounted = true;
+
 		verifAuth().then(isAuth => {
-			this.setState({
-				isAuth
-			});
+			if (this._mounted)
+				this.setState({
+					isAuth
+				});
+			if (!isAuth && this.props.location.pathname === "/login") {
+				this.props.history.push("/");
+				if (!this.props.modal) this.props.toggleLoginModal();
+			}
 		});
 	}
 
-	alert(message) {
-		this.setState({
-			alert: message
-		});
-
-		setTimeout(() => {
-			this.setState({
-				alert: ""
-			});
-		}, 3000);
+	componentWillUnmount() {
+		this._mounted = false;
 	}
 
 	login(e) {
@@ -47,23 +51,22 @@ class Login extends Component {
 					this.setState({
 						redirect: true
 					});
+					if (this.props.modal) this.props.toggleLoginModal();
 				} else {
-					console.log(res.data);
-					this.alert("Identifiants invalides.");
+					toast.error("Identifiants invalides.");
 				}
 			})
 			.catch(err => console.log(err));
 	}
 
 	render() {
-		if ((this.state.redirect || this.state.isAuth) && !this.props.location.pathname !== "/") {
-			console.log(this.props.location)
+		if (this.state.redirect || this.state.isAuth) {
+			// Close modal
 			return <Redirect to="/" />;
 		}
 
 		return (
-			<div>
-				<Alerts message={this.state.alert} />
+			<>
 				<div className="connect">
 					<form>
 						<div className="form-group">
@@ -91,9 +94,33 @@ class Login extends Component {
 						<Link to="/register">Je n'ai pas de compte</Link>
 					</form>
 				</div>
-			</div>
+				<ToastContainer
+					position="top-center"
+					autoClose={2500}
+					hideProgressBar={true}
+					rtl={false}
+					pauseOnHover={false}
+					transition={Zoom}
+				/>
+			</>
 		);
 	}
 }
 
-export default withRouter(Login);
+const mapStateToProps = state => {
+	return {
+		modal: state.loginModal
+	};
+};
+const mapDispatchToProps = dispatch => {
+	return {
+		toggleLoginModal: () => dispatch(toggleLoginModal())
+	};
+};
+
+export default withRouter(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(Login)
+);

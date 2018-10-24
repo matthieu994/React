@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import verifAuth from "../Auth/verifAuth";
 import UserIcon from "../Components/UserIcon";
 import "./Links.css";
+import { connect } from "react-redux";
 import { toggleLoginModal } from "../redux/actions/index";
 import Modal from "../Components/Modal";
+import Login from "../Auth/Login"
 
 class Links extends Component {
 	state = {
@@ -41,7 +42,7 @@ class Links extends Component {
 			this.props.location.pathname !== "/register" &&
 			this.props.location.pathname !== "/login"
 		) {
-			this.props.history.push("/login");
+			this.props.toggleLoginModal();
 		}
 	}
 
@@ -94,7 +95,7 @@ class Links extends Component {
 					)}
 					{this.state.isMounted && this.state.isAuth && <UserIcon />}
 				</header>
-				<Modal display={this.props.modal} />
+				<Modal display={this.props.modal} component={Login} />
 			</>
 		);
 	}

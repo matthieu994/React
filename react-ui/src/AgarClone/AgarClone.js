@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./Live.css";
-import { ToastContainer } from "react-toastify";
-import { Zoom } from "react-toastify";
+import { ToastContainer, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import io from "socket.io-client";
 import p5 from "p5";
