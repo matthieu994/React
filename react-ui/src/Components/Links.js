@@ -6,7 +6,7 @@ import "./Links.css";
 import { connect } from "react-redux";
 import { toggleLoginModal } from "../redux/actions/index";
 import Modal from "../Components/Modal";
-import Login from "../Auth/Login"
+import Login from "../Auth/Login";
 
 class Links extends Component {
 	state = {
@@ -103,7 +103,7 @@ class Links extends Component {
 
 const mapStateToProps = state => {
 	return {
-		modal: state.loginModal
+		modal: state.toggleLoginModal.loginModal
 	};
 };
 const mapDispatchToProps = dispatch => {

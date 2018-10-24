@@ -109,7 +109,7 @@ class Login extends Component {
 
 const mapStateToProps = state => {
 	return {
-		modal: state.loginModal
+		modal: state.toggleLoginModal.loginModal
 	};
 };
 const mapDispatchToProps = dispatch => {

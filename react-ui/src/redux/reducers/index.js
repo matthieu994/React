@@ -1,9 +1,11 @@
 import { TOGGLE_LOGIN_MODAL } from "../constants/action-types";
+import { combineReducers } from "redux";
+
 const initialState = {
 	loginModal: false
 };
 
-const rootReducer = (state = initialState, action) => {
+const toggleLoginModal = (state = initialState, action) => {
 	switch (action.type) {
 		case TOGGLE_LOGIN_MODAL:
 			return Object.assign({}, state, { loginModal: !state.loginModal });
@@ -11,4 +13,8 @@ const rootReducer = (state = initialState, action) => {
 			return state;
 	}
 };
-export default rootReducer;
+
+export default combineReducers({
+	toggleLoginModal
+	// test
+});
