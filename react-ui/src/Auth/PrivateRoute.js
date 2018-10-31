@@ -1,24 +1,43 @@
 import React, { Component } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { toggleLoginModal } from "../redux/actions/index";
+import { displayLoginModal } from "../redux/actions/index";
+import verifAuth from "../Auth/verifAuth";
 
 class PrivateRoute extends Component {
-	componentWillMount() {
-		if (!this.props.modal && !localStorage.getItem("token"))
-			this.props.toggleLoginModal();
+	constructor(props) {
+		super(props);
+		this.state = {
+			isAuth: false,
+			isMounted: false
+		};
 	}
+
+	componentDidMount() {
+		verifAuth().then(isAuth => {
+			this.setState({
+				isMounted: true,
+				isAuth
+			});
+			if (!isAuth) {
+				this.props.history.push("/login");
+				this.props.displayLoginModal();
+			}
+		});
+	}
+
 	render() {
+		if (!this.state.isMounted) return null;
 		const { component: Component, ...rest } = this.props;
 		return (
 			<Route
 				{...rest}
 				render={props => (
 					<div>
-						{!localStorage.getItem("token") && (
+						{!this.state.isAuth && (
 							<Redirect to={{ pathname: "/", state: { from: this.props.location } }} />
 						)}
-						{localStorage.getItem("token") && <Component {...this.props} />}
+						{this.state.isAuth && <Component {...this.props} />}
 					</div>
 				)}
 			/>
@@ -26,18 +45,15 @@ class PrivateRoute extends Component {
 	}
 }
 
-const mapStateToProps = state => {
-	return {
-		modal: state.loginModal
-	};
-};
 const mapDispatchToProps = dispatch => {
 	return {
-		toggleLoginModal: () => dispatch(toggleLoginModal())
+		displayLoginModal: () => dispatch(displayLoginModal())
 	};
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(PrivateRoute);
+export default withRouter(
+	connect(
+		null,
+		mapDispatchToProps
+	)(PrivateRoute)
+);

@@ -1,10 +1,18 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, withRouter } from "react-router-dom";
 import axios from "axios";
 import verifAuth from "../Auth/verifAuth";
-import Alerts from "../Components/Alerts";
+import { ToastContainer, Zoom, toast } from "react-toastify";
+import { connect } from "react-redux";
+import {
+	toggleLoginModal,
+	hideLoginModal,
+	displayLoginModal
+} from "../redux/actions/index";
 
 class Register extends Component {
+	_mounted = false;
+
 	constructor() {
 		super();
 		this.state = {
@@ -17,10 +25,17 @@ class Register extends Component {
 	}
 
 	componentDidMount() {
+		this._mounted = true;
+
 		verifAuth().then(isAuth => {
-			this.setState({
-				isAuth
-			});
+			if (this._mounted)
+				this.setState({
+					isAuth
+				});
+			if (isAuth) this.props.history.push("/");
+			if (this.props.location.pathname === "/register") {
+				this.props.displayLoginModal();
+			}
 		});
 	}
 
@@ -56,15 +71,7 @@ class Register extends Component {
 	}
 
 	alert(message) {
-		this.setState({
-			alert: message
-		});
-
-		setTimeout(() => {
-			this.setState({
-				alert: ""
-			});
-		}, 3000);
+		toast(message);
 	}
 
 	render() {
@@ -81,8 +88,7 @@ class Register extends Component {
 		}
 
 		return (
-			<div>
-				<Alerts message={this.state.alert} />
+			<>
 				<div className="connect">
 					<form>
 						<div className="form-group">
@@ -124,9 +130,35 @@ class Register extends Component {
 						<Link to="/login">J'ai déjà un compte</Link>
 					</form>
 				</div>
-			</div>
+				<ToastContainer
+					position="top-center"
+					autoClose={2500}
+					hideProgressBar={true}
+					rtl={false}
+					pauseOnHover={false}
+					transition={Zoom}
+				/>
+			</>
 		);
 	}
 }
 
-export default Register;
+const mapStateToProps = state => {
+	return {
+		modal: state.toggleLoginModal.loginModal
+	};
+};
+const mapDispatchToProps = dispatch => {
+	return {
+		toggleLoginModal: () => dispatch(toggleLoginModal()),
+		displayLoginModal: () => dispatch(displayLoginModal()),
+		hideLoginModal: () => dispatch(hideLoginModal())
+	};
+};
+
+export default withRouter(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(Register)
+);

@@ -6,7 +6,11 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { ToastContainer, Zoom, toast } from "react-toastify";
 import { connect } from "react-redux";
-import { toggleLoginModal } from "../redux/actions/index";
+import {
+	toggleLoginModal,
+	hideLoginModal,
+	displayLoginModal
+} from "../redux/actions/index";
 
 class Login extends Component {
 	_mounted = false;
@@ -22,17 +26,21 @@ class Login extends Component {
 		};
 	}
 
-	componentDidMount() {
-		this._mounted = true;
+	componentWillReceiveProps() {
+		this.verifAuth();
+	}
 
+	verifAuth() {
+		this._mounted = true;
 		verifAuth().then(isAuth => {
 			if (this._mounted)
 				this.setState({
 					isAuth
 				});
-			if (!isAuth && this.props.location.pathname === "/login") {
-				this.props.history.push("/");
-				if (!this.props.modal) this.props.toggleLoginModal();
+			console.log(isAuth);
+			if (isAuth) this.props.history.push("/");
+			if (this.props.location.pathname === "/login") {
+				this.props.displayLoginModal();
 			}
 		});
 	}
@@ -49,9 +57,9 @@ class Login extends Component {
 				if (res.data.token) {
 					localStorage.setItem("token", res.data.token);
 					this.setState({
-						redirect: true
+						isAuth: true
 					});
-					if (this.props.modal) this.props.toggleLoginModal();
+					this.props.hideLoginModal();
 				} else {
 					toast.error("Identifiants invalides.");
 				}
@@ -60,8 +68,7 @@ class Login extends Component {
 	}
 
 	render() {
-		if (this.state.redirect || this.state.isAuth) {
-			// Close modal
+		if (this.state.isAuth) {
 			return <Redirect to="/" />;
 		}
 
@@ -114,7 +121,9 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
 	return {
-		toggleLoginModal: () => dispatch(toggleLoginModal())
+		toggleLoginModal: () => dispatch(toggleLoginModal()),
+		displayLoginModal: () => dispatch(displayLoginModal()),
+		hideLoginModal: () => dispatch(hideLoginModal())
 	};
 };
 

@@ -30,9 +30,6 @@ class UserIcon extends Component {
 
 	logout() {
 		localStorage.removeItem("token");
-		this.setState({
-			isAuth: false
-		});
 		this.props.history.push("/login");
 	}
 

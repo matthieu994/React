@@ -1,17 +1,23 @@
 import React, { Component } from "react";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import verifAuth from "../Auth/verifAuth";
 import UserIcon from "../Components/UserIcon";
 import "./Links.css";
 import { connect } from "react-redux";
-import { toggleLoginModal } from "../redux/actions/index";
+import {
+	toggleLoginModal,
+	displayLoginModal,
+	hideLoginModal
+} from "../redux/actions/index";
 import Modal from "../Components/Modal";
 import Login from "../Auth/Login";
+import Register from "../Auth/Register";
 
 class Links extends Component {
 	state = {
 		isAuth: false,
-		isMounted: false
+		isMounted: false,
+		authComponent: "Login"
 	};
 
 	componentDidMount() {
@@ -38,11 +44,13 @@ class Links extends Component {
 		if (
 			!this.state.isAuth &&
 			this.state.isMounted &&
-			this.props.location.pathname !== "/" &&
-			this.props.location.pathname !== "/register" &&
-			this.props.location.pathname !== "/login"
+			this.props.location.pathname !== "/"
 		) {
-			this.props.toggleLoginModal();
+			this.props.displayLoginModal();
+			if (this.props.location.pathname === "/login")
+				this.setState({ authComponent: "Login" });
+			if (this.props.location.pathname === "/register")
+				this.setState({ authComponent: "Register" });
 		}
 	}
 
@@ -52,14 +60,23 @@ class Links extends Component {
 
 	renderLinks() {
 		let login = (
-			<span className="login" onClick={() => this.props.toggleLoginModal()}>
+			<span
+				className="login"
+				onClick={() =>
+					this.props.history.push("/login") && this.setState({ authComponent: "Login" })
+				}>
 				Login
 			</span>
 		);
 		let register = (
-			<Link className="register" to={"/register"}>
+			<span
+				className="register"
+				onClick={() =>
+					this.props.history.push("/register") &&
+					this.setState({ authComponent: "Register" })
+				}>
 				Register
-			</Link>
+			</span>
 		);
 		if (this.state.isMounted && !this.state.isAuth) {
 			return (
@@ -90,12 +107,15 @@ class Links extends Component {
 					{this.props.location.pathname !== "/" && (
 						<i
 							className="fas fa-home btn btn-primary"
-							onClick={() => this.props.history.push("/")}
+							onClick={() => this.props.hideLoginModal() && this.props.history.push("/")}
 						/>
 					)}
 					{this.state.isMounted && this.state.isAuth && <UserIcon />}
 				</header>
-				<Modal display={this.props.modal} component={Login} />
+				<Modal
+					display={this.props.modal}
+					component={this.state.authComponent === "Login" ? Login : Register}
+				/>
 			</>
 		);
 	}
@@ -108,7 +128,9 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
 	return {
-		toggleLoginModal: () => dispatch(toggleLoginModal())
+		toggleLoginModal: () => dispatch(toggleLoginModal()),
+		displayLoginModal: () => dispatch(displayLoginModal()),
+		hideLoginModal: () => dispatch(hideLoginModal())
 	};
 };
 

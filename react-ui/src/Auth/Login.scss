@@ -1,10 +1,7 @@
 .connect {
-    margin: 0;
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin: auto;
     text-align: center;
+    min-width: 200px;
     button {
         width: 100%;
         outline: none;
