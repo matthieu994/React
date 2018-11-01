@@ -20,8 +20,10 @@ export default class Modal extends Component {
 		const { component: Component, ...rest } = this.props;
 		return (
 			<div ref={this.ref} className="modal-container">
-				<div className="modal-dialog">
-					<Route {...rest} render={props => <Component {...this.props} />} />
+				<div className="dialog">
+					{this.props.display && (
+						<Route {...rest} render={props => <Component {...this.props} />} />
+					)}
 				</div>
 			</div>
 		);

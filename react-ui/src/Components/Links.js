@@ -41,11 +41,15 @@ class Links extends Component {
 	}
 
 	handleUrl() {
-		if (
-			!this.state.isAuth &&
-			this.state.isMounted &&
-			this.props.location.pathname !== "/"
-		) {
+		if (this.state.isMounted) {
+			if (this.state.isAuth) {
+				return this.props.history.replace("/");
+			}
+			if (
+				this.props.location.pathname !== "/login" &&
+				this.props.location.pathname !== "/register"
+			)
+				return this.props.hideLoginModal();
 			this.props.displayLoginModal();
 			if (this.props.location.pathname === "/login")
 				this.setState({ authComponent: "Login" });
@@ -102,22 +106,29 @@ class Links extends Component {
 	render() {
 		return (
 			<>
+				<IdentityProvider />
 				<header>
 					{this.renderLinks()}
 					{this.props.location.pathname !== "/" && (
 						<i
 							className="fas fa-home btn btn-primary"
-							onClick={() => this.props.hideLoginModal() && this.props.history.push("/")}
+							onClick={() => this.props.history.push("/")}
 						/>
 					)}
 					{this.state.isMounted && this.state.isAuth && <UserIcon />}
 				</header>
 				<Modal
-					display={this.props.modal}
+					display={this.props.modal && !this.state.isAuth && this.state.isMounted}
 					component={this.state.authComponent === "Login" ? Login : Register}
 				/>
 			</>
 		);
+	}
+}
+
+class IdentityProvider extends Component {
+	render() {
+		return null;
 	}
 }
 

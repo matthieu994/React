@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, Redirect, withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import verifAuth from "../Auth/verifAuth";
 import "./Login.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,25 +26,24 @@ class Login extends Component {
 		};
 	}
 
-	componentWillReceiveProps() {
+	componentWillMount() {
 		this.verifAuth();
 	}
-
+	
 	verifAuth() {
 		this._mounted = true;
 		verifAuth().then(isAuth => {
 			if (this._mounted)
-				this.setState({
-					isAuth
-				});
-			console.log(isAuth);
+			this.setState({
+				isAuth
+			});
 			if (isAuth) this.props.history.push("/");
 			if (this.props.location.pathname === "/login") {
 				this.props.displayLoginModal();
 			}
 		});
 	}
-
+	
 	componentWillUnmount() {
 		this._mounted = false;
 	}
@@ -60,6 +59,7 @@ class Login extends Component {
 						isAuth: true
 					});
 					this.props.hideLoginModal();
+					this.props.history.push("/");
 				} else {
 					toast.error("Identifiants invalides.");
 				}
@@ -68,9 +68,7 @@ class Login extends Component {
 	}
 
 	render() {
-		if (this.state.isAuth) {
-			return <Redirect to="/" />;
-		}
+		if (this.state.isAuth) return null;
 
 		return (
 			<>

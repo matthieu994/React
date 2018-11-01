@@ -7,4 +7,3 @@ import {
 export const toggleLoginModal = () => ({ type: TOGGLE_LOGIN_MODAL });
 export const displayLoginModal = () => ({ type: DISPLAY_LOGIN_MODAL });
 export const hideLoginModal = () => ({ type: HIDE_LOGIN_MODAL });
-

@@ -49,6 +49,7 @@ mongoose.connect(
 		// db.collection("conversations").remove({});
 	}
 );
+mongoose.set('useCreateIndex', true);
 
 // Todos
 require("./TodoList/TodoList")(app);
