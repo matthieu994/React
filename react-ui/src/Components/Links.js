@@ -61,6 +61,10 @@ class Links extends Component {
 		}
 	}
 
+	closeModal = () => {
+		this.props.history.push("/")
+	}
+
 	componentWillUnmount() {
 		this.unlisten();
 	}
@@ -123,6 +127,7 @@ class Links extends Component {
 				<Modal
 					display={this.props.modal && !this.state.isAuth && this.state.isMounted}
 					component={this.state.authComponent === "Login" ? Login : Register}
+					onClose={this.closeModal}
 				/>
 			</>
 		);

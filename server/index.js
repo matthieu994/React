@@ -66,6 +66,7 @@ require("./socket.io/socket")(app, PORT);
 require("./chat/chat")(app);
 
 app.post("/auth", (req, res) => {
+	console.log("auth request")
 	let token = req.body.token ? req.body.token : req.headers.token;
 	verifAuth(token).then(isAuth => {
 		if (app.get("env") != "development") {

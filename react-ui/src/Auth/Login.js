@@ -27,11 +27,11 @@ class Login extends Component {
 	}
 
 	componentWillMount() {
-		this.verifAuth();
+		this._mounted = true;
+		// this.verifAuth();
 	}
 	
 	verifAuth() {
-		this._mounted = true;
 		verifAuth().then(isAuth => {
 			if (this._mounted)
 			this.setState({

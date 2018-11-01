@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Link, Redirect, withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
-import verifAuth from "../Auth/verifAuth";
 import { ToastContainer, Zoom, toast } from "react-toastify";
 import { connect } from "react-redux";
 import {
@@ -27,16 +26,16 @@ class Register extends Component {
 	componentDidMount() {
 		this._mounted = true;
 
-		verifAuth().then(isAuth => {
-			if (this._mounted)
-				this.setState({
-					isAuth
-				});
-			if (isAuth) this.props.history.push("/");
-			if (this.props.location.pathname === "/register") {
-				this.props.displayLoginModal();
-			}
-		});
+		// verifAuth().then(isAuth => {
+		// 	if (this._mounted)
+		// 		this.setState({
+		// 			isAuth
+		// 		});
+		// 	if (isAuth) this.props.history.push("/");
+		// 	if (this.props.location.pathname === "/register") {
+		// 		this.props.displayLoginModal();
+		// 	}
+		// });
 	}
 
 	register(e) {
@@ -75,8 +74,6 @@ class Register extends Component {
 	}
 
 	render() {
-		if (this.state.isAuth) return <Redirect to="/" />;
-
 		let userStatus, passStatus, pass2Status;
 		if (this.state.alert === "USERNAME_SHORT" || this.state.alert === "USERNAME_MATCH")
 			userStatus = "error";
