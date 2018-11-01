@@ -12,7 +12,7 @@ class UserIcon extends Component {
 	componentDidMount() {
 		Axios.defaults.headers.common["token"] = localStorage.getItem("token");
 		this.getData();
-
+		
 		this.unlisten = this.props.history.listen(() => {
 			this.getData();
 		});

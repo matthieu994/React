@@ -42,9 +42,12 @@ class Links extends Component {
 
 	handleUrl() {
 		if (this.state.isMounted) {
-			if (this.state.isAuth) {
+			if (
+				this.state.isAuth &&
+				(this.props.location.pathname === "/login" ||
+					this.props.location.pathname === "/register")
+			)
 				return this.props.history.replace("/");
-			}
 			if (
 				this.props.location.pathname !== "/login" &&
 				this.props.location.pathname !== "/register"
