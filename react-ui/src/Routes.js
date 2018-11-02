@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import "mdbreact/dist/css/mdb.css";
-import "./index.css"
 import PrivateRoute from "./Auth/PrivateRoute";
 import { Applications } from "./Components/Applications";
 import TodoList from "./Todo/TodoList";
