@@ -15,7 +15,7 @@ import {
 class Login extends Component {
 	_mounted = false;
 
-	constructor() {
+	constructor(props) {
 		super();
 		this.state = {
 			username: "",
@@ -24,26 +24,27 @@ class Login extends Component {
 			alert: "",
 			isAuth: false
 		};
+		this.location = props.location.state || { from: { pathname: "/" } };
 	}
 
 	componentWillMount() {
 		this._mounted = true;
 		// this.verifAuth();
 	}
-	
+
 	verifAuth() {
 		verifAuth().then(isAuth => {
 			if (this._mounted)
-			this.setState({
-				isAuth
-			});
-			if (isAuth) this.props.history.push("/");
+				this.setState({
+					isAuth
+				});
+			if (isAuth) this.props.history.push(this.location.from.pathname);
 			if (this.props.location.pathname === "/login") {
 				this.props.displayLoginModal();
 			}
 		});
 	}
-	
+
 	componentWillUnmount() {
 		this._mounted = false;
 	}
@@ -59,7 +60,7 @@ class Login extends Component {
 						isAuth: true
 					});
 					this.props.hideLoginModal();
-					this.props.history.push("/");
+					this.props.history.push(this.location.from.pathname);
 				} else {
 					toast.error("Identifiants invalides.");
 				}
@@ -69,7 +70,6 @@ class Login extends Component {
 
 	render() {
 		if (this.state.isAuth) return null;
-
 		return (
 			<>
 				<div className="connect">

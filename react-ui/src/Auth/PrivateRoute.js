@@ -20,7 +20,6 @@ class PrivateRoute extends Component {
 				isAuth
 			});
 			if (!isAuth) {
-				this.props.history.push("/login");
 				this.props.displayLoginModal();
 			}
 		});
@@ -35,7 +34,7 @@ class PrivateRoute extends Component {
 				render={props => (
 					<div>
 						{!this.state.isAuth && (
-							<Redirect to={{ pathname: "/", state: { from: this.props.location } }} />
+							<Redirect to={{ pathname: "/login", state: { from: this.props.location } }} />
 						)}
 						{this.state.isAuth && <Component {...this.props} />}
 					</div>
