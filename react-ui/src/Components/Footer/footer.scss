@@ -21,8 +21,16 @@ footer {
     }
 }
 
-@media screen and (max-width: 835px), (max-height: 430px) {
+@media screen and (max-width: 835px),
+(max-height: 430px) {
     footer {
-      display: none;
+        visibility: hidden;
+        padding: 0;
+        div:not(.nightshift) {
+            display: none;
+        }
+        .nightshift {
+            visibility: visible;
+        }
     }
-  }
+}
