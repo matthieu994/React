@@ -6,20 +6,18 @@ export default class Modal extends Component {
 	constructor(props) {
 		super(props);
 		this.ref = React.createRef();
-		window.addEventListener("resize", this.handleSize);
 	}
-
+	
 	componentWillReceiveProps(props) {
+		this.handleSize();
 		if (!props.display) {
 			this.ref.current.setAttribute("off", "");
-			window.removeEventListener("resize", this.handleSize);
 		} else {
 			this.ref.current.removeAttribute("off");
-			this.handleSize();
 		}
 	}
 
-	handleSize = () => {
+	handleSize() {
 		if (!this.ref.current) return;
 		this.ref.current.style.marginTop = document.querySelector("header").clientHeight + "px";
 	};
