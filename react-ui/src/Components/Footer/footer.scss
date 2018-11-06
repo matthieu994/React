@@ -20,3 +20,9 @@ footer {
         }
     }
 }
+
+@media screen and (max-width: 835px), (max-height: 430px) {
+    footer {
+      display: none;
+    }
+  }
