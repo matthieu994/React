@@ -20,12 +20,15 @@ export default class NightShift extends Component {
 
 	render() {
 		return (
-			<Button
-				className="nightshift"
-				color={this.display() ? "indigo" : ""}
-				onClick={() => this.toggle()}>
-				<Fa icon="moon" />
-			</Button>
+			<>
+				{this.display() && <div className="nightshift" />}
+				<Button
+					className="nightshift"
+					color={this.display() ? "indigo" : ""}
+					onClick={() => this.toggle()}>
+					<Fa icon="moon" />
+				</Button>
+			</>
 		);
 	}
 }

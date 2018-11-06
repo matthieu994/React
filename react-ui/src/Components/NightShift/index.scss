@@ -20,3 +20,15 @@ button.nightshift {
         color: #d9a84d;
     }
 }
+
+div.nightshift {
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    pointer-events: none;
+    opacity: 0.12;
+    background-color: #c39616;
+    z-index: 99999;
+}
