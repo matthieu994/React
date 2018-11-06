@@ -1,19 +1,20 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import verifAuth from "../Auth/verifAuth";
-import UserIcon from "../Components/UserIcon";
-import "./Links.css";
 import { connect } from "react-redux";
+import { Button } from "mdbreact";
+import verifAuth from "../../Auth/verifAuth";
+import UserIcon from "./UserIcon";
+import "./Header.css";
+import Modal from "../../Components/Modal";
+import Login from "../../Auth/Login";
+import Register from "../../Auth/Register";
 import {
 	toggleLoginModal,
 	displayLoginModal,
 	hideLoginModal
-} from "../redux/actions/index";
-import Modal from "../Components/Modal";
-import Login from "../Auth/Login";
-import Register from "../Auth/Register";
+} from "../../redux/actions/index";
 
-class Links extends Component {
+class Header extends Component {
 	state = {
 		isAuth: false,
 		isMounted: false,
@@ -62,8 +63,8 @@ class Links extends Component {
 	}
 
 	closeModal = () => {
-		this.props.history.push("/")
-	}
+		this.props.history.push("/");
+	};
 
 	componentWillUnmount() {
 		this.unlisten();
@@ -71,23 +72,25 @@ class Links extends Component {
 
 	renderLinks() {
 		let login = (
-			<span
+			<Button
+				color="primary"
 				className="login"
 				onClick={() =>
 					this.props.history.push("/login") && this.setState({ authComponent: "Login" })
 				}>
 				Login
-			</span>
+			</Button>
 		);
 		let register = (
-			<span
+			<Button
+				color="light-blue"
 				className="register"
 				onClick={() =>
 					this.props.history.push("/register") &&
 					this.setState({ authComponent: "Register" })
 				}>
 				Register
-			</span>
+			</Button>
 		);
 		if (this.state.isMounted && !this.state.isAuth) {
 			return (
@@ -157,5 +160,5 @@ export default withRouter(
 	connect(
 		mapStateToProps,
 		mapDispatchToProps
-	)(Links)
+	)(Header)
 );

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import apps from './apps.json'
+import apps from '../apps.json'
+import "./footer.scss"
 
 class Footer extends Component {
     render() {
         return (
-            <footer className="page-footer text-light p-3">
+            <footer>
                 <div className="container-fluid text-center">
                     <div className="row">
                         <h3 className="col font-weight-bold">Applications</h3>

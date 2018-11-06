@@ -1,0 +1,73 @@
+@import "https://fonts.googleapis.com/css?family=Lato:400,900i";
+header {
+    display: inline-block !important;
+    z-index: 3;
+    position: sticky;
+    width: 100%;
+    height: 60px;
+    top: 0;
+    right: 0;
+    background-color: #2460da;
+    overflow: hidden;
+    vertical-align: top;
+    .auth {
+        float: right;
+        height: 100%;
+        font-size: 20px;
+        color: rgb(238, 246, 255);
+        button {
+            font-size: 17px;
+            padding: 0.64rem 1.54rem;
+        }
+        div.buttons {
+            height: 100%;
+        }
+    }
+    .fa-home {
+        left: 0;
+        top: 0;
+        padding: 5px;
+        margin: 5.5px;
+        font-size: 35px;
+        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.15); // border: 1px solid white;
+    }
+    .user {
+        display: flex;
+        float: right;
+        height: 100%;
+        div {
+            height: 80%;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img {
+                float: right;
+                padding: 2px;
+                width: 55px;
+                border-radius: 50%;
+                cursor: pointer;
+            }
+            span {
+                color: white;
+                font-family: "Roboto";
+                font-weight: 400;
+                letter-spacing: 1.2px;
+                font-size: 25px;
+            }
+        }
+        .logout {
+            font-family: "Roboto";
+            font-weight: 300;
+            font-size: 25px;
+            letter-spacing: 1px;
+            margin: auto 6px;
+            padding: 2px 8px;
+            border-radius: 5px; // height: 70%;
+            .fa {
+                font-size: 1.5rem;
+                margin-left: 6px;
+            }
+        }
+    }
+}

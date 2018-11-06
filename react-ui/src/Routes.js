@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import PrivateRoute from "./Auth/PrivateRoute";
-import { Applications } from "./Components/Applications";
+import Applications from "./Components/Applications";
 import TodoList from "./Todo/TodoList";
 import Profile from "./Profile/Profile";
 import Transports from "./Transports/Transports";

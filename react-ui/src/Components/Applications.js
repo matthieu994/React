@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import "./Applications.css";
 import apps from "./apps.json";
+import { Button } from "mdbreact";
 
-export class Applications extends Component {
+class Applications extends Component {
 	constructor() {
 		super();
 		this.state = {
@@ -13,20 +14,20 @@ export class Applications extends Component {
 
 	renderApplications() {
 		let newApps = localStorage.getItem("apps");
-		if (newApps) {
+		if (newApps && newApps.length === this.state.apps) {
 			return newApps.split(",").map((appIndex, index) => {
-				return <Card key={appIndex} index={appIndex} app={this.state.apps[appIndex]} />;
+				return <Card key={appIndex} index={appIndex} app={this.state.apps[appIndex]} history={this.props.history}/>;
 			});
 		} else {
 			return this.state.apps.map((app, index) => {
-				return <Card key={index} index={index} app={app} />;
+				return <Card key={index} index={index} app={app} history={this.props.history}/>;
 			});
 		}
 	}
 
 	reset() {
 		localStorage.removeItem("apps");
-		this.render()
+		this.render();
 	}
 
 	render() {
@@ -166,14 +167,19 @@ class Card extends Component {
 					<p className="card-text">{this.props.app.desc}</p>
 				</div>
 				<div className="card-bottom">
-					<Link className="btn btn-primary" to={this.props.app.Component}>
+					<Button
+						color="primary"
+						onClick={() => this.props.history.push(this.props.app.Component)}>
 						Y aller !
-					</Link>
+					</Button>
 				</div>
 			</div>
 		);
 	}
 }
+
+withRouter(Card);
+export default Applications;
 
 // (function() {
 // 	document.onmousemove = handleMouseMove;

@@ -1,0 +1,30 @@
+.list-group-item {
+    padding: 0.25rem 0.65rem;
+    display: table;
+    justify-content: space-between;
+    .text {
+        display: table-cell;
+        justify-content: center;
+        align-content: center;
+        flex-direction: column;
+        vertical-align: middle;
+    }
+    .buttons {
+        height: 48.25px;
+        width: 184px;
+        display: table-cell;
+        vertical-align: middle;
+        button {
+            width: 48px;
+            padding: 0.34rem 0.94rem;
+        }
+    }
+    &:not(.list-group-item-action) {
+        .text {
+            color: gray;
+        }
+        .buttons {
+            opacity: 0.4;
+        }
+    }
+}

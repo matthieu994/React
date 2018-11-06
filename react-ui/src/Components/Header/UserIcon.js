@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import { Button, Fa } from "mdbreact";
 import Axios from "axios";
-import { DEFAULT_IMG } from "../Const/const";
+import { DEFAULT_IMG } from "../../Const/const";
 
 class UserIcon extends Component {
 	state = {
@@ -12,7 +13,7 @@ class UserIcon extends Component {
 	componentDidMount() {
 		Axios.defaults.headers.common["token"] = localStorage.getItem("token");
 		this.getData();
-		
+
 		this.unlisten = this.props.history.listen(() => {
 			this.getData();
 		});
@@ -52,9 +53,14 @@ class UserIcon extends Component {
 						/>
 					</div>
 				)}
-				<span className="logout" onClick={this.logout.bind(this)}>
-					Log-Out
-				</span>
+				<Button
+					floating
+					color="primary"
+					className="logout"
+					onClick={this.logout.bind(this)}>
+					Logout
+					<Fa icon="sign-out" />
+				</Button>
 			</div>
 		);
 	}
