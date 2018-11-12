@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Button } from "mdbreact";
+import { ToastContainer, Slide, toast } from "react-toastify";
 import verifAuth from "../../Auth/verifAuth";
 import UserIcon from "./UserIcon";
 import "./Header.css";
@@ -118,6 +119,7 @@ class Header extends Component {
 			<>
 				<IdentityProvider />
 				<header>
+					<Alerts />
 					{this.renderLinks()}
 					{this.props.location.pathname !== "/" && (
 						<i
@@ -140,6 +142,28 @@ class Header extends Component {
 class IdentityProvider extends Component {
 	render() {
 		return null;
+	}
+}
+
+export const alert = {
+	error: (message, id) => {
+		toast.error(message, {
+			toastId: id
+		});
+	}
+};
+class Alerts extends Component {
+	render() {
+		return (
+			<ToastContainer
+				position="top-center"
+				autoClose={2000}
+				hideProgressBar={true}
+				rtl={false}
+				pauseOnHover={false}
+				transition={Slide}
+			/>
+		);
 	}
 }
 

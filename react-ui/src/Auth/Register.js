@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
-import { ToastContainer, Zoom, toast } from "react-toastify";
+import { alert } from "../Components/Header";
 import { connect } from "react-redux";
 import {
 	toggleLoginModal,
@@ -10,10 +10,8 @@ import {
 } from "../redux/actions/index";
 
 class Register extends Component {
-	_mounted = false;
-
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
 			username: "",
 			password: "",
@@ -21,21 +19,7 @@ class Register extends Component {
 			alert: "",
 			isAuth: false
 		};
-	}
-
-	componentDidMount() {
-		this._mounted = true;
-
-		// verifAuth().then(isAuth => {
-		// 	if (this._mounted)
-		// 		this.setState({
-		// 			isAuth
-		// 		});
-		// 	if (isAuth) this.props.history.push("/");
-		// 	if (this.props.location.pathname === "/register") {
-		// 		this.props.displayLoginModal();
-		// 	}
-		// });
+		this.location = props.location.state || { from: { pathname: "/" } };
 	}
 
 	register(e) {
@@ -63,14 +47,14 @@ class Register extends Component {
 			.then(res => {
 				if (res.data.token) {
 					localStorage.setItem("token", res.data.token);
-					this.props.history.push("/");
+					this.props.history.push(this.location.from.pathname);
 				}
 			})
 			.catch(err => console.log(err));
 	}
 
 	alert(message) {
-		toast(message);
+		alert.error(message, "register_error");
 	}
 
 	render() {
@@ -85,57 +69,47 @@ class Register extends Component {
 		}
 
 		return (
-			<>
-				<div className="connect">
-					<form>
-						<div className="form-group">
-							<input
-								type="text"
-								status={userStatus}
-								className="form-control"
-								placeholder="Pseudo"
-								required
-								onChange={e => this.setState({ username: e.target.value })}
-							/>
-						</div>
-						<div className="form-group">
-							<input
-								type="password"
-								status={passStatus}
-								className="form-control"
-								placeholder="Mot de passe"
-								required
-								onChange={e => this.setState({ password: e.target.value })}
-							/>
-						</div>
-						<div className="form-group">
-							<input
-								type="password"
-								status={pass2Status}
-								className="form-control"
-								placeholder="Mot de passe"
-								required
-								onChange={e => this.setState({ password2: e.target.value })}
-							/>
-						</div>
-						<button
-							type="submit"
-							className="btn btn-primary"
-							onClick={this.register.bind(this)}>
-							Créer un compte
-						</button>
-						<Link to="/login">J'ai déjà un compte</Link>
-					</form>
-				</div>
-				<ToastContainer
-					position="top-center"
-					autoClose={2500}
-					hideProgressBar={true}
-					rtl={false}
-					pauseOnHover={false}
-					transition={Zoom}
-				/>
-			</>
+			<div className="connect">
+				<form>
+					<div className="form-group">
+						<input
+							type="text"
+							status={userStatus}
+							className="form-control"
+							placeholder="Pseudo"
+							required
+							onChange={e => this.setState({ username: e.target.value })}
+						/>
+					</div>
+					<div className="form-group">
+						<input
+							type="password"
+							status={passStatus}
+							className="form-control"
+							placeholder="Mot de passe"
+							required
+							onChange={e => this.setState({ password: e.target.value })}
+						/>
+					</div>
+					<div className="form-group">
+						<input
+							type="password"
+							status={pass2Status}
+							className="form-control"
+							placeholder="Mot de passe"
+							required
+							onChange={e => this.setState({ password2: e.target.value })}
+						/>
+					</div>
+					<button
+						type="submit"
+						className="btn btn-primary"
+						onClick={this.register.bind(this)}>
+						Créer un compte
+					</button>
+					<Link to="/login">J'ai déjà un compte</Link>
+				</form>
+			</div>
 		);
 	}
 }
