@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
+import { Input, Button } from "mdbreact";
 import { alert } from "../Components/Header";
 import { connect } from "react-redux";
 import {
@@ -16,8 +17,7 @@ class Register extends Component {
 			username: "",
 			password: "",
 			password2: "",
-			alert: "",
-			isAuth: false
+			alert: ""
 		};
 		this.location = props.location.state || { from: { pathname: "/" } };
 	}
@@ -71,42 +71,37 @@ class Register extends Component {
 		return (
 			<div className="connect">
 				<form>
-					<div className="form-group">
-						<input
-							type="text"
-							status={userStatus}
-							className="form-control"
-							placeholder="Pseudo"
-							required
-							onChange={e => this.setState({ username: e.target.value })}
-						/>
-					</div>
-					<div className="form-group">
-						<input
-							type="password"
-							status={passStatus}
-							className="form-control"
-							placeholder="Mot de passe"
-							required
-							onChange={e => this.setState({ password: e.target.value })}
-						/>
-					</div>
-					<div className="form-group">
-						<input
-							type="password"
-							status={pass2Status}
-							className="form-control"
-							placeholder="Mot de passe"
-							required
-							onChange={e => this.setState({ password2: e.target.value })}
-						/>
-					</div>
-					<button
-						type="submit"
-						className="btn btn-primary"
-						onClick={this.register.bind(this)}>
+					<Input
+						label="Pseudo"
+						icon="envelope"
+						type="text"
+						group
+						validate
+						status={userStatus}
+						value={this.state.username}
+						onChange={e => this.setState({ username: e.target.value })}
+					/>
+					<Input
+						label="Mot de passe"
+						icon="lock"
+						type="password"
+						validate
+						status={passStatus}
+						value={this.state.password}
+						onChange={e => this.setState({ password: e.target.value })}
+					/>
+					<Input
+						label="Mot de passe"
+						icon="lock"
+						type="password"
+						validate
+						status={pass2Status}
+						value={this.state.password2}
+						onChange={e => this.setState({ password2: e.target.value })}
+					/>
+					<Button type="submit" color="primary" onClick={this.register.bind(this)}>
 						Créer un compte
-					</button>
+					</Button>
 					<Link to="/login">J'ai déjà un compte</Link>
 				</form>
 			</div>

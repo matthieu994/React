@@ -150,6 +150,11 @@ export const alert = {
 		toast.error(message, {
 			toastId: id
 		});
+	},
+	success: (message, id) => {
+		toast.success(message, {
+			toastId: id
+		});
 	}
 };
 class Alerts extends Component {

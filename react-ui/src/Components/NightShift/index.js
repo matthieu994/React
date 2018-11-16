@@ -26,10 +26,8 @@ export default class NightShift extends Component {
 	display() {
 		let div = document.querySelector("div.nightshift");
 		if (!this.isOn() && div) {
-			console.log("here");
 			document.body.removeChild(div);
 		} else if (this.isOn()) {
-			console.log("here2");
 			div = document.createElement("div");
 			div.className = "nightshift";
 			document.body.prepend(div);

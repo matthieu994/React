@@ -17,30 +17,57 @@ class Login extends Component {
 		this.state = {
 			username: "",
 			password: "",
-			isAuth: false
+			usernameStatus: "",
+			passwordStatus: ""
 		};
 		this.location = props.location.state || { from: { pathname: "/" } };
 	}
 
 	login(e) {
 		e.preventDefault();
+		if (!this.state.username || !this.state.password) {
+			if (!this.state.username) {
+				this.setIcon("envelope", "error");
+				this.setState({ usernameStatus: "error" });
+			}
+			if (!this.state.password) {
+				this.setIcon("lock", "error");
+				this.setState({ passwordStatus: "error" });
+			}
+			return;
+		}
 		axios
 			.post("/login", this.state)
 			.then(res => {
 				if (res.data.token) {
+					alert.success("Connexion réussie !", "good_login");
 					localStorage.setItem("token", res.data.token);
-					this.setState({
-						isAuth: true
-					});
 					this.props.hideLoginModal();
 					this.props.history.push(this.location.from.pathname);
-				} else alert.error("Identifiants invalides !", "bad_login");
+				} else {
+					alert.error("Identifiants invalides !", "bad_login");
+					this.setState({
+						username: "",
+						password: "",
+						usernameStatus: "error",
+						passwordStatus: "error"
+					});
+				}
 			})
 			.catch(err => console.log(err));
 	}
 
+	setIcon(icon, status, value) {
+		var iconDOM = document.querySelector(".fa-" + icon);
+		if (status === "error") iconDOM.style.color = "#f44242";
+		if (status === "success") iconDOM.style.color = "#42f48c";
+		if (value) iconDOM.style.color = "";
+	}
+
 	render() {
-		if (this.state.isAuth) return null;
+		this.setIcon("envelope", this.state.usernameStatus, this.state.username);
+		this.setIcon("lock", this.state.passwordStatus, this.state.password);
+
 		return (
 			<div className="connect">
 				<form>
@@ -48,20 +75,20 @@ class Login extends Component {
 						label="Pseudo"
 						icon="envelope"
 						group
-						type="text"
 						validate
-						error="wrong"
-						success="right"
-						required
+						type="text"
+						status={!this.state.username ? this.state.usernameStatus : ""}
+						value={this.state.username}
 						onChange={e => this.setState({ username: e.target.value })}
 					/>
 					<Input
 						label="Mot de passe"
 						icon="lock"
 						group
-						type="password"
 						validate
-						required
+						type="password"
+						status={!this.state.password ? this.state.passwordStatus : ""}
+						value={this.state.password}
 						onChange={e => this.setState({ password: e.target.value })}
 					/>
 					<Button type="submit" color="primary" onClick={this.login.bind(this)}>
