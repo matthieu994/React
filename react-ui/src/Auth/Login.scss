@@ -1,17 +1,22 @@
 .connect {
     margin: auto;
     text-align: center;
-    min-width: 200px;
+    min-width: 250px;
+    width: 25vw;
+    max-width: 350px;
     .md-form {
         .prefix {
             left: 0;
         }
     }
     button {
-        width: 80%;
-        padding: 8px 6px;
-        letter-spacing: 2px;
-        font-size: 20px;
+		padding: 8px 20px;
+		letter-spacing: 2px;
+		font-size: 1rem;
+		white-space: nowrap;
+		overflow: hidden;
+		display: block;
+		margin: auto;
     }
     a {
         display: inline-block;

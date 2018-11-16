@@ -47,7 +47,6 @@ class Login extends Component {
 				} else {
 					alert.error("Identifiants invalides !", "bad_login");
 					this.setState({
-						username: "",
 						password: "",
 						usernameStatus: "error",
 						passwordStatus: "error"
