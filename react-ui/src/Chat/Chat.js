@@ -154,6 +154,7 @@ class Chat extends Component {
 				new: "",
 				conversation
 			});
+			this.setSelected(conversation);
 		} else if (conversation === undefined) {
 			let friend = this.state.friends.find(friend => friend._id === hash);
 			if (!friend) {
@@ -163,7 +164,7 @@ class Chat extends Component {
 					new: friend,
 					conversation: ""
 				});
-				this.renderConversation();
+				// this.renderConversation();
 			}
 		}
 	}
@@ -191,6 +192,27 @@ class Chat extends Component {
 		);
 	}
 
+	onConversationClick(e, users) {
+		this.setSelected(e);
+		!e.target.className.includes("fas") &&
+			!users.find(user => window.location.hash.substr(1) === user) &&
+			this.props.history.push(
+				`#${this.state.friends.find(user => user._id === users[0])._id}`
+			);
+	}
+
+	setSelected(e) {
+		document
+			.querySelectorAll(".conversations-list > div")
+			.forEach(el => el.removeAttribute("selected"));
+		if (!isNaN(e)) {
+			document
+				.querySelectorAll(".conversations-list > div")
+				// eslint-disable-next-line
+				[e].setAttribute("selected", "");
+		} else e.target.closest(".conversations-list > div").setAttribute("selected", "");
+	}
+
 	renderConversationsList() {
 		if (this.state.conversations.length === 0) return this.renderFriendsList();
 		return [
@@ -198,15 +220,7 @@ class Chat extends Component {
 				if (!conversation) return null;
 				let users = conversation.users.filter(user => user !== currentUsername); //liste users in conv
 				return (
-					<div
-						key={index}
-						onClick={e => {
-							!e.target.className.includes("fas") &&
-								!users.find(user => window.location.hash.substr(1) === user) &&
-								this.props.history.push(
-									`#${this.state.friends.find(user => user._id === users[0])._id}`
-								);
-						}}>
+					<div key={index} onClick={e => this.onConversationClick(e, users)}>
 						<div className="img-container">
 							<img
 								alt="conversation"
@@ -311,10 +325,14 @@ class Chat extends Component {
 			if (!friend || this.findConversation(friend._id) !== undefined) return null;
 			return (
 				<div
-					onClick={() => {
+					onClick={e => {
+						this.setSelected(e);
 						window.location.hash.substr(1) !== friend._id &&
 							this.props.history.push(`#${friend._id}`);
 					}}
+					onLoad={e =>
+						window.location.hash.substr(1) === friend._id && this.setSelected(e)
+					}
 					key={friend._id}>
 					<div className="img-container">
 						<img alt="profile" src={friend.url || DEFAULT_IMG} />
@@ -348,12 +366,13 @@ class Chat extends Component {
 				</div>
 			);
 		if (this.state.new)
-			return (
-				<div className="first-conversation">
-					Envoyez un message à {this.state.new._id} !{this.renderInput()}
+			return [
+				<div key="friend-conv" className="first-conversation">
+					Envoyez un message à {this.state.new._id} !
 					<Emoji emoji="wave" set="messenger" size={32} />
-				</div>
-			);
+				</div>,
+				this.renderInput()
+			];
 		return [
 			<div key="messages" className="messages">
 				{this.state.conversations[this.state.conversation].messages.map(message => {

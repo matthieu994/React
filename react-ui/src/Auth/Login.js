@@ -107,9 +107,9 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
 	return {
-		toggleLoginModal: () => dispatch(toggleLoginModal()),
 		displayLoginModal: () => dispatch(displayLoginModal()),
-		hideLoginModal: () => dispatch(hideLoginModal())
+		hideLoginModal: () => dispatch(hideLoginModal()),
+		toggleLoginModal: () => dispatch(toggleLoginModal())
 	};
 };
 
