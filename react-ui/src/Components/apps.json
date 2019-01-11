@@ -1,32 +1,58 @@
 [
-    {
-        "title": "TodoList 📒",
-        "desc": "Créer et partagez vos listes avec vos amis.",
-        "Component": "TodoList"
-    },
-    {
-        "title": "Transports 🚎",
-        "desc": "Consultez les différents moyens de transports près de chez vous.",
-        "Component": "Transports"
-    },
-    {
-        "title": "TicTacToe ❌⭕",
-        "desc": "Jouez en ligne avec vos amis.",
-        "Component": "TicTacToe"
-    },
-    {
-        "title": "AgarClone 🔘",
-        "desc": "Un simple clone du jeu agar.io.",
-        "Component": "AgarClone"
-    },
-    {
-        "title": "Chat 💬",
-        "desc": "Discutez en ligne avec vos amis.",
-        "Component": "Chat"
-    },
-    {
-        "title": "Profil 👤",
-        "desc": "Gérez votre profil.",
-        "Component": "Profile"
-    }
+	{
+		"title": "Portfolio 📒",
+		"desc": "Mes créations et mes réseaux.",
+        "Component": "Portfolio",
+        "private": false,
+		"status": "DEV"
+	},
+	{
+		"title": "Profil 👤",
+		"desc": "Gérez votre profil.",
+        "Component": "Profile",
+        "private": true,
+		"status": "END"
+	},
+	{
+		"title": "TodoList 📋",
+		"desc": "Créer et partagez vos listes avec vos amis.",
+        "Component": "TodoList",
+        "private": true,
+		"status": "END"
+	},
+	{
+		"title": "Transports 🚎",
+		"desc": "Consultez les différents moyens de transports près de chez vous.",
+        "Component": "Transports",
+        "private": true,
+		"status": "START"
+	},
+	{
+		"title": "TicTacToe ❌⭕",
+		"desc": "Jouez en ligne avec vos amis au célèbre jeu du morpion.",
+        "Component": "TicTacToe",
+        "private": false,
+		"status": "END"
+	},
+	{
+		"title": "AgarClone 🔘",
+		"desc": "Un simple clone du jeu agar.io.",
+        "Component": "AgarClone",
+        "private": true,
+		"status": "END"
+	},
+	{
+		"title": "Chat 💬",
+		"desc": "Discutez en ligne avec vos amis.",
+        "Component": "Chat",
+        "private": true,
+		"status": "END"
+	},
+	{
+		"title": "Event 📆",
+		"desc": "Gérez les finances d'un évènement.",
+        "Component": "Event",
+        "private": true,
+		"status": "START"
+	}
 ]

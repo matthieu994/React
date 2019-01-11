@@ -21,21 +21,28 @@
     box-sizing: border-box;
     display: inline-flex;
     margin: 10px;
-    padding: 0 0 20px 0;
-    max-height: 13vmax;
-    min-height: 240px;
+    padding: 0 0 3px 0;
+    min-width: 210px;
     max-width: 15vmax;
-    min-width: 230px;
+    min-height: 180px;
+    max-height: 13vmax;
     z-index: 0;
     overflow: overlay; }
     .apps-wrapper > .card .btn {
-      padding: 0.54rem 1.14rem; }
+      padding: 0.54rem 1.14rem;
+      margin-bottom: 2px; }
     .apps-wrapper > .card .card-body {
       padding-top: 10px; }
     .apps-wrapper > .card .card-header {
       border-radius: 15px 15px 0 0;
-      background-color: rgba(44, 104, 218, 0.61);
+      background-color: rgba(44, 104, 218, 0.5);
       cursor: grab; }
+    .apps-wrapper > .card .card-bottom > span {
+      font-style: italic;
+      font-size: 0.78rem;
+      display: block;
+      margin-top: 2px;
+      color: #747373; }
     .apps-wrapper > .card:not(.active) {
       transition: all 0.3s; }
     .apps-wrapper > .card.active {

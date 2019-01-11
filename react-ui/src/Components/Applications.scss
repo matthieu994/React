@@ -24,23 +24,31 @@
         box-sizing: border-box;
         display: inline-flex;
         margin: 10px;
-        padding: 0 0 20px 0;
-        max-height: 13vmax;
-        min-height: 240px;
+        padding: 0 0 3px 0;
+        min-width: 210px;
         max-width: 15vmax;
-        min-width: 230px;
+        min-height: 180px;
+        max-height: 13vmax;
         z-index: 0;
         overflow: overlay;
         .btn {
             padding: 0.54rem 1.14rem;
+            margin-bottom: 2px;
         }
         .card-body {
             padding-top: 10px;
         }
         .card-header {
             border-radius: 15px 15px 0 0;
-            background-color: rgba(44, 104, 218, 0.61);
+            background-color: rgba(44, 104, 218, 0.5);
             cursor: grab;
+        }
+        .card-bottom > span {
+            font-style: italic;
+            font-size: 0.78rem;
+            display: block;
+            margin-top: 2px;
+            color: #747373;
         }
         &:not(.active) {
             transition: all 0.3s;

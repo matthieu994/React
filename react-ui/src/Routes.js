@@ -8,6 +8,7 @@ import Transports from "./Transports/Transports";
 import TicTacToe from "./TicTacToe/TicTacToe";
 import AgarClone from "./AgarClone/AgarClone";
 import Chat from "./Chat/Chat";
+import EventPlanner from "./Event/Event";
 
 class App extends Component {
 	render() {
@@ -23,6 +24,7 @@ class App extends Component {
 					<PrivateRoute path="/TicTacToe" component={TicTacToe} />
 					<PrivateRoute path="/Chat" component={Chat} />
 					<PrivateRoute path="/AgarClone" component={AgarClone} />
+					<PrivateRoute path="/Event" component={EventPlanner} />
 					<Redirect to="/" />
 				</Switch>
 			</div>

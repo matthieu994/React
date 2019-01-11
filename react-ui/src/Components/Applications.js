@@ -33,7 +33,7 @@ class Applications extends Component {
 	render() {
 		return (
 			<div className="apps-wrapper">
-				<i className="fas fa-undo" onClick={() => this.reset()} />
+				{/* <i className="fas fa-undo" onClick={() => this.reset()} /> */}
 				{this.renderApplications()}
 			</div>
 		);
@@ -54,6 +54,9 @@ class Card extends Component {
 	}
 
 	handleDrag(e) {
+		// Todo
+		return;
+
 		cards = document.querySelectorAll(".apps-wrapper > .card");
 
 		e = e || window.event;
@@ -158,6 +161,16 @@ class Card extends Component {
 		else return false;
 	}
 
+	getStatus() {
+		let status;
+		if(this.props.app.status === "START") status = "Pas commencé"
+		if(this.props.app.status === "DEV") status = "En développement"
+		if(this.props.app.status === "END") status = "Terminé"
+		return(
+			<span>{status}</span>
+		)
+	}
+
 	render() {
 		return (
 			<div className="card" key={this.props.index} index={this.props.index}>
@@ -172,6 +185,7 @@ class Card extends Component {
 						onClick={() => this.props.history.push(this.props.app.Component)}>
 						Y aller !
 					</Button>
+					{this.getStatus()}
 				</div>
 			</div>
 		);
