@@ -2,27 +2,53 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import "./Applications.css";
 import apps from "./apps.json";
+import {
+	MDBBtn,
+	MDBIcon,
+	MDBDropdown,
+	MDBDropdownToggle,
+	MDBDropdownMenu,
+	MDBDropdownItem
+} from "mdbreact";
 import { Button } from "mdbreact";
 
 class Applications extends Component {
 	constructor() {
 		super();
 		this.state = {
-			apps
+			apps,
+			displaySort: false,
+			sortBy: "default"
 		};
 	}
 
 	renderApplications() {
 		let newApps = localStorage.getItem("apps");
-		if (newApps && newApps.length === this.state.apps) {
-			return newApps.split(",").map((appIndex, index) => {
-				return <Card key={appIndex} index={appIndex} app={this.state.apps[appIndex]} history={this.props.history}/>;
+		let apps = this.state.apps;
+		if (newApps && newApps.length === this.state.apps) apps = newApps.split(",");
+
+		if (this.state.sortBy === "status")
+			apps = apps.sort(function(a, b) {
+				if (a.status === "START" && b.status !== a.status) return 1;
+				if (a.status === "START" && b.status === a.status) return 0;
+				if (a.status === "DEV" && b.status !== a.status) return 1;
+				if (a.status === "DEV" && b.status === a.status) return 0;
+				if (a.status === "END" && b.status !== a.status) return 1;
+				if (a.status === "END" && b.status === a.status) return 0;
+				return -1;
 			});
-		} else {
-			return this.state.apps.map((app, index) => {
-				return <Card key={index} index={index} app={app} history={this.props.history}/>;
+		if (this.state.sortBy === "private")
+			apps = apps.sort(function(a, b) {
+				if (a.private && !b.private) return 1;
+				else if (a.private && b.private) return 0;
+				else return -1;
 			});
-		}
+
+		// console.log(apps);
+
+		return apps.map((app, index) => {
+			return <Card key={index} index={index} app={app} history={this.props.history} />;
+		});
 	}
 
 	reset() {
@@ -30,10 +56,54 @@ class Applications extends Component {
 		this.render();
 	}
 
+	toggleSort() {
+		this.setState({ displaySort: !this.state.displaySort });
+	}
+
+	renderSort() {
+		if (!this.state.displaySort) return null;
+		return (
+			<div className="sort-container">
+				<span>Trier par: </span>
+				<MDBDropdown>
+					<MDBDropdownToggle caret color="primary" size="sm">
+						{this.state.sortBy === "default" && "Par défaut"}
+						{this.state.sortBy === "status" && "État du projet"}
+						{this.state.sortBy === "private" && "Privé"}
+					</MDBDropdownToggle>
+					<MDBDropdownMenu basic>
+						<MDBDropdownItem
+							onClick={() =>
+								this.setState({ sortBy: "default" }, () => this.toggleSort())
+							}>
+							Par défaut
+						</MDBDropdownItem>
+						<MDBDropdownItem
+							onClick={() =>
+								this.setState({ sortBy: "status" }, () => this.toggleSort())
+							}>
+							État du projet
+						</MDBDropdownItem>
+						<MDBDropdownItem
+							onClick={() =>
+								this.setState({ sortBy: "private" }, () => this.toggleSort())
+							}>
+							Privé
+						</MDBDropdownItem>
+					</MDBDropdownMenu>
+				</MDBDropdown>
+			</div>
+		);
+	}
+
 	render() {
 		return (
 			<div className="apps-wrapper">
 				{/* <i className="fas fa-undo" onClick={() => this.reset()} /> */}
+				<MDBBtn className="filter" color="primary" onClick={() => this.toggleSort()}>
+					<MDBIcon icon="filter" />
+				</MDBBtn>
+				{this.renderSort()}
 				{this.renderApplications()}
 			</div>
 		);
@@ -57,6 +127,7 @@ class Card extends Component {
 		// Todo
 		return;
 
+		// eslint-disable-next-line
 		cards = document.querySelectorAll(".apps-wrapper > .card");
 
 		e = e || window.event;
@@ -163,12 +234,10 @@ class Card extends Component {
 
 	getStatus() {
 		let status;
-		if(this.props.app.status === "START") status = "Pas commencé"
-		if(this.props.app.status === "DEV") status = "En développement"
-		if(this.props.app.status === "END") status = "Terminé"
-		return(
-			<span>{status}</span>
-		)
+		if (this.props.app.status === "START") status = "Pas commencé";
+		if (this.props.app.status === "DEV") status = "En développement";
+		if (this.props.app.status === "END") status = "Terminé";
+		return <span>{status}</span>;
 	}
 
 	render() {
