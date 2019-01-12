@@ -1,58 +1,66 @@
 [
 	{
-		"title": "Portfolio 📒",
+		"title": "Portfolio",
+		"icon": "📒",
 		"desc": "Mes créations et mes réseaux.",
-        "Component": "Portfolio",
-        "private": false,
+		"Component": "Portfolio",
+		"private": false,
 		"status": "DEV"
 	},
 	{
-		"title": "Profil 👤",
+		"title": "Profil",
+		"icon": "👤",
 		"desc": "Gérez votre profil.",
-        "Component": "Profile",
-        "private": true,
+		"Component": "Profile",
+		"private": true,
 		"status": "END"
 	},
 	{
-		"title": "TodoList 📋",
+		"title": "TodoList",
+		"icon": "📋",
 		"desc": "Créer et partagez vos listes avec vos amis.",
-        "Component": "TodoList",
-        "private": true,
+		"Component": "TodoList",
+		"private": true,
 		"status": "END"
 	},
 	{
-		"title": "Transports 🚎",
+		"title": "Transports",
+		"icon": "🚎",
 		"desc": "Consultez les différents moyens de transports près de chez vous.",
-        "Component": "Transports",
-        "private": true,
+		"Component": "Transports",
+		"private": true,
 		"status": "START"
 	},
 	{
-		"title": "TicTacToe ❌⭕",
+		"title": "Morpion",
+		"icon": "❌⭕",
 		"desc": "Jouez en ligne avec vos amis au célèbre jeu du morpion.",
-        "Component": "TicTacToe",
-        "private": false,
+		"Component": "TicTacToe",
+		"private": false,
 		"status": "END"
 	},
 	{
-		"title": "AgarClone 🔘",
+		"title": "AgarClone",
+		"icon": "🔘",
 		"desc": "Un simple clone du jeu agar.io.",
-        "Component": "AgarClone",
-        "private": true,
+		"Component": "AgarClone",
+		"private": true,
 		"status": "END"
 	},
 	{
-		"title": "Chat 💬",
+		"title": "Chat",
+		"icon": "💬",
 		"desc": "Discutez en ligne avec vos amis.",
-        "Component": "Chat",
-        "private": true,
+		"Component": "Chat",
+		"private": true,
 		"status": "END"
 	},
 	{
-		"title": "Event 📆",
+		"title": "Event",
+		"icon": "📆",
 		"desc": "Gérez les finances d'un évènement.",
-        "Component": "Event",
-        "private": true,
+		"Component": "Event",
+		"private": true,
 		"status": "START"
 	}
 ]

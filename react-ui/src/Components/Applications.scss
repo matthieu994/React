@@ -1,105 +1,101 @@
 .col {
-	text-align: center;
+    text-align: center;
 }
 
 .card-title {
-	font-size: 2rem;
+    font-size: 2rem;
 }
 
 .card-text {
-	text-align: justify;
+    text-align: justify;
 }
 
 .sort-container {
-	&:before {
-		content: "";
-		position: absolute;
-		left: 0;
-		top: 50%;
-		width: 0;
-		height: 0;
-		border: 20px solid transparent;
-		border-right-color: rgb(38, 88, 169);
-		border-left: 0;
-		margin-top: -40px;
-		margin-left: -10px;
+    &:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 0;
+        height: 0;
+        border: 20px solid transparent;
+        border-right-color: rgb(38, 88, 169);
+        border-left: 0;
+        margin-top: -40px;
+        margin-left: -10px;
     }
     button {
         cursor: pointer;
     }
-	z-index: 1;
-	color: white;
-	background: rgb(38, 88, 169);
-	position: absolute;
+    z-index: 1;
+    color: white;
+    background: rgb(38, 88, 169);
+    position: absolute;
     margin-top: 10px;
     padding-top: 5px;
-	width: 200px;
-	height: 80px;
-	border-radius: 5px;
-	box-shadow: 0px 1.5px 8px 0.5px rgba(0, 0, 0, 0.2);
+    width: 200px;
+    height: 80px;
+    border-radius: 5px;
+    box-shadow: 0px 1.5px 8px 0.5px rgba(0, 0, 0, 0.2);
 }
 
 button.filter {
-	.fa-filter:before {
-		font-size: 1.5rem;
-	}
-	top: 0;
-	left: 0;
-	border-radius: 50%;
-	position: absolute;
-	padding: 10px 15px;
-	margin: 7px;
+    .fa-filter:before {
+        font-size: 1.5rem;
+    }
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    position: absolute;
+    padding: 10px 15px;
+    margin: 10px;
 }
 
 .apps-wrapper {
-	margin: 0 auto;
-	text-align: center;
-	position: relative;
-	padding: 0 4vw;
-	& > .card {
-		left: 0px;
-		top: 0px;
-		border: unset;
-		box-shadow: 0px 1.5px 8px 0.5px rgba(0, 0, 0, 0.2);
-		border-radius: 15px;
-		box-sizing: border-box;
-		display: inline-flex;
-		margin: 10px;
-		padding: 0 0 3px 0;
-		min-width: 210px;
-		max-width: 15vmax;
-		min-height: 180px;
-		max-height: 13vmax;
-		z-index: 0;
-		overflow: overlay;
-		.btn {
-			padding: 0.54rem 1.14rem;
-			margin-bottom: 2px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    padding: 0 4vw;
+    .card {
+        left: 0px;
+        top: 0px;
+        border: unset;
+        box-shadow: 0px 1.5px 8px 0.5px rgba(0, 0, 0, 0.2);
+        border-radius: 15px;
+        box-sizing: border-box;
+        display: inline-flex;
+        margin: 10px;
+        padding: 0 0 3px 0;
+        min-width: 210px;
+        max-width: 15vmax;
+        min-height: 180px;
+        max-height: 13vmax;
+        z-index: 0;
+        overflow: overlay;
+        &[private=true] {
+			filter: opacity(50%);
 		}
-		.card-body {
-			padding-top: 10px;
-		}
-		.card-header {
-			border-radius: 15px 15px 0 0;
-			background-color: rgba(44, 104, 218, 0.5);
-			cursor: grab;
-		}
-		.card-bottom > span {
-			font-style: italic;
-			font-size: 0.78rem;
-			display: block;
-			margin-top: 2px;
-			color: #747373;
-		}
-		&:not(.active) {
-			transition: all 0.3s;
-		}
-		&.active {
-			z-index: 1;
-			box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.3);
-			.card-header {
-				background-color: rgba(44, 104, 218, 0.8);
-			}
-		}
-	}
+        .fa {
+            margin-left: 3px;
+        }
+        .btn {
+            padding: 0.54rem 1.14rem;
+            margin-bottom: 2px;
+        }
+        .card-body {
+            padding-top: 10px;
+        }
+        .card-header {
+            border-radius: 15px 15px 0 0;
+            background-color: rgba(44, 104, 218, 0.5);
+            cursor: grab;
+        }
+        .card-bottom>span {
+            font-style: italic;
+            font-size: 0.78rem;
+            display: block;
+            margin-top: 2px;
+            color: #747373;
+        }
+    }
 }

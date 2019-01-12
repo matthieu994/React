@@ -1,9 +1,7 @@
-import {
-	DISPLAY_LOGIN_MODAL,
-	TOGGLE_LOGIN_MODAL,
-	HIDE_LOGIN_MODAL
-} from "../constants/action-types";
+import * as actions from "../constants/action-types";
 
-export const toggleLoginModal = () => ({ type: TOGGLE_LOGIN_MODAL });
-export const displayLoginModal = () => ({ type: DISPLAY_LOGIN_MODAL });
-export const hideLoginModal = () => ({ type: HIDE_LOGIN_MODAL });
+export const toggleLoginModal = () => ({ type: actions.TOGGLE_LOGIN_MODAL });
+export const displayLoginModal = () => ({ type: actions.DISPLAY_LOGIN_MODAL });
+export const hideLoginModal = () => ({ type: actions.HIDE_LOGIN_MODAL });
+
+export const setAuth = bool => ({ type: bool });

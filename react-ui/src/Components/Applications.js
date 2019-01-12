@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import FlipMove from "react-flip-move";
 import "./Applications.css";
-import apps from "./apps.json";
+import APPS from "./apps.json";
 import {
 	MDBBtn,
 	MDBIcon,
@@ -16,9 +18,9 @@ class Applications extends Component {
 	constructor() {
 		super();
 		this.state = {
-			apps,
+			apps: APPS,
 			displaySort: false,
-			sortBy: "default"
+			sortBy: localStorage.getItem("sortBy") || "default"
 		};
 	}
 
@@ -28,26 +30,26 @@ class Applications extends Component {
 		if (newApps && newApps.length === this.state.apps) apps = newApps.split(",");
 
 		if (this.state.sortBy === "status")
-			apps = apps.sort(function(a, b) {
-				if (a.status === "START" && b.status !== a.status) return 1;
-				if (a.status === "START" && b.status === a.status) return 0;
-				if (a.status === "DEV" && b.status !== a.status) return 1;
-				if (a.status === "DEV" && b.status === a.status) return 0;
-				if (a.status === "END" && b.status !== a.status) return 1;
-				if (a.status === "END" && b.status === a.status) return 0;
-				return -1;
-			});
+			apps = apps
+				.filter(app => app.status === "START")
+				.concat(
+					apps
+						.filter(app => app.status === "DEV")
+						.concat(apps.filter(app => app.status === "END"))
+				);
 		if (this.state.sortBy === "private")
-			apps = apps.sort(function(a, b) {
-				if (a.private && !b.private) return 1;
-				else if (a.private && b.private) return 0;
-				else return -1;
-			});
+			apps = apps.filter(app => !app.private).concat(apps.filter(app => app.private));
 
-		// console.log(apps);
-
-		return apps.map((app, index) => {
-			return <Card key={index} index={index} app={app} history={this.props.history} />;
+		return apps.map(app => {
+			let index = APPS.findIndex(app2 => app2.title === app.title);
+			return (
+				<Card
+					key={index}
+					app={app}
+					history={this.props.history}
+					isAuth={this.props.isAuth}
+				/>
+			);
 		});
 	}
 
@@ -58,6 +60,10 @@ class Applications extends Component {
 
 	toggleSort() {
 		this.setState({ displaySort: !this.state.displaySort });
+	}
+
+	sort(type) {
+		this.setState({ sortBy: type }, () => localStorage.setItem("sortBy", type));
 	}
 
 	renderSort() {
@@ -72,24 +78,13 @@ class Applications extends Component {
 						{this.state.sortBy === "private" && "Privé"}
 					</MDBDropdownToggle>
 					<MDBDropdownMenu basic>
-						<MDBDropdownItem
-							onClick={() =>
-								this.setState({ sortBy: "default" }, () => this.toggleSort())
-							}>
+						<MDBDropdownItem onClick={() => this.sort("default")}>
 							Par défaut
 						</MDBDropdownItem>
-						<MDBDropdownItem
-							onClick={() =>
-								this.setState({ sortBy: "status" }, () => this.toggleSort())
-							}>
+						<MDBDropdownItem onClick={() => this.sort("status")}>
 							État du projet
 						</MDBDropdownItem>
-						<MDBDropdownItem
-							onClick={() =>
-								this.setState({ sortBy: "private" }, () => this.toggleSort())
-							}>
-							Privé
-						</MDBDropdownItem>
+						<MDBDropdownItem onClick={() => this.sort("private")}>Privé</MDBDropdownItem>
 					</MDBDropdownMenu>
 				</MDBDropdown>
 			</div>
@@ -104,7 +99,7 @@ class Applications extends Component {
 					<MDBIcon icon="filter" />
 				</MDBBtn>
 				{this.renderSort()}
-				{this.renderApplications()}
+				<FlipMove>{this.renderApplications()}</FlipMove>
 			</div>
 		);
 	}
@@ -241,15 +236,17 @@ class Card extends Component {
 	}
 
 	render() {
+		let privateProp = this.props.app.private && !this.props.isAuth;
 		return (
-			<div className="card" key={this.props.index} index={this.props.index}>
+			<div className="card" private={privateProp.toString()}>
 				<div className="card-header" onMouseDown={e => this.handleDrag(e)} />
 				<div className="card-body">
-					<h5 className="card-title">{this.props.app.title}</h5>
+					<h5 className="card-title">{this.props.app.title + this.props.app.icon}</h5>
 					<p className="card-text">{this.props.app.desc}</p>
 				</div>
 				<div className="card-bottom">
 					<Button
+						disabled={privateProp}
 						color="primary"
 						onClick={() => this.props.history.push(this.props.app.Component)}>
 						Y aller !
@@ -262,7 +259,14 @@ class Card extends Component {
 }
 
 withRouter(Card);
-export default Applications;
+
+const mapStateToProps = state => {
+	return {
+		isAuth: state.setAuth.isAuth
+	};
+};
+
+export default withRouter(connect(mapStateToProps)(Applications));
 
 // (function() {
 // 	document.onmousemove = handleMouseMove;

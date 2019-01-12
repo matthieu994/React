@@ -21,7 +21,21 @@ const toggleLoginModal = (state = loginModalState, action) => {
 	}
 };
 
+const isAuthState = {
+	isAuth: false
+};
+const setAuth = (state = isAuthState, action) => {
+	switch (action.type) {
+		case true:
+			return Object.assign({}, state, { isAuth: true });
+		case false:
+			return Object.assign({}, state, { isAuth: false });
+		default:
+			return state;
+	}
+};
+
 export default combineReducers({
-	toggleLoginModal
-	// test
+	toggleLoginModal,
+	setAuth
 });

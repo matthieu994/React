@@ -12,7 +12,8 @@ import Register from "../../Auth/Register";
 import {
 	toggleLoginModal,
 	displayLoginModal,
-	hideLoginModal
+	hideLoginModal,
+	setAuth
 } from "../../redux/actions/index";
 
 class Header extends Component {
@@ -37,7 +38,10 @@ class Header extends Component {
 					isMounted: true,
 					isAuth
 				},
-				() => this.handleUrl()
+				() => {
+					this.handleUrl();
+					this.props.setAuth(isAuth);
+				}
 			);
 		});
 	}
@@ -174,14 +178,16 @@ class Alerts extends Component {
 
 const mapStateToProps = state => {
 	return {
-		modal: state.toggleLoginModal.loginModal
+		modal: state.toggleLoginModal.loginModal,
+		isAuth: state.setAuth.isAuth
 	};
 };
 const mapDispatchToProps = dispatch => {
 	return {
 		toggleLoginModal: () => dispatch(toggleLoginModal()),
 		displayLoginModal: () => dispatch(displayLoginModal()),
-		hideLoginModal: () => dispatch(hideLoginModal())
+		hideLoginModal: () => dispatch(hideLoginModal()),
+		setAuth: bool => dispatch(setAuth(bool))
 	};
 };
 

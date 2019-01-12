@@ -39,7 +39,7 @@ button.filter {
   border-radius: 50%;
   position: absolute;
   padding: 10px 15px;
-  margin: 7px; }
+  margin: 10px; }
   button.filter .fa-filter:before {
     font-size: 1.5rem; }
 
@@ -48,7 +48,7 @@ button.filter {
   text-align: center;
   position: relative;
   padding: 0 4vw; }
-  .apps-wrapper > .card {
+  .apps-wrapper .card {
     left: 0px;
     top: 0px;
     border: unset;
@@ -64,25 +64,22 @@ button.filter {
     max-height: 13vmax;
     z-index: 0;
     overflow: overlay; }
-    .apps-wrapper > .card .btn {
+    .apps-wrapper .card[private=true] {
+      filter: opacity(50%); }
+    .apps-wrapper .card .fa {
+      margin-left: 3px; }
+    .apps-wrapper .card .btn {
       padding: 0.54rem 1.14rem;
       margin-bottom: 2px; }
-    .apps-wrapper > .card .card-body {
+    .apps-wrapper .card .card-body {
       padding-top: 10px; }
-    .apps-wrapper > .card .card-header {
+    .apps-wrapper .card .card-header {
       border-radius: 15px 15px 0 0;
       background-color: rgba(44, 104, 218, 0.5);
       cursor: grab; }
-    .apps-wrapper > .card .card-bottom > span {
+    .apps-wrapper .card .card-bottom > span {
       font-style: italic;
       font-size: 0.78rem;
       display: block;
       margin-top: 2px;
       color: #747373; }
-    .apps-wrapper > .card:not(.active) {
-      transition: all 0.3s; }
-    .apps-wrapper > .card.active {
-      z-index: 1;
-      box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.3); }
-      .apps-wrapper > .card.active .card-header {
-        background-color: rgba(44, 104, 218, 0.8); }
