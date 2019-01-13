@@ -1,6 +1,7 @@
 .portfolio {
     height: 100%;
     position: absolute;
+    overflow: hidden;
     .row {
         height: 100%;
         div[layout="profile"] {
@@ -8,11 +9,11 @@
             background-color: rgb(67, 114, 210);
             text-align: center;
             overflow: auto;
-			display: flex;
-			flex-direction: column;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-			overflow-x: hidden;
+            overflow-x: hidden;
             img[alt="profile"] {
                 border-radius: 50%;
                 width: 150px;
@@ -40,6 +41,24 @@
                     transition: 0.5s all ease-in;
                     white-space: nowrap;
                 }
+            }
+        }
+        div[layout="contents"] {
+            padding: 0;
+            overflow: auto;
+            &>div:first-of-type {
+                position: fixed;
+                width: 75%;
+                .progress {
+                    height: 0.3rem;
+                    border-radius: 0;
+                    div {
+                        background-color: rgb(129, 171, 255);
+                    }
+                }
+            }
+            div:not(:first-of-type) {
+                height: 1200px;
             }
         }
     }

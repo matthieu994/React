@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
+import { MDBContainer, MDBRow, MDBCol, Progress } from "mdbreact";
 import "./portfolio.css";
 import profile from "./images/cv_profile.jpg";
 import githubIcon from "./images/github.svg";
@@ -14,9 +14,48 @@ export default class Portfolio extends Component {
 			<MDBContainer className="portfolio" fluid>
 				<MDBRow>
 					<Links />
-					<MDBCol size="9" />
+					<Content />
 				</MDBRow>
 			</MDBContainer>
+		);
+	}
+}
+
+class Content extends Component {
+	constructor() {
+		super();
+		this.state = {
+			progress: 0
+		};
+	}
+
+	scrollHandler(e) {
+		var winScroll = e.target.scrollTop;
+		var height = e.target.scrollHeight - e.target.clientHeight;
+		var scrolled = (winScroll / height) * 100;
+		this.setState({
+			progress: scrolled
+		});
+	}
+
+	inViewPort(elem) {
+		var bounding = elem.getBoundingClientRect();
+		return (
+			bounding.top >= 0 &&
+			bounding.left >= 0 &&
+			bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+			bounding.right <= (window.innerWidth || document.documentElement.clientWidth)
+		);
+	}
+
+	render() {
+		return (
+			<MDBCol size="9" layout="contents" onScroll={e => this.scrollHandler(e)}>
+				<div>
+					<Progress value={this.state.progress} />
+				</div>
+				<div />
+			</MDBCol>
 		);
 	}
 }
