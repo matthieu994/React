@@ -23,21 +23,22 @@ export default class Portfolio extends Component {
 
 class Links extends Component {
 	showLink(e) {
-		e.target.style.animation = "slideleft 0.5s";
-		e.target.nextSibling.style.animation = "fadein 0.5s";
-		e.target.nextSibling.style.display = "initial";
+		let target = e.target;
+		let width = e.target.nextSibling.clientWidth / 2;
+		target.style.transform = "translateX(-" + (width + 30) + "px)";
+
+		target.nextSibling.style.transform = "translateX(-" + (width + 30) + "px)";
+		target.nextSibling.style.opacity = "1";
+		target.nextSibling.style.display = "initial";
 	}
 
 	hideLink(e) {
-		e.target = e.target.closest(".link");
-		e.target.childNodes[0].style.animation = "slideright 0.5s";
-		e.target.childNodes[1].style.animation = "fadeout 0.5s";
-		setTimeout(
-			function() {
-				this.childNodes[1].style.display = "none";
-			}.bind(e.target),
-			500
-		);
+		let target = e.target;
+		target = target.closest(".link");
+		target.childNodes[0].style.transform = "unset";
+
+		target.childNodes[1].style.transform = "unset";
+		target.childNodes[1].style.opacity = "0";
 	}
 
 	render() {
