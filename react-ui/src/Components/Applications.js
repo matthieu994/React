@@ -47,7 +47,7 @@ class Applications extends Component {
 					key={index}
 					app={app}
 					history={this.props.history}
-					isAuth={this.props.isAuth}
+					private={!this.props.isAuth && app.private}
 				/>
 			);
 		});
@@ -236,9 +236,8 @@ class Card extends Component {
 	}
 
 	render() {
-		let privateProp = this.props.app.private && !this.props.isAuth;
 		return (
-			<div className="card" private={privateProp.toString()}>
+			<div className="card" private={this.props.private.toString()}>
 				<div className="card-header" onMouseDown={e => this.handleDrag(e)} />
 				<div className="card-body">
 					<h5 className="card-title">{this.props.app.title + this.props.app.icon}</h5>
@@ -246,7 +245,7 @@ class Card extends Component {
 				</div>
 				<div className="card-bottom">
 					<Button
-						disabled={privateProp}
+						disabled={this.props.private}
 						color="primary"
 						onClick={() => this.props.history.push(this.props.app.Component)}>
 						Y aller !
