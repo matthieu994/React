@@ -30,31 +30,56 @@ class Content extends Component {
 	}
 
 	scrollHandler(e) {
-		var winScroll = e.target.scrollTop;
-		var height = e.target.scrollHeight - e.target.clientHeight;
+		var winScroll = e.currentTarget.scrollTop;
+		var height = e.currentTarget.scrollHeight - e.currentTarget.clientHeight;
 		var scrolled = (winScroll / height) * 100;
 		this.setState({
 			progress: scrolled
 		});
+
+		e.currentTarget.childNodes.forEach(el => {
+			// console.log(el, this.percentageSeen(el, e.currentTarget.clientHeight));
+		});
 	}
 
-	inViewPort(elem) {
-		var bounding = elem.getBoundingClientRect();
-		return (
-			bounding.top >= 0 &&
-			bounding.left >= 0 &&
-			bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-			bounding.right <= (window.innerWidth || document.documentElement.clientWidth)
-		);
+	percentageSeen(el, viewHeight) {
+		var viewportHeight = viewHeight,
+			scrollTop = el.getBoundingClientRect().top,
+			scrollBottom = el.getBoundingClientRect().bottom,
+			elementOffsetTop = window.screenTop + el.scrollTop,
+			elementHeight = el.offsetHeight;
+
+		if (elementOffsetTop > scrollTop + viewportHeight) {
+			var distance = scrollBottom;
+			var percentage = distance / (elementHeight / 100);
+			percentage = Math.round(percentage);
+			return percentage;
+		} else if (elementOffsetTop + elementHeight < scrollTop) {
+			return 0;
+		} else {
+			distance = viewportHeight - scrollTop;
+			percentage = distance / (elementHeight / 100);
+			percentage = Math.round(percentage);
+			return percentage;
+		}
 	}
 
 	render() {
 		return (
-			<MDBCol size="9" layout="contents" onScroll={e => this.scrollHandler(e)}>
+			<MDBCol size="9" layout="contents">
 				<div>
+					<span content={"studies"}>Études</span>
+					<span content={"experience"}>Expérience</span>
+					<span content={"skills"}>Compétences</span>
+					<span content={"projects"}>Projets</span>
 					<Progress value={this.state.progress} />
 				</div>
-				<div />
+				<div onScroll={e => this.scrollHandler(e)}>
+					<div content={"studies"} />
+					<div content={"experience"} />
+					<div content={"skills"} />
+					<div content={"projects"} />
+				</div>
 			</MDBCol>
 		);
 	}
