@@ -1,0 +1,30 @@
+[
+	{
+		"from": "2018",
+		"to": "",
+		"name": "Université du Québec à Montréal",
+		"place": "Montréal, Canada",
+		"desc": "DUT Informatique • 2e année"
+	},
+	{
+		"from": "2017",
+		"to": "2018",
+		"name": "IUT de Sénart / Fontainebleau",
+		"place": "Lieusaint 77127",
+		"desc": "DUT Informatique • 1ere année"
+	},
+	{
+		"from": "2014",
+		"to": "2017",
+		"name": "Lycée Guillaume Budé",
+		"place": "Limeil-Brévannes, 94456",
+		"desc": "Bac Scientifque • Mention Bien • Option ISN (Informatique)"
+	},
+	{
+		"from": "2010",
+		"to": "2014",
+		"name": "Collège La Guinette",
+		"place": "Villecresnes, 94440",
+		"desc": "Brevet • Mention Très Bien"
+	}
+]

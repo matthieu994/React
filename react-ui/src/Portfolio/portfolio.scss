@@ -71,8 +71,16 @@
             &>div:not(:first-of-type) {
                 overflow: auto;
                 height: calc(100% - 52px);
-                div {
-                    height: 500px;
+                // &::-webkit-scrollbar {
+                //     display: none;
+                // }
+                // & {
+                //     overflow: -moz-scrollbars-none;
+                //     -ms-overflow-style: none;
+                // }
+                &>div {
+                    // border: 1px solid red;
+                    // height: 500px;
                 }
             }
         }

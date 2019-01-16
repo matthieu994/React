@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { MDBContainer, MDBRow, MDBCol, Progress } from "mdbreact";
+import Timeline from "./Timeline";
 import "./portfolio.css";
+import "./studies.css";
 import profile from "./images/cv_profile.jpg";
 import githubIcon from "./images/github.svg";
 import linkedinIcon from "./images/linkedin.png";
@@ -75,7 +77,7 @@ class Content extends Component {
 					<Progress value={this.state.progress} />
 				</div>
 				<div onScroll={e => this.scrollHandler(e)}>
-					<div content={"studies"} />
+					<Timeline />
 					<div content={"experience"} />
 					<div content={"skills"} />
 					<div content={"projects"} />
