@@ -203,7 +203,7 @@ class TodoList extends Component {
 						</Button>
 					)}
 				</form>
-				<div className="list-group mt-3">{this.renderTodos()}</div>
+				<div className="list-group mt-3 mb-5">{this.renderTodos()}</div>
 				<Alert stack={{ limit: 3 }} />
 			</div>
 		);

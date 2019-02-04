@@ -59,9 +59,9 @@ button.filter {
     margin: 10px;
     padding: 0 0 3px 0;
     min-width: 210px;
-    max-width: 15vmax;
+    max-width: 270px;
     min-height: 180px;
-    max-height: 13vmax;
+    max-height: 250px;
     z-index: 0;
     overflow: overlay; }
     .apps-wrapper .card[private=true] {

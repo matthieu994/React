@@ -34,17 +34,20 @@ export default class Timeline extends Component {
 	}
 
 	animNext(items, index) {
-		setTimeout(() => {
-			let direction = index % 2 === 0 ? "right" : "left";
-			items[index].style.animation = "slidefrom" + direction + " 1s ease-out both";
-			setTimeout(
-				function() {
-					this.style.animation = "zoomin 1s ease-out both";
-				}.bind(items[index].children[0]),
-				600
-			);
-			if (++index < items.length) this.animNext(items, index);
-		}, 400);
+		setTimeout(
+			() => {
+				let direction = index % 2 === 0 ? "right" : "left";
+				items[index].style.animation = "slidefrom" + direction + " 1s ease-out both";
+				setTimeout(
+					function() {
+						this.style.animation = "zoomin 0.7s ease-in both";
+					}.bind(items[index].children[0]),
+					800
+				);
+				if (++index < items.length) this.animNext(items, index);
+			},
+			index === 0 ? 0 : 600
+		);
 	}
 
 	render() {

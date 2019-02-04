@@ -38,32 +38,6 @@ class Content extends Component {
 		this.setState({
 			progress: scrolled
 		});
-
-		e.currentTarget.childNodes.forEach(el => {
-			// console.log(el, this.percentageSeen(el, e.currentTarget.clientHeight));
-		});
-	}
-
-	percentageSeen(el, viewHeight) {
-		var viewportHeight = viewHeight,
-			scrollTop = el.getBoundingClientRect().top,
-			scrollBottom = el.getBoundingClientRect().bottom,
-			elementOffsetTop = window.screenTop + el.scrollTop,
-			elementHeight = el.offsetHeight;
-
-		if (elementOffsetTop > scrollTop + viewportHeight) {
-			var distance = scrollBottom;
-			var percentage = distance / (elementHeight / 100);
-			percentage = Math.round(percentage);
-			return percentage;
-		} else if (elementOffsetTop + elementHeight < scrollTop) {
-			return 0;
-		} else {
-			distance = viewportHeight - scrollTop;
-			percentage = distance / (elementHeight / 100);
-			percentage = Math.round(percentage);
-			return percentage;
-		}
 	}
 
 	render() {
