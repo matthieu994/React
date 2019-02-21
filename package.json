@@ -1,7 +1,7 @@
 {
 	"name": "heroku-cra-node",
 	"version": "1.0.0",
-	"description": "My PortFolio Application",
+	"description": "My Personnal Applications",
 	"engines": {
 		"node": "8.12.x"
 	},

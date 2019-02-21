@@ -1,9 +1,9 @@
 [
 	{
-		"title": "Portfolio",
+		"title": "CV",
 		"icon": "📒",
-		"desc": "Mes créations et mes réseaux.",
-		"Component": "Portfolio",
+		"desc": "Mon parcours et mes compétences",
+		"Component": "CV",
 		"private": false,
 		"status": "DEV"
 	},
@@ -61,6 +61,14 @@
 		"desc": "Gérez les finances d'un évènement.",
 		"Component": "Event",
 		"private": true,
+		"status": "START"
+	},
+	{
+		"title": "Porfolio",
+		"icon": "📝",
+		"desc": "Mes créations et mes réseaux.",
+		"Component": "Portfolio",
+		"private": false,
 		"status": "START"
 	}
 ]
