@@ -1,4 +1,5 @@
-import { Component } from "react";
+import React, { Component } from "react";
+import "./preloader.css";
 
 export default class Portfolio extends Component {
     componentDidMount() {
@@ -6,6 +7,6 @@ export default class Portfolio extends Component {
     }
 
     render() {
-        return null;
+        return <div id="preloader" />;
     }
 }
