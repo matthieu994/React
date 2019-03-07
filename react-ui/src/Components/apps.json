@@ -64,11 +64,19 @@
 		"status": "START"
 	},
 	{
-		"title": "Porfolio",
+		"title": "Portfolio",
 		"icon": "📝",
 		"desc": "Mes créations et mes réseaux.",
 		"Component": "Portfolio",
 		"private": false,
 		"status": "START"
+	},
+	{
+		"title": "Platform",
+		"icon": "🎮",
+		"desc": "Mon premier jeu 2D.",
+		"Component": "Platform",
+		"private": false,
+		"status": "DEV"
 	}
 ]
