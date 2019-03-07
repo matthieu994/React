@@ -23,9 +23,7 @@ var models = require("./models/ChatSchema");
 // Priority serve any static files.
 app.use(express.static(path.resolve(__dirname, "../react-ui/build")));
 app.use("/Portfolio", (req, res) => {
-    res.status(200).sendFile(
-        path.resolve(__dirname, "../react-ui/public/PortfolioSrc/")
-    );
+    express.static(path.resolve(__dirname, "../react-ui/public/PortfolioSrc/"));
 });
 
 // Heroku / localhost mongoose url
