@@ -6,8 +6,8 @@ export default class Platform extends Component {
         super(props);
 
         this.unityContent = new UnityContent(
-            "build/Build.json",
-            "build/UnityLoader.js"
+            "build/Build/TemplateData.json",
+            "build/Build/UnityLoader.js"
         );
     }
 
