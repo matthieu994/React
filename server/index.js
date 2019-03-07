@@ -24,7 +24,7 @@ var models = require("./models/ChatSchema");
 app.use(express.static(path.resolve(__dirname, "../react-ui/build")));
 app.use("/Portfolio", (req, res) => {
     res.status(200).sendFile(
-        path.resolve(__dirname, "public", "Portfolio/index.html")
+        path.resolve(__dirname, "../react-ui/public/Portfolio/index.html")
     );
 });
 
