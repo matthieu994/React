@@ -62,7 +62,9 @@ require("./socket.io/socket")(app, PORT);
 require("./chat/chat")(app);
 
 app.get("/Portfolio", (req, res) => {
-    res.status(200).sendFile(path.resolve(__dirname, "../react-ui/public/PortfolioSrc", "index.html"));
+    res.status(200).sendFile(
+        path.resolve(__dirname, "../react-ui/public/PortfolioSrc", "index.html")
+    );
 });
 
 app.post("/auth", (req, res) => {
@@ -98,7 +100,7 @@ app.use((req, res, next) => {
 });
 
 app.listen(PORT, () => {
-    console.error(
+    console.log(
         `Node cluster worker ${process.pid}: listening on port ${PORT}`
     );
 });
