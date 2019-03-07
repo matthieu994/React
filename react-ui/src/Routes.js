@@ -10,7 +10,7 @@ import AgarClone from "./AgarClone/AgarClone";
 import Chat from "./Chat/Chat";
 import EventPlanner from "./Event/Event";
 import CV from "./CV";
-import Portfolio from "./Portfolio";
+import Portfolio from "./Portfolio/";
 
 class App extends Component {
     render() {
@@ -21,8 +21,8 @@ class App extends Component {
                     <Route path="/login" component={Applications} />
                     <Route path="/register" component={Applications} />
                     <Route path="/TicTacToe" component={TicTacToe} />
-                    <Route path="/Portfolio" component={Portfolio} />
                     <Route path="/CV" component={CV} />
+                    <PrivateRoute path="/Portfolio" component={Portfolio} />
                     <PrivateRoute path="/Profile" component={Profile} />
                     <PrivateRoute path="/TodoList" component={TodoList} />
                     <PrivateRoute path="/Transports" component={Transports} />
