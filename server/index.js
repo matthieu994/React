@@ -22,6 +22,11 @@ var models = require("./models/ChatSchema");
 
 // Priority serve any static files.
 app.use(express.static(path.resolve(__dirname, "../react-ui/build")));
+app.use("/Portfolio", (req, res) => {
+    res.status(200).sendFile(
+        path.resolve(__dirname, "public", "Portfolio/index.html")
+    );
+});
 
 // Heroku / localhost mongoose url
 let URL;
@@ -60,12 +65,6 @@ require("./Auth/Profile")(app);
 require("./socket.io/socket")(app, PORT);
 
 require("./chat/chat")(app);
-
-app.get("/Portfolio", (req, res) => {
-    res.status(200).sendFile(
-        path.resolve(__dirname, "../react-ui/public/PortfolioSrc", "index.html")
-    );
-});
 
 app.post("/auth", (req, res) => {
     let token = req.body.token ? req.body.token : req.headers.token;
