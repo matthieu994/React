@@ -99,11 +99,11 @@ app.use((req, res, next) => {
         );
 });
 
-app.listen(PORT, () => {
-    console.log(
-        `Node cluster worker ${process.pid}: listening on port ${PORT}`
-    );
-});
+// app.listen(PORT, () => {
+//     console.log(
+//         `Node cluster worker ${process.pid}: listening on port ${PORT}`
+//     );
+// });
 
 function verifAuth(token) {
     return new Promise(resolve => {
