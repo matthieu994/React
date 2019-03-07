@@ -61,19 +61,8 @@ require("./socket.io/socket")(app, PORT);
 
 require("./chat/chat")(app);
 
-app.get("/api/portfolio", (req, res) => {
-    tools.getUser(req.headers.token, res, "todos").then(user => {
-        if (!user.todos) return;
-        let todosArray = [];
-        var promises = user.todos.map((el, index) => {
-            return Todo.findOne(el).then(todo => {
-                todosArray[index] = todo;
-            });
-        });
-        Promise.all(promises).then(function(results) {
-            res.send(todosArray);
-        });
-    });
+app.get("/Portfolio", (req, res) => {
+    res.status(200).sendFile(path.resolve(__dirname, "../react-ui/public/PortfolioSrc", "index.html"));
 });
 
 app.post("/auth", (req, res) => {

@@ -10,7 +10,7 @@ export default class Portfolio extends Component {
 
     get() {
         axios
-            .get("/api/portfolio")
+            .get("/Portfolio")
             .then(res => {
                 console.log(res);
             })
