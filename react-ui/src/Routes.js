@@ -21,6 +21,7 @@ class App extends Component {
                     <Route path="/login" component={Applications} />
                     <Route path="/register" component={Applications} />
                     <Route path="/TicTacToe" component={TicTacToe} />
+                    <Route path="/Portfolio" component={Portfolio} />
                     <Route path="/CV" component={CV} />
                     <PrivateRoute path="/Profile" component={Profile} />
                     <PrivateRoute path="/TodoList" component={TodoList} />
@@ -28,7 +29,6 @@ class App extends Component {
                     <PrivateRoute path="/Chat" component={Chat} />
                     <PrivateRoute path="/AgarClone" component={AgarClone} />
                     <PrivateRoute path="/Event" component={EventPlanner} />
-                    <Route path="/Portfolio" component={Portfolio} />
                     <Redirect to="/" />
                 </Switch>
             </div>

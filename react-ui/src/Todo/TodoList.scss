@@ -2,6 +2,7 @@
     padding: 0.25rem 0.65rem;
     display: table;
     justify-content: space-between;
+    width: 100%;
     .text {
         display: table-cell;
         justify-content: center;
@@ -26,5 +27,16 @@
         .buttons {
             opacity: 0.4;
         }
+    }
+}
+
+.list-group {
+    display: inline-block;
+    text-align: center;
+    & > div {
+        text-align: left;
+        width: 49%;
+        margin: 2px 0.5%;
+        display: inline-flex;
     }
 }

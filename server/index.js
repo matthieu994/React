@@ -22,11 +22,6 @@ var models = require("./models/ChatSchema");
 
 // Priority serve any static files.
 app.use(express.static(path.resolve(__dirname, "../react-ui/build")));
-app.use("/DevFolio", (req, res) => {
-    res.status(200).sendFile(
-        path.resolve(__dirname, "public", "DevFolio/index.html")
-    );
-});
 
 // Heroku / localhost mongoose url
 let URL;
@@ -39,7 +34,7 @@ URL = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${
 // }
 
 mongoose.connect(URL, { useNewUrlParser: true }, function(err, db) {
-    if (err) return err;
+    if (err) console.log(err);
     // tools.removeCollection(User);
     // tools.showCollections(db);
     // tools.deleteAllTokens(User);
@@ -65,6 +60,21 @@ require("./Auth/Profile")(app);
 require("./socket.io/socket")(app, PORT);
 
 require("./chat/chat")(app);
+
+app.get("/api/portfolio", (req, res) => {
+    tools.getUser(req.headers.token, res, "todos").then(user => {
+        if (!user.todos) return;
+        let todosArray = [];
+        var promises = user.todos.map((el, index) => {
+            return Todo.findOne(el).then(todo => {
+                todosArray[index] = todo;
+            });
+        });
+        Promise.all(promises).then(function(results) {
+            res.send(todosArray);
+        });
+    });
+});
 
 app.post("/auth", (req, res) => {
     let token = req.body.token ? req.body.token : req.headers.token;
@@ -98,9 +108,11 @@ app.use((req, res, next) => {
         );
 });
 
-// app.listen(PORT, function () {
-//   console.error(`Node cluster worker ${process.pid}: listening on port ${PORT}`);
-// });
+app.listen(PORT, () => {
+    console.error(
+        `Node cluster worker ${process.pid}: listening on port ${PORT}`
+    );
+});
 
 function verifAuth(token) {
     return new Promise(resolve => {
