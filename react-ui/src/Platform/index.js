@@ -12,6 +12,10 @@ export default class Platform extends Component {
         );
     }
 
+    componentWillUnmount() {
+        this.unityContent.Quit();
+    }
+
     render() {
         return <Unity unityContent={this.unityContent} className="platform" />;
     }
