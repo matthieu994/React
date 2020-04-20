@@ -8,8 +8,8 @@
     },
     "scripts": {
         "start": "node server",
-        "heroku-postbuild": "npm run postbuild-client && cd server && npm install --no-shrinkwrap",
-        "postbuild-client": "cd client/ && npm install --no-shrinkwrap && npm run build && rm build/static/*/*.map"
+        "heroku-postbuild": "npm run postbuild-client && cd server && npm install --no-shrinkwrap --no-audit",
+        "postbuild-client": "cd client/ && npm install --no-shrinkwrap --no-audit && npm run build && rm build/static/*/*.map"
     },
     "cacheDirectories": [
         "server/node_modules",
