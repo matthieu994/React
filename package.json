@@ -12,6 +12,7 @@
         "postbuild-client": "cd client/ && npm install --no-shrinkwrap --no-audit && npm run build && rm build/static/*/*.map"
     },
     "cacheDirectories": [
+        "./node_modules",
         "server/node_modules",
         "client/node_modules"
     ],
