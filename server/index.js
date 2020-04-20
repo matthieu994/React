@@ -58,7 +58,7 @@ require('./chat/chat')(app);
 
 // All remaining requests return the React app, so it can handle routing.
 app.use((req, res, next) => {
-  if (app.get('env') !== 'development') res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+  if (app.get('env') !== 'development') res.sendFile(path.resolve(__dirname, '../../client/build', 'index.html'));
 });
 
 // app.listen(PORT, () => {
