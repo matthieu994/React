@@ -1,6 +1,6 @@
 {
     "name": "matthieupetit-server",
-    "version": "1.0",
+    "version": "1.0.0",
     "description": "Server-side of my website",
     "scripts": {
         "start": "node server",

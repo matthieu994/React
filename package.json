@@ -1,6 +1,6 @@
 {
     "name": "matthieu-apps",
-    "version": "1.0",
+    "version": "1.0.0",
     "description": "My demo website",
     "engines": {
         "node": "8.12.x",
