@@ -30,7 +30,7 @@ app.use(express.static(path.resolve(__dirname, "../client/build")));
 let URL;
 URL = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_SERVER}`;
 
-mongoose.connect(URL, { useNewUrlParser: true }, function (err, db) {
+mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, db) {
     if (err) console.log(err);
     // tools.removeCollection(User);
     // tools.showCollections(db);

@@ -1,0 +1,28 @@
+{
+    "name": "matthieu-apps",
+    "version": "0.1",
+    "description": "My demo website",
+    "engines": {
+        "node": "8.12.x",
+        "npm": "6.9.0"
+    },
+    "scripts": {
+        "start": "node server",
+        "heroku-postbuild": "cd client/ && npm install --only=dev --no-shrinkwrap && npm run build && rm build/static/*/*.map"
+    },
+    "cacheDirectories": [
+        "server/node_modules",
+        "client/node_modules"
+    ],
+    "dependencies": {},
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/matthieu994/React.git"
+    },
+    "keywords": [
+        "node",
+        "heroku",
+        "react"
+    ],
+    "devDependencies": {}
+}

@@ -1,42 +1,23 @@
 {
-  "name": "matthieupetit-server",
-  "version": "1.0.0",
-  "description": "My Personnal Applications",
-  "engines": {
-    "node": "8.12.x",
-    "npm": "6.9.0"
-  },
-  "scripts": {
-    "start": "node server",
-    "dev": "nodemon server",
-    "heroku-postbuild": "cd client/ && npm install --only=dev --no-shrinkwrap && npm run build && rm build/static/*/*.map"
-  },
-  "cacheDirectories": [
-    "node_modules",
-    "client/node_modules"
-  ],
-  "dependencies": {
-    "bcrypt": "^3.0.1",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
-    "dotenv": "^6.2.0",
-    "express": "^4.17.1",
-    "express-jwt": "^5.3.3",
-    "jwks-rsa": "^1.8.0",
-    "mongodb": "^3.5.6",
-    "mongoose": "^5.9.9",
-    "socket.io": "^2.3.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/matthieu994/React.git"
-  },
-  "keywords": [
-    "node",
-    "heroku",
-    "react"
-  ],
-  "license": "MIT",
-  "devDependencies": {}
+    "name": "matthieupetit-server",
+    "version": "0.1",
+    "description": "Server-side of my website",
+    "scripts": {
+        "start": "node server",
+        "dev": "nodemon server",
+        "heroku-postbuild": "cd client/ && npm install --only=dev --no-shrinkwrap && npm run build && rm build/static/*/*.map"
+    },
+    "dependencies": {
+        "bcrypt": "^3.0.1",
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "dotenv": "^6.2.0",
+        "express": "^4.17.1",
+        "express-jwt": "^5.3.3",
+        "jwks-rsa": "^1.8.0",
+        "mongodb": "^3.5.6",
+        "mongoose": "^5.9.9",
+        "socket.io": "^2.3.0"
+    }
 }
