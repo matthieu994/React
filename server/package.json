@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "My Personnal Applications",
   "engines": {
-    "node": "8.12.x"
+    "node": "8.12.x",
+    "npm": "6.9.0"
   },
   "scripts": {
     "start": "node server",

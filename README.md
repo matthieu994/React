@@ -8,4 +8,4 @@ React app based on create-react-app with a Node server on Heroku.
 
 * Start Server :
 
-`npm start`
+`cd server && npm run dev`
