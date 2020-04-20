@@ -46,7 +46,7 @@ mongoose.set('useCreateIndex', true);
 require('./TodoList/TodoList')(app);
 
 // User management
-require('./Auth/Auth')(app);
+require('./Auth/Auth')(app, path);
 
 // Profile management
 require('./Auth/Profile')(app);
