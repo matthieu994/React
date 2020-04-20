@@ -1,6 +1,6 @@
 {
   "name": "matthieupetit-client",
-  "version": "0.1",
+  "version": "1.0",
   "description": "Client-side of my website",
   "private": true,
   "devDependencies": {
