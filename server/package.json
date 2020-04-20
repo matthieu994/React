@@ -3,9 +3,7 @@
     "version": "1.0.0",
     "description": "Server-side of my website",
     "scripts": {
-        "start": "node server",
-        "dev": "nodemon server",
-        "heroku-postbuild": "cd client/ && npm install --only=dev --no-shrinkwrap && npm run build && rm build/static/*/*.map"
+        "dev": "nodemon server"
     },
     "dependencies": {
         "bcrypt": "^3.0.1",
