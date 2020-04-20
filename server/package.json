@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "Server-side of my website",
     "scripts": {
-        "dev": "nodemon server"
+        "dev": "nodemon"
     },
     "dependencies": {
         "bcrypt": "^3.0.1",

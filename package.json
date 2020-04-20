@@ -7,8 +7,9 @@
         "npm": "6.9.x"
     },
     "scripts": {
-        "start": "cd server/ && npm install --no-shrinkwrap && node server",
-        "heroku-postbuild": "cd client/ && npm install --no-shrinkwrap && npm run build && rm build/static/*/*.map"
+        "start": "node server",
+        "heroku-postbuild": "npm run postbuild-client && cd server && npm install --no-shrinkwrap",
+        "postbuild-client": "cd client/ && npm install --no-shrinkwrap && npm run build && rm build/static/*/*.map"
     },
     "cacheDirectories": [
         "server/node_modules",
