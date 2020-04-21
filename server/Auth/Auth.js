@@ -25,7 +25,7 @@ module.exports = (app, path) => {
   });
 
   app.post("/auth", (req, res) => {
-    console.log(req, path);
+    console.log(path);
     const token = req.body.token ? req.body.token : req.headers.token;
     verifAuth(token).then((isAuth) => {
       if (app.get("env") != "development") {
