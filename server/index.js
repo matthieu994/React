@@ -1,12 +1,14 @@
-const express = require("express");
-const path = require("path");
-
-const PORT = process.env.PORT || 5000;
-
-const app = express();
-const bodyParser = require("body-parser");
 require("dotenv").config();
 
+const express = require("express");
+const path = require("path");
+const jwt = require("jsonwebtoken");
+const PORT = process.env.PORT || 5000;
+const bodyParser = require("body-parser");
+
+const app = express();
+
+app.set("port", PORT);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -14,14 +16,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const mongoose = require("mongoose");
 // const tools = require('./tools');
 // const Todo = require('./models/TodoSchema');
-// const User = require('./models/UserSchema');
+const User = require('./models/UserSchema');
 // const models = require('./models/ChatSchema');
 
 // Priority serve any static files.
 app.use(express.static(path.resolve(__dirname, "../client/build")));
-// app.use("/Portfolio", (req, res) => {
-//     express.static(path.resolve(__dirname, "../client/public/PortfolioSrc/"));
-// });
 
 // Heroku / localhost mongoose url
 let URL;
@@ -48,6 +47,41 @@ mongoose.connect(
   }
 );
 mongoose.set("useCreateIndex", true);
+
+// Auth
+function verifAuth(token) {
+  return new Promise((resolve) => {
+    if (!token) resolve(false);
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) resolve(false);
+      User.findById(decoded.user, (user_err, user) => {
+        if (user_err) resolve(false);
+        if (token === user.token) {
+          resolve(true);
+        }
+      });
+    });
+  });
+}
+
+app.post("/auth", (req, res) => {
+  const token = req.body.token ? req.body.token : req.headers.token;
+  verifAuth(token).then((isAuth) => {
+    if (app.get("env") != "development") {
+      if (!isAuth)
+        res
+          .status(403)
+          .sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+      else
+        res
+          .status(200)
+          .sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+    } else {
+      if (!isAuth) res.sendStatus(403);
+      else res.sendStatus(200);
+    }
+  });
+});
 
 // Todos
 require("./TodoList/TodoList")(app);
