@@ -18,7 +18,6 @@ const mongoose = require("mongoose");
 // const models = require('./models/ChatSchema');
 
 // Priority serve any static files.
-console.log(__dirname, path.resolve(__dirname, "../client/build"))
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 // app.use("/Portfolio", (req, res) => {
 //     express.static(path.resolve(__dirname, "../client/public/PortfolioSrc/"));
@@ -66,8 +65,9 @@ require("./chat/chat")(app);
 
 // All remaining requests return the React app, so it can handle routing.
 app.use((req, res, next) => {
+  console.log(path.resolve(__dirname, "../client/build/index.html"));
   if (app.get("env") !== "development")
-    res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+    res.sendFile(path.resolve(__dirname, "../client/build/index.html"));
 });
 
 // app.listen(PORT, () => {

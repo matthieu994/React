@@ -17,10 +17,15 @@ function verifAuth(token) {
   });
 }
 
-module.exports = function (app, path) {
+module.exports = (app, path) => {
   const saltRounds = 10;
 
+  app.post('/test', function(req, res){
+    res.json({foo:'bar'});
+  });
+
   app.post("/auth", (req, res) => {
+    console.log(req, path);
     const token = req.body.token ? req.body.token : req.headers.token;
     verifAuth(token).then((isAuth) => {
       if (app.get("env") != "development") {
