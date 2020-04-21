@@ -18,6 +18,7 @@ const mongoose = require("mongoose");
 // const models = require('./models/ChatSchema');
 
 // Priority serve any static files.
+console.log(__dirname, path.resolve(__dirname, "../client/build"))
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 // app.use("/Portfolio", (req, res) => {
 //     express.static(path.resolve(__dirname, "../client/public/PortfolioSrc/"));
