@@ -90,12 +90,12 @@ $input-container: 80px;
 				border-radius: 5px;
 				padding: 5px 3px;
 				background-color: rgba(0, 0, 0, 0.05);
-				& > span {
+				& > .emoji-mart-emoji {
 					margin: 0 5px;
 					cursor: pointer;
 					border-radius: 50%;
 					background-color: rgba(216, 216, 216, 0.5);
-					& > span {
+					& span {
 						transition: 0.2s ease-out;
 						&:hover {
 							transform: scale(1.6) translateY(-20%);

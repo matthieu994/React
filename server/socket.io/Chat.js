@@ -13,7 +13,6 @@ module.exports = function(io) {
 		});
 
 		client.on("createConversation", (data, cb) => {
-			console.log(data, client)
 			User.findById(client.token, "username conversations", (err, user) => {
 				if (err) return err;
 				var conversation = new models.Conversation();
