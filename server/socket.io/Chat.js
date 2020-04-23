@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 module.exports = function(io) {
 	var lio = io.of("/Chat");
-
+	
 	lio.on("connection", function(client) {
 		jwt.verify(client.handshake.headers.token, process.env.JWT_SECRET, (err, decoded) => {
 			if (err) return err;
@@ -13,6 +13,7 @@ module.exports = function(io) {
 		});
 
 		client.on("createConversation", (data, cb) => {
+			console.log(data, client)
 			User.findById(client.token, "username conversations", (err, user) => {
 				if (err) return err;
 				var conversation = new models.Conversation();

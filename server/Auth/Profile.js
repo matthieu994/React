@@ -4,7 +4,7 @@ var userTools = require("./Tools");
 module.exports = app => {
 	app.get("/Profile/data", (req, res) => {
 		userTools
-			.getUser(req.headers.token, res, "username image")
+			.getUser(req.headers.authorization, res, "username image")
 			.then(user => {
 				if (!user) return res.sendStatus(403);
 				return res.send(user);
@@ -15,7 +15,7 @@ module.exports = app => {
 	});
 
 	app.put("/Profile/image", (req, res) => {
-		userTools.getUser(req.headers.token, res).then(user => {
+		userTools.getUser(req.headers.authorization, res).then(user => {
 			user.image = req.body.url;
 			user.save();
 			return res.sendStatus(200);
@@ -23,7 +23,7 @@ module.exports = app => {
 	});
 
 	app.get("/Profile/friends", (req, res) => {
-		userTools.getUser(req.headers.token, res, "-_id friends").then(user => {
+		userTools.getUser(req.headers.authorization, res, "-_id friends").then(user => {
 			if (!user) return;
 			var promises = JSON.parse(JSON.stringify(user.friends)).map(friend => {
 				return userTools.getUserImg(friend._id).then(img => {
@@ -50,7 +50,7 @@ module.exports = app => {
 	app.post("/Profile/friend", (req, res) => {
 		User.findOne({ username: req.body.username }, (err, friend) => {
 			if (err) return err;
-			userTools.getUser(req.headers.token, res).then(user => {
+			userTools.getUser(req.headers.authorization, res).then(user => {
 				user.friends.push(friend.username);
 				friend.friends.push({ _id: user.username, status: "REQUEST" });
 				user.save();
@@ -63,7 +63,7 @@ module.exports = app => {
 	app.put("/Profile/friend", (req, res) => {
 		User.findOne({ username: req.body.username }, (err, friend) => {
 			if (err) return err;
-			userTools.getUser(req.headers.token, res).then(user => {
+			userTools.getUser(req.headers.authorization, res).then(user => {
 				user.friends.find(fr => fr._id === friend.username).status = "OK";
 				friend.friends.find(fr => fr._id === user.username).status = "OK";
 				user.save();
@@ -76,7 +76,7 @@ module.exports = app => {
 	app.delete("/Profile/friend", (req, res) => {
 		User.findOne({ username: req.body.username }, "username friends", (err, friend) => {
 			if (err) return err;
-			userTools.getUser(req.headers.token, res, "username friends").then(user => {
+			userTools.getUser(req.headers.authorization, res, "username friends").then(user => {
 				user.friends = user.friends.filter(function(obj) {
 					return obj._id != friend.username;
 				});

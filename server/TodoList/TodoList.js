@@ -3,7 +3,7 @@ var tools = require("../Auth/Tools");
 
 module.exports = function(app) {
     app.get("/todos", (req, res) => {
-        tools.getUser(req.headers.token, res, "todos").then(user => {
+        tools.getUser(req.headers.authorization, res, "todos").then(user => {
             if (!user.todos) return;
             let todosArray = [];
             var promises = user.todos.map((el, index) => {
@@ -18,7 +18,7 @@ module.exports = function(app) {
     });
 
     app.post("/todos", (req, res) => {
-        tools.getUser(req.headers.token, res).then(user => {
+        tools.getUser(req.headers.authorization, res).then(user => {
             var todo = new Todo({ text: req.body.text });
             user.todos.push(todo);
             todo.save();

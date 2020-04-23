@@ -8,7 +8,6 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
-app.set("port", PORT);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -16,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const mongoose = require("mongoose");
 // const tools = require('./tools');
 // const Todo = require('./models/TodoSchema');
-const User = require('./models/UserSchema');
+const User = require("./models/UserSchema");
 // const models = require('./models/ChatSchema');
 
 // Priority serve any static files.
@@ -64,8 +63,13 @@ function verifAuth(token) {
   });
 }
 
-app.post("/auth", (req, res) => {
-  const token = req.body.token ? req.body.token : req.headers.token;
+let api = express.Router();
+app.use("/api", api);
+
+api.post("/auth", (req, res) => {
+  const token = req.headers.authorization
+    ? req.headers.authorization
+    : req.body.token;
   verifAuth(token).then((isAuth) => {
     if (app.get("env") != "development") {
       if (!isAuth)
@@ -84,28 +88,21 @@ app.post("/auth", (req, res) => {
 });
 
 // Todos
-require("./TodoList/TodoList")(app);
+require("./TodoList/TodoList")(api);
 
 // User management
-require("./Auth/Auth")(app, path);
+require("./Auth/Auth")(api, path);
 
 // Profile management
-require("./Auth/Profile")(app);
+require("./Auth/Profile")(api);
 
 // socket.io
 require("./socket.io/socket")(app, PORT);
 
-require("./chat/chat")(app);
+require("./chat/chat")(api);
 
 // All remaining requests return the React app, so it can handle routing.
 app.use((req, res, next) => {
-  console.log(path.resolve(__dirname, "../client/build/index.html"));
   if (app.get("env") !== "development")
     res.sendFile(path.resolve(__dirname, "../client/build/index.html"));
 });
-
-// app.listen(PORT, () => {
-//     console.log(
-//         `Node cluster worker ${process.pid}: listening on port ${PORT}`
-//     );
-// });

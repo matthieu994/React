@@ -18,7 +18,6 @@ export default class Profile extends Component {
 	};
 
 	componentDidMount() {
-		axios.defaults.headers.common["token"] = localStorage.getItem("token");
 		this.getData();
 	}
 

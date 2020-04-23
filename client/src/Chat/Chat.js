@@ -22,7 +22,6 @@ class Chat extends Component {
 	}
 
 	componentDidMount() {
-		Axios.defaults.headers.common["token"] = localStorage.getItem("token");
 		this.updateDimensions();
 		this.socket = io("/Chat", {
 			transportOptions: {

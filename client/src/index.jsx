@@ -15,15 +15,15 @@ import "./index.css";
 class Root extends Component {
     render() {
         return (
-          <Provider store={store}>
-            <Router>
-              <div>
-                <Header />
-                <Routes />
-                <Footer />
-              </div>
-            </Router>
-          </Provider>
+            <Provider store={store}>
+                <Router>
+                    <div>
+                        <Header />
+                        <Routes />
+                        <Footer />
+                    </div>
+                </Router>
+            </Provider>
         );
     }
 }

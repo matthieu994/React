@@ -12,7 +12,6 @@ export default class ChangeImage extends Component {
 	};
 
 	componentDidMount() {
-		axios.defaults.headers.common["token"] = localStorage.getItem("token");
 		this.setState({ img: this.props.img });
 		this.loadImage();
 	}

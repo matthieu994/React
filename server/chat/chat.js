@@ -5,7 +5,7 @@ var Tools = require("../Auth/Tools");
 
 module.exports = app => {
 	app.get("/Chat/data", (req, res) => {
-		Tools.getUser(req.headers.token, res, "socket username friends conversations")
+		Tools.getUser(req.headers.authorization, res, "socket username friends conversations")
 			.then(user => {
 				user.socket = req.query.socket;
 				user.save();
