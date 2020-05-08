@@ -9,7 +9,7 @@
     "scripts": {
         "start": "cd server/ && node index",
         "heroku-postbuild": "npm run postbuild-client && cd server && npm install --no-shrinkwrap --no-audit",
-        "postbuild-client": "cd client/ && npm install --no-shrinkwrap --no-audit && npm run build && rm build/static/*/*.map"
+        "postbuild-client": "cd client/ && npm install --no-shrinkwrap --no-audit && npm run build"
     },
     "cacheDirectories": [
         "server/node_modules",

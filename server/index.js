@@ -22,12 +22,6 @@ const User = require("./models/UserSchema");
 // Priority serve any static files.
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
-app.use((req, res, next) => {
-  if (!req.secure && app.get("env") !== "development")
-    return res.redirect(["https://", req.get("Host"), req.url].join(""));
-  next();
-});
-
 // Heroku / localhost mongoose url
 let URL;
 // if (app.get("env") != "development") {
