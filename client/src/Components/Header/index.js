@@ -194,11 +194,11 @@ class IdentityProvider extends Component {
     constructor() {
         super();
         // Redirect to https
-        if (window.location.protocol !== "https:" && window.location.hostname !== "localhost") {
-            window.location.replace(
-                `https:${window.location.href.substring(window.location.protocol.length)}`
-            );
-        }
+        // if (window.location.protocol !== "https:" && window.location.hostname !== "localhost") {
+        //     window.location.replace(
+        //         `https:${window.location.href.substring(window.location.protocol.length)}`
+        //     );
+        // }
 
         axios.defaults.baseURL = document.location.origin + "/api";
 
