@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const jwt = require("jsonwebtoken");
+
 const PORT = process.env.PORT || 5000;
 const bodyParser = require("body-parser");
 
@@ -20,6 +21,12 @@ const User = require("./models/UserSchema");
 
 // Priority serve any static files.
 app.use(express.static(path.resolve(__dirname, "../client/build")));
+
+app.use((req, res, next) => {
+  if (!req.secure && app.get("env") !== "development")
+    return res.redirect(["https://", req.get("Host"), req.url].join(""));
+  next();
+});
 
 // Heroku / localhost mongoose url
 let URL;
@@ -53,8 +60,8 @@ function verifAuth(token) {
     if (!token) resolve(false);
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) resolve(false);
-      User.findById(decoded.user, (user_err, user) => {
-        if (user_err) resolve(false);
+      User.findById(decoded.user, (userErr, user) => {
+        if (userErr) resolve(false);
         if (token === user.token) {
           resolve(true);
         }
@@ -71,7 +78,7 @@ api.post("/auth", (req, res) => {
     ? req.headers.authorization
     : req.body.token;
   verifAuth(token).then((isAuth) => {
-    if (app.get("env") != "development") {
+    if (app.get("env") !== "development") {
       if (!isAuth)
         res
           .status(403)
@@ -80,10 +87,8 @@ api.post("/auth", (req, res) => {
         res
           .status(200)
           .sendFile(path.resolve(__dirname, "../client/build", "index.html"));
-    } else {
-      if (!isAuth) res.sendStatus(403);
-      else res.sendStatus(200);
-    }
+    } else if (!isAuth) res.sendStatus(403);
+    else res.sendStatus(200);
   });
 });
 
@@ -102,7 +107,7 @@ require("./socket.io/socket")(app, PORT);
 require("./chat/chat")(api);
 
 // All remaining requests return the React app, so it can handle routing.
-app.use((req, res, next) => {
+app.use((req, res, _next) => {
   if (app.get("env") !== "development")
     res.sendFile(path.resolve(__dirname, "../client/build/index.html"));
 });

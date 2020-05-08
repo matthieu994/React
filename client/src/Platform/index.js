@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 import Unity, { UnityContent } from "react-unity-webgl";
-import "./platform.css"
+import "./platform.css";
 
 export default class Platform extends Component {
     constructor(props) {
         super(props);
 
         this.unityContent = new UnityContent(
-            "Platform/Build/TemplateData.json",
+            "Platform/Build/Platform.json",
             "Platform/Build/UnityLoader.js"
         );
     }
 
     componentWillUnmount() {
-        this.unityContent.Quit();
+        // this.unityContent.Quit();
     }
 
     render() {
