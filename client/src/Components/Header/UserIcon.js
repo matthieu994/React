@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import { Button, Fa } from "mdbreact";
+import {
+    Button,
+    Fa,
+    MDBDropdown,
+    MDBDropdownItem,
+    MDBDropdownToggle,
+    MDBDropdownMenu,
+    Dropdown,
+} from "mdbreact";
 import Axios from "axios";
 import { DEFAULT_IMG } from "../../Const/const";
 
@@ -42,27 +50,33 @@ class UserIcon extends Component {
 
         return (
             <div className="user">
-                {this.props.location.pathname !== "/Profile" && (
-                    <div>
-                        <span>{this.state.user.username}</span>
-                        <img
-                            src={this.state.user.image ? this.state.user.image : DEFAULT_IMG}
-                            onClick={this.redirectProfile.bind(this)}
-                            alt="profile"
-                        />
-                    </div>
-                )}
-                <Button
-                    floating
-                    color="primary"
-                    className="logout"
-                    onClick={this.logout.bind(this)}
-                >
-                    Logout
-                    <Fa icon="sign-out" />
-                </Button>
+                <DropdownPage>
+                    {this.props.location.pathname !== "/Profile" && (
+                        <div className="user-buttons">
+                            <span>{this.state.user.username}</span>
+                            <img
+                                src={this.state.user.image ? this.state.user.image : DEFAULT_IMG}
+                                onClick={this.redirectProfile.bind(this)}
+                                alt="profile"
+                            />
+                        </div>
+                    )}
+                </DropdownPage>
             </div>
         );
     }
 }
 export default withRouter(UserIcon);
+
+const DropdownPage = (props) => {
+    return (
+        <MDBDropdown>
+            <MDBDropdownToggle caret color="primary">
+                {props.children}
+            </MDBDropdownToggle>
+            <MDBDropdownMenu basic>
+                <MDBDropdownItem>Déconnexion</MDBDropdownItem>
+            </MDBDropdownMenu>
+        </MDBDropdown>
+    );
+};

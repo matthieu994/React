@@ -1,6 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
+    <script>
+        // Redirect to https
+        if (window.location.protocol === "http:" && window.location.hostname !== "localhost")
+            window.location.protocol = "https:";
+    </script>
+
     <head>
+        <meta name="author" content="Matthieu Petit" />
+        <meta name="description" content="My Freelance Portfolio" />
+        <meta
+            name="keywords"
+            content="HTML, CSS, JavaScript, Freelance, Matthieu Petit, matthieu994"
+        />
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="theme-color" content="#000000" />
@@ -31,14 +43,4 @@
         </noscript>
         <div id="root"></div>
     </body>
-
-    <script>
-        // Redirect to https
-        if (window.location.protocol === "http:" && window.location.hostname !== "localhost") {
-            // window.location.replace(
-            //     `https:${window.location.href.substring(window.location.protocol.length)}`
-            // );
-            window.location.protocol = "https:";
-        }
-    </script>
 </html>
