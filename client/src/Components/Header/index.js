@@ -22,7 +22,7 @@ class Header extends Component {
     isAuth: false,
     isMounted: false,
     authComponent: "Login",
-    displayHeader: true,
+    displayHeader: false,
   };
 
   componentDidMount() {

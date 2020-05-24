@@ -14,28 +14,31 @@ import Portfolio from "./Portfolio/Porfolio";
 import Platform from "./Platform";
 
 class App extends Component {
-    render() {
-        return (
-            <>
-                <Switch>
-                    <Route path="/" exact component={Applications} />
-                    <Route path="/login" component={Applications} />
-                    <Route path="/register" component={Applications} />
-                    <Route path="/TicTacToe" component={TicTacToe} />
-                    <Route path="/CV" component={CV} />
-                    <Route path="/Portfolio" component={Portfolio} />
-                    <Route path="/Platform" component={Platform} />
-                    <PrivateRoute path="/Profile" component={Profile} />
-                    <PrivateRoute path="/TodoList" component={TodoList} />
-                    <PrivateRoute path="/Transports" component={Transports} />
-                    <PrivateRoute path="/Chat" component={Chat} />
-                    <PrivateRoute path="/AgarClone" component={AgarClone} />
-                    <PrivateRoute path="/Event" component={EventPlanner} />
-                    <Redirect to="/" />
-                </Switch>
-            </>
-        );
-    }
+  render() {
+    if (window.location.host.split(".")[0] === "portfolio")
+      return <Route path="/Portfolio" component={Portfolio} />;
+
+    return (
+      <>
+        <Switch>
+          <Route path="/" exact component={Applications} />
+          <Route path="/login" component={Applications} />
+          <Route path="/register" component={Applications} />
+          <Route path="/TicTacToe" component={TicTacToe} />
+          <Route path="/CV" component={CV} />
+          <Route path="/Portfolio" component={Portfolio} />
+          <Route path="/Platform" component={Platform} />
+          <PrivateRoute path="/Profile" component={Profile} />
+          <PrivateRoute path="/TodoList" component={TodoList} />
+          <PrivateRoute path="/Transports" component={Transports} />
+          <PrivateRoute path="/Chat" component={Chat} />
+          <PrivateRoute path="/AgarClone" component={AgarClone} />
+          <PrivateRoute path="/Event" component={EventPlanner} />
+          <Redirect to="/" />
+        </Switch>
+      </>
+    );
+  }
 }
 
 export default App;
