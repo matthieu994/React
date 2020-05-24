@@ -48,7 +48,11 @@ class Header extends Component {
   }
 
   handleUrl() {
-    this.setState({ displayHeader: window.location.pathname.toLowerCase() !== "/portfolio" });
+    this.setState({
+      displayHeader:
+        window.location.pathname.toLowerCase() !== "/portfolio" &&
+        window.location.host.split(".")[0] !== "portfolio",
+    });
 
     if (this.state.isMounted) {
       if (
