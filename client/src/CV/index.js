@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { MDBContainer, MDBRow, MDBCol, Progress } from "mdbreact";
+import { Container, Row, Col, ProgressBar } from "react-bootstrap";
 import Timeline from "./Timeline";
 import "./cv.css";
 import "./studies.css";
@@ -13,12 +13,12 @@ import mailIcon from "./images/mail.svg";
 export default class CV extends Component {
 	render() {
 		return (
-			<MDBContainer className="cv" fluid>
-				<MDBRow>
+			<Container className="cv" fluid>
+				<Row>
 					<Links />
 					<Content />
-				</MDBRow>
-			</MDBContainer>
+				</Row>
+			</Container>
 		);
 	}
 }
@@ -42,13 +42,13 @@ class Content extends Component {
 
 	render() {
 		return (
-			<MDBCol size="9" layout="contents">
+			<Col size="9" layout="contents">
 				<div>
 					<span content={"studies"}>Études</span>
 					<span content={"experience"}>Expérience</span>
 					<span content={"skills"}>Compétences</span>
 					<span content={"projects"}>Projets</span>
-					<Progress value={this.state.progress} />
+					<ProgressBar now={this.state.progress} />
 				</div>
 				<div onScroll={e => this.scrollHandler(e)}>
 					<Timeline />
@@ -56,7 +56,7 @@ class Content extends Component {
 					<div content={"skills"} />
 					<div content={"projects"} />
 				</div>
-			</MDBCol>
+			</Col>
 		);
 	}
 }
@@ -83,7 +83,7 @@ class Links extends Component {
 
 	render() {
 		return (
-			<MDBCol size="3" layout="profile">
+			<Col size="3" layout="profile">
 				<img src={profile} alt="profile" />
 				<div className="link" onMouseLeave={e => this.hideLink(e)}>
 					<img src={telIcon} alt="tel" onMouseEnter={e => this.showLink(e)} />
@@ -122,7 +122,7 @@ class Links extends Component {
 						Site personnel
 					</a>
 				</div>
-			</MDBCol>
+			</Col>
 		);
 	}
 }

@@ -1,2 +1,2 @@
 export const DEFAULT_IMG =
-	"https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png";
+    "https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png";

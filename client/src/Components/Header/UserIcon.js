@@ -1,14 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import {
-    Button,
-    Fa,
-    MDBDropdown,
-    MDBDropdownItem,
-    MDBDropdownToggle,
-    MDBDropdownMenu,
-    Dropdown,
-} from "mdbreact";
+import { Dropdown } from "react-bootstrap";
 import Axios from "axios";
 import { DEFAULT_IMG } from "../../Const/const";
 
@@ -42,7 +34,7 @@ class UserIcon extends Component {
     }
 
     redirectProfile() {
-        this.props.history.push("/Profile");
+        // this.props.history.push("/Profile");
     }
 
     render() {
@@ -50,33 +42,27 @@ class UserIcon extends Component {
 
         return (
             <div className="user">
-                <DropdownPage>
-                    {this.props.location.pathname !== "/Profile" && (
-                        <div className="user-buttons">
-                            <span>{this.state.user.username}</span>
-                            <img
-                                src={this.state.user.image ? this.state.user.image : DEFAULT_IMG}
-                                onClick={this.redirectProfile.bind(this)}
-                                alt="profile"
-                            />
-                        </div>
-                    )}
-                </DropdownPage>
+                <Dropdown>
+                    <Dropdown.Toggle color="primary">
+                        {this.props.location.pathname !== "/Profile" && (
+                            <div className="user-buttons">
+                                <span>{this.state.user.username}</span>
+                                <img
+                                    src={
+                                        this.state.user.image ? this.state.user.image : DEFAULT_IMG
+                                    }
+                                    onClick={this.redirectProfile.bind(this)}
+                                    alt="profile"
+                                />
+                            </div>
+                        )}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        <Dropdown.Item onClick={() => this.logout()}>Déconnexion</Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
             </div>
         );
     }
 }
 export default withRouter(UserIcon);
-
-const DropdownPage = (props) => {
-    return (
-        <MDBDropdown>
-            <MDBDropdownToggle caret color="primary">
-                {props.children}
-            </MDBDropdownToggle>
-            <MDBDropdownMenu basic>
-                <MDBDropdownItem>Déconnexion</MDBDropdownItem>
-            </MDBDropdownMenu>
-        </MDBDropdown>
-    );
-};

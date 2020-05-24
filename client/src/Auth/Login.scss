@@ -1,35 +1,33 @@
 .connect {
     margin: auto;
     text-align: center;
-    min-width: 250px;
+    min-width: 300px;
     width: 25vw;
     max-width: 350px;
-    .md-form {
-        .prefix {
-            left: 0;
-        }
-    }
     button {
-		padding: 8px 20px;
-		letter-spacing: 2px;
-		font-size: 1rem;
-		white-space: nowrap;
-		overflow: hidden;
-		display: block;
-		margin: auto;
+        // padding: 8px 20px;
+        letter-spacing: 2px;
+        font-size: 1rem;
+        // white-space: nowrap;
+        // overflow: hidden;
+        margin: auto;
+        display: block;
     }
     a {
         display: inline-block;
         margin-top: 5px;
     }
-    .form-control[status="error"] {
-        border-color: #f44242;
-    }
-    .form-control[status="correct"] {
-        border-color: #42f48c;
-    }
-    .md-form input:focus {
-        box-shadow: unset !important;
+    .input-group.password {
+        .input-group-append > span {
+            // padding: 0;
+            button {
+                box-shadow: unset !important;
+                background-color: unset;
+                border: unset;
+                outline: unset !important;
+                padding: 0;
+            }
+        }
     }
 }
 

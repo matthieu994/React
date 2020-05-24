@@ -74,7 +74,7 @@ class Game extends Component {
 		});
 	}
 
-	componentWillReceiveProps(props) {
+	UNSAFE_componentWillReceiveProps(props) {
 		if (props.update) this.forceUpdate();
 		this.socket.disconnect();
 	}
@@ -128,7 +128,7 @@ class P5Wrapper extends React.Component {
 		}
 	}
 
-	componentWillReceiveProps(newprops) {
+	UNSAFE_componentWillReceiveProps(newprops) {
 		if (this.props.sketch !== newprops.sketch) {
 			this.wrapper.removeChild(this.wrapper.childNodes[0]);
 			this.canvas = new p5(newprops.sketch, this.wrapper);

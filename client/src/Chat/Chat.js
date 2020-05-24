@@ -91,7 +91,7 @@ class Chat extends Component {
 		});
 	}
 
-	componentWillReceiveProps() {
+	UNSAFE_componentWillReceiveProps() {
 		this.handleUrl();
 	}
 

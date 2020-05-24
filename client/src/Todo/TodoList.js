@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Fa, Button } from "mdbreact";
+import { Button } from "react-bootstrap";
+import { FaTrash, FaCheck, FaPencilAlt, FaPlus } from "react-icons/fa";
 import FlipMove from "react-flip-move";
 import "./TodoList.css";
 import Alert from "react-s-alert";
@@ -19,7 +20,7 @@ class TodoList extends Component {
         this.state = {
             userInput: "",
             items: [],
-            edit: null
+            edit: null,
         };
     }
 
@@ -34,13 +35,13 @@ class TodoList extends Component {
     async get() {
         axios
             .get("/todos")
-            .then(res => {
+            .then((res) => {
                 !this.isCancelled &&
                     this.setState({
-                        items: res.data
+                        items: res.data,
                     });
             })
-            .catch(err => console.log(err));
+            .catch((err) => console.log(err));
     }
 
     onKeyDown(event) {
@@ -51,14 +52,14 @@ class TodoList extends Component {
         if (event.key === "Enter" && event.ctrlKey) {
             var newInput = this.state.userInput + "\n";
             this.setState({
-                userInput: newInput
+                userInput: newInput,
             });
         }
     }
 
     onChange(event) {
         this.setState({
-            userInput: event.target.value
+            userInput: event.target.value,
         });
     }
 
@@ -71,44 +72,44 @@ class TodoList extends Component {
             axios
                 .put("/todos", {
                     text: this.state.userInput.trim(),
-                    id: this.state.edit
+                    id: this.state.edit,
                 })
                 .then(() => this.get())
-                .catch(err => console.log(err));
+                .catch((err) => console.log(err));
 
             this.setState({
-                edit: ""
+                edit: "",
             });
 
             Alert.info("Elément modifié !", {
                 position: "top-left",
                 effect: "flip",
-                timeout: 2000
+                timeout: 2000,
             });
         } else {
             axios
                 .post("/todos", {
-                    text: this.state.userInput.trim()
+                    text: this.state.userInput.trim(),
                 })
                 .then(() => this.get())
-                .catch(err => console.log(err));
+                .catch((err) => console.log(err));
 
             Alert.success("Elément ajouté à la liste !", {
                 position: "top-left",
                 effect: "flip",
-                timeout: 2000
+                timeout: 2000,
             });
         }
 
         this.setState({
-            userInput: ""
+            userInput: "",
         });
     }
 
     edit(index) {
         this.setState({
             userInput: this.state.items[index].text,
-            edit: this.state.items[index]._id
+            edit: this.state.items[index]._id,
         });
         this.render();
     }
@@ -116,7 +117,7 @@ class TodoList extends Component {
     cancelEdit() {
         this.setState({
             userInput: "",
-            edit: ""
+            edit: "",
         });
     }
 
@@ -124,16 +125,16 @@ class TodoList extends Component {
         axios
             .delete("/todos", {
                 data: {
-                    id: this.state.items[index]._id
-                }
+                    id: this.state.items[index]._id,
+                },
             })
             .then(() => this.get())
-            .catch(err => console.log(err));
+            .catch((err) => console.log(err));
 
         Alert.info("Elément supprimé !", {
             position: "top-left",
             effect: "flip",
-            timeout: 2000
+            timeout: 2000,
         });
     }
 
@@ -150,32 +151,17 @@ class TodoList extends Component {
                         }
                     >
                         <div className="text">
-                            <span>
-                                {item.done ? (
-                                    <del> {item.text} </del>
-                                ) : (
-                                    item.text
-                                )}
-                            </span>
+                            <span>{item.done ? <del> {item.text} </del> : item.text}</span>
                         </div>
                         <div className="buttons">
-                            <Button
-                                color="cyan"
-                                onClick={this.check.bind(this, index)}
-                            >
-                                <Fa icon={item.done ? "times" : "check"} />
+                            <Button color="cyan" onClick={this.check.bind(this, index)}>
+                                {item.done ? <FaTrash /> : <FaCheck />}
                             </Button>
-                            <Button
-                                color="cyan"
-                                onClick={this.edit.bind(this, index)}
-                            >
-                                <Fa icon="pencil" />
+                            <Button color="cyan" onClick={this.edit.bind(this, index)}>
+                                <FaPencilAlt />
                             </Button>
-                            <Button
-                                color="cyan"
-                                onClick={this.delete.bind(this, index)}
-                            >
-                                <Fa icon="trash" />
+                            <Button color="cyan" onClick={this.delete.bind(this, index)}>
+                                <FaTrash />
                             </Button>
                         </div>
                     </div>
@@ -188,10 +174,10 @@ class TodoList extends Component {
         axios
             .put("/todos", {
                 id: this.state.items[index]._id,
-                done: !this.state.items[index].done
+                done: !this.state.items[index].done,
             })
             .then(() => this.get())
-            .catch(err => console.log(err));
+            .catch((err) => console.log(err));
     }
 
     render() {
@@ -211,7 +197,7 @@ class TodoList extends Component {
                     </div>
                     <Button color="primary" onClick={this.create.bind(this)}>
                         {this.state.edit ? "Modifier" : "Ajouter"}
-                        <Fa className="ml-2" icon="plus-square" />
+                        <FaPlus />
                     </Button>
                     {this.state.edit && (
                         <Button

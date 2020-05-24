@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button } from "mdbreact";
+import { Button } from "react-bootstrap";
 import "./TicTacToe.css";
 import { ToastContainer, toast } from "react-toastify";
 import { Zoom } from "react-toastify";

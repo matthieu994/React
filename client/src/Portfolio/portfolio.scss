@@ -1,0 +1,391 @@
+.portfolio {
+
+
+    @media screen and (max-width: 768px) {
+        .my-text {
+            position: absolute;
+            top: 36%;
+            left: 35%;
+        }
+    }
+
+    .about-global-wrap-custom {
+        padding-bottom: 40px !important;
+        padding-top: 40px !important;
+    }
+
+    .about-global-wrap-custom > h3 {
+        margin-top: 0 !important;
+    }
+    .about-wrap-custom {
+        font-family: "Poppins", sans-serif !important;
+    }
+
+    .picture-col {
+        margin-right: 0 !important;
+    }
+
+    .social-col {
+        font-size: 0.9em;
+        font-weight: lighter !important;
+        color: rgb(24, 23, 23) !important;
+    }
+
+    .social-col > a:hover {
+        background-color: #e7cd24 !important;
+        color: rgb(56, 55, 55) !important;
+    }
+
+    .social-col > a {
+        font-weight: bold;
+        background-color: black;
+        border: none;
+        width: 40px;
+    }
+
+    .phone-button {
+        font-weight: bold;
+        background-color: black;
+        border: none;
+        width: 40px;
+        height: 35px;
+        font-size: 25px;
+    }
+
+    .phone-button:hover {
+        background-color: #e7cd24 !important;
+        color: black !important;
+        border: none;
+    }
+
+    .email-button > p {
+        margin-bottom: 0 !important;
+        margin-top: 3px !important;
+    }
+
+    .email-col {
+        font-size: 0.9em !important;
+    }
+
+    .email-button {
+        font-weight: bold;
+        background-color: black;
+        border: none;
+    }
+
+    .email-button:hover {
+        background-color: black;
+        border: none;
+        cursor: default !important;
+    }
+
+    .media-about {
+        width: 100%;
+        min-height: 100%;
+        position: relative;
+        overflow: hidden;
+        object-fit: cover;
+        border-radius: 3px !important;
+    }
+
+    .profile-col {
+        font-size: 0.9em;
+    }
+
+    @media screen and (max-width: 768px) {
+        .media-about {
+            display: none;
+        }
+        .social-col {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .phone-col {
+            margin-top: 5px;
+        }
+        .phone-custom {
+            display: block;
+            margin-bottom: 20px;
+        }
+        .email-custom {
+            font-size: 1em;
+            display: block;
+        }
+        .profile-col {
+            text-align: center;
+        }
+    }
+
+    @media screen and (max-width: 992px) {
+        .social-tidy {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .profile-col {
+            text-align: center;
+        }
+        .phone-custom {
+            display: block;
+            margin-bottom: 20px;
+        }
+        .email-custom {
+            font-size: 1em;
+            display: block;
+        }
+    }
+
+    @media screen and (min-width: 992px) and (max-width: 1220px) {
+        .email-col {
+            font-size: 0.79em !important;
+        }
+        .phone-col {
+            font-size: 0.9em !important;
+        }
+    }
+    body {
+        font-family: sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+    }
+
+    h1 {
+        font-size: 3rem;
+        letter-spacing: 1px;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        opacity: 0.5;
+    }
+
+    .wrap-custom-skills {
+        height: 600px;
+        position: relative;
+        background-color: whitesmoke;
+        padding-top: 30px !important;
+    }
+
+    .app-outer {
+        align-items: center;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        left: 0;
+        padding: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .app-inner {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        max-width: 800px;
+        width: 100%;
+    }
+
+    .tag-cloud {
+        flex: 1 1;
+    }
+
+    .tag-cloud > div {
+        -webkit-transition: 2s;
+        transition: 2s;
+    }
+
+    @media screen and (min-width: 768px) {
+        .app-inner {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            max-width: 1000px;
+            width: 100%;
+            margin-left: 100px !important;
+            margin-top: 50px !important;
+        }
+        .wrap-custom-skills {
+            height: 450px;
+            position: relative;
+            margin-top: 40px !important;
+            padding-top: 30px !important;
+        }
+        .javascript-skill {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .app-outer {
+            margin-top: 100px;
+            padding-top: 10px;
+            height: 700px;
+        }
+        .app-inner {
+            display: flex;
+            flex-direction: column;
+            height: 150%;
+            max-width: 768px;
+            width: 100%;
+        }
+        .wrap-custom-skills {
+            height: 800px;
+            position: relative;
+            margin-top: 20px !important;
+        }
+    }
+
+    .container-xp-custom {
+        background-color: #e7cd24 !important;
+        overflow-y: hidden;
+    }
+
+    .project_picture {
+        height: 1% !important;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .picto-card-custom {
+        height: 25px !important;
+        -webkit-filter: grayscale(100%) !important;
+        filter: grayscale(100%) !important;
+    }
+
+    .card-body-custom {
+        border: none;
+    }
+
+    .card-footer-custom {
+        background-color: transparent !important;
+        border: none !important;
+        text-align: center;
+    }
+
+    a:link {
+        text-decoration: none !important;
+    }
+
+    h3 {
+        font-family: "Rubik", sans-serif;
+        margin-top: 40px;
+        margin-left: 40px;
+        color: black;
+        margin-bottom: 50px;
+    }
+
+    .time-logo {
+        height: 23px;
+    }
+
+    .team-logo {
+        height: 30px;
+    }
+
+    .card-custom {
+        position: relative !important;
+        display: inline-block !important;
+        border-radius: 10px;
+        border: none;
+        font-family: "Poppins", sans-serif;
+        font-size: 0.8em;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+        color: black !important;
+        -webkit-transition-duration: 0.3s;
+        transition-duration: 0.3s;
+    }
+
+    .card-custom::after {
+        content: "" !important;
+        position: absolute !important;
+        z-index: -1 !important;
+        width: 100% !important;
+        height: 100% !important;
+        opacity: 0 !important;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
+        -webkit-transition: opacity 0.3s ease-in-out !important;
+        transition: opacity 0.3s ease-in-out !important;
+    }
+
+    .card-custom:hover {
+        margin-top: -20px;
+        font-family: "Poppins", sans-serif;
+        cursor: pointer;
+        color: black !important;
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .card-custom:hover::after {
+        opacity: 1 !important;
+    }
+
+    .scrum-card-custom {
+        height: 40px !important;
+        -webkit-filter: grayscale(100%) !important;
+        filter: grayscale(100%) !important;
+    }
+    .git-logo {
+        height: 23px;
+        -webkit-filter: grayscale(100%) !important;
+        filter: grayscale(100%) !important;
+    }
+
+    @media screen and (max-width: 768px) {
+        h3 {
+            text-align: center;
+            margin-left: 0;
+        }
+        .card-custom {
+            margin-bottom: 40px !important;
+            margin-left: 40px !important;
+            margin-right: 40px !important;
+            box-shadow: none;
+        }
+        .card-custom::after {
+            display: none;
+        }
+        .card-custom:hover {
+            margin-top: 0px;
+            font-family: "Poppins", sans-serif;
+            cursor: pointer;
+            color: black !important;
+            box-shadow: none;
+        }
+    }
+
+    .experience-wrapper {
+        padding-top: 40px !important;
+        background-color: whitesmoke;
+        font-family: poppins !important;
+    }
+
+    .custom-xp-event {
+        border-radius: 20px !important;
+    }
+
+    .custom-xp-card {
+        border: none;
+    }
+
+    .card-custom-title {
+        font-size: 1.4em !important;
+    }
+
+    .custom-line-xp {
+        width: 80% !important;
+    }
+
+    .custom-xp-city {
+        font-size: 0.7em !important;
+    }
+
+    @media screen and (max-width: 768px) {
+        .custom-line-xp {
+            width: 90% !important;
+        }
+    }
+}

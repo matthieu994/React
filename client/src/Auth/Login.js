@@ -2,120 +2,158 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import "./Login.css";
 import axios from "axios";
-import { Input, Button } from "mdbreact";
-import { alert } from "../Components/Header";
+import { Button, Form, Row, InputGroup } from "react-bootstrap";
+import { FaLock, FaUser, FaEyeSlash, FaEye } from "react-icons/fa";
 import { connect } from "react-redux";
-import {
-	toggleLoginModal,
-	hideLoginModal,
-	displayLoginModal
-} from "../redux/actions/index";
+import { toggleLoginModal, hideLoginModal, displayLoginModal } from "../redux/actions/index";
 
 class Login extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			username: "",
-			password: "",
-			usernameStatus: "",
-			passwordStatus: ""
-		};
-		this.location = props.location.state || { from: { pathname: "/" } };
-	}
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: null,
+            password: null,
+            usernameError: null,
+            passwordError: null,
+        };
+        this.location = props.location.state || { from: { pathname: "/" } };
+    }
 
-	login(e) {
-		e.preventDefault();
-		if (!this.state.username || !this.state.password) {
-			if (!this.state.username) {
-				this.setIcon("envelope", "error");
-				this.setState({ usernameStatus: "error" });
-			}
-			if (!this.state.password) {
-				this.setIcon("lock", "error");
-				this.setState({ passwordStatus: "error" });
-			}
-			return;
-		}
-		axios
-			.post("/login", this.state)
-			.then(res => {
-				if (res.data.token) {
-					alert.success("Connexion réussie !", "good_login");
-					localStorage.setItem("token", res.data.token);
-					this.props.hideLoginModal();
-					this.props.history.push(this.location.from.pathname);
-				} else {
-					alert.error("Identifiants invalides !", "bad_login");
-					this.setState({
-						password: "",
-						usernameStatus: "error",
-						passwordStatus: "error"
-					});
-				}
-			})
-			.catch(err => console.log(err));
-	}
+    login(e) {
+        e.preventDefault();
 
-	setIcon(icon, status, value) {
-		var iconDOM = document.querySelector(".fa-" + icon);
-		if (status === "error") iconDOM.style.color = "#f44242";
-		if (status === "success") iconDOM.style.color = "#42f48c";
-		if (value) iconDOM.style.color = "";
-	}
+        if (!this.state.username || this.state.username.trim().length < 3)
+            return this.setState({ usernameError: "Le nom d'utilisateur est trop court." });
+        if (!this.state.password || this.state.password.trim().length < 3)
+            return this.setState({ passwordError: "Le mot de passe est trop court." });
 
-	render() {
-		this.setIcon("envelope", this.state.usernameStatus, this.state.username);
-		this.setIcon("lock", this.state.passwordStatus, this.state.password);
+        axios
+            .post("/login", this.state)
+            .then((res) => {
+                if (res.data.token) {
+                    localStorage.setItem("token", res.data.token);
+                    this.props.hideLoginModal();
+                    this.props.history.push(this.location.from.pathname);
+                } else {
+                    this.setState({
+                        password: "",
+                        passwordError: "Le mot de passe ne correspond pas au nom d'utilisateur.",
+                    });
+                }
+            })
+            .catch((err) => console.log(err));
+    }
 
-		return (
-			<div className="connect">
-				<form>
-					<Input
-						label="Pseudo"
-						icon="envelope"
-						group
-						validate
-						type="text"
-						status={!this.state.username ? this.state.usernameStatus : ""}
-						value={this.state.username}
-						onChange={e => this.setState({ username: e.target.value })}
-					/>
-					<Input
-						label="Mot de passe"
-						icon="lock"
-						group
-						validate
-						type="password"
-						status={!this.state.password ? this.state.passwordStatus : ""}
-						value={this.state.password}
-						onChange={e => this.setState({ password: e.target.value })}
-					/>
-					<Button type="submit" color="primary" onClick={this.login.bind(this)}>
-						Se connecter
-					</Button>
-					<Link to="/register">Je n'ai pas de compte</Link>
-				</form>
-			</div>
-		);
-	}
+    handleChange(e, type) {
+        let value = e.target.value.trim();
+        if (type === "password") {
+            if (value.length < 3)
+                this.setState({ passwordError: "Le mot de passe est trop court." });
+            else this.setState({ passwordError: null });
+            this.setState({ password: value });
+        } else {
+            if (value.length < 3)
+                this.setState({ usernameError: "Le nom d'utilisateur est trop court." });
+            else this.setState({ usernameError: null });
+            this.setState({ username: value });
+        }
+    }
+
+    togglePassword() {
+        this.setState({ viewPassword: !this.state.viewPassword });
+    }
+
+    render() {
+        return (
+            <div className="connect">
+                <Form noValidate>
+                    <Form.Group as={Row} controlId="loginUsername">
+                        <Form.Label>Pseudo</Form.Label>
+                        <InputGroup>
+                            <InputGroup.Prepend>
+                                <InputGroup.Text>
+                                    <FaUser />
+                                </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <Form.Control
+                                required
+                                placeholder="Pseudo"
+                                icon="envelope"
+                                type="text"
+                                isValid={
+                                    this.state.username &&
+                                    this.state.username.length >= 3 &&
+                                    !this.state.usernameError
+                                }
+                                isInvalid={
+                                    this.state.username !== null &&
+                                    (this.state.username.length < 3 || this.state.usernameError)
+                                }
+                                value={this.state.username || ""}
+                                onChange={(e) => this.handleChange(e, "username")}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                {this.state.usernameError}
+                            </Form.Control.Feedback>
+                        </InputGroup>
+                    </Form.Group>
+                    <Form.Group as={Row} controlId="loginPassword">
+                        <Form.Label>Mot de passe</Form.Label>
+                        <InputGroup className="password">
+                            <InputGroup.Prepend>
+                                <InputGroup.Text>
+                                    <FaLock />
+                                </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <Form.Control
+                                required
+                                placeholder="Mot de passe"
+                                type={this.state.viewPassword ? "text" : "password"}
+                                isValid={
+                                    this.state.password &&
+                                    this.state.password.length >= 3 &&
+                                    !this.state.passwordError
+                                }
+                                isInvalid={
+                                    this.state.password !== null &&
+                                    (this.state.password.length < 3 || this.state.passwordError)
+                                }
+                                value={this.state.password || ""}
+                                onChange={(e) => this.handleChange(e, "password")}
+                            />
+                            <InputGroup.Append onClick={() => this.togglePassword()}>
+                                <InputGroup.Text>
+                                    <Button variant="light" size="sm" tabIndex={-1}>
+                                        {this.state.viewPassword ? <FaEye /> : <FaEyeSlash />}
+                                    </Button>
+                                </InputGroup.Text>
+                            </InputGroup.Append>
+                            <Form.Control.Feedback type="invalid">
+                                {this.state.passwordError}
+                            </Form.Control.Feedback>
+                        </InputGroup>
+                    </Form.Group>
+                    <Button type="submit" onClick={this.login.bind(this)} size="sm">
+                        Connexion
+                    </Button>
+                    <Link to="/register">Je n'ai pas de compte</Link>
+                </Form>
+            </div>
+        );
+    }
 }
 
-const mapStateToProps = state => {
-	return {
-		modal: state.toggleLoginModal.loginModal
-	};
+const mapStateToProps = (state) => {
+    return {
+        modal: state.toggleLoginModal.loginModal,
+    };
 };
-const mapDispatchToProps = dispatch => {
-	return {
-		displayLoginModal: () => dispatch(displayLoginModal()),
-		hideLoginModal: () => dispatch(hideLoginModal()),
-		toggleLoginModal: () => dispatch(toggleLoginModal())
-	};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        displayLoginModal: () => dispatch(displayLoginModal()),
+        hideLoginModal: () => dispatch(hideLoginModal()),
+        toggleLoginModal: () => dispatch(toggleLoginModal()),
+    };
 };
 
-export default withRouter(
-	connect(
-		mapStateToProps,
-		mapDispatchToProps
-	)(Login)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));

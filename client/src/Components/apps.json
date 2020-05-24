@@ -13,7 +13,8 @@
 		"desc": "Gérez votre profil.",
 		"Component": "Profile",
 		"private": true,
-		"status": "END"
+		"status": "END",
+		"disabled": true
 	},
 	{
 		"title": "TodoList",
@@ -29,7 +30,8 @@
 		"desc": "Consultez les différents moyens de transports près de chez vous.",
 		"Component": "Transports",
 		"private": true,
-		"status": "START"
+		"status": "START",
+		"disabled": true
 	},
 	{
 		"title": "Morpion",
@@ -61,7 +63,8 @@
 		"desc": "Gérez les finances d'un évènement.",
 		"Component": "Event",
 		"private": true,
-		"status": "START"
+		"status": "START",
+		"disabled": true
 	},
 	{
 		"title": "Portfolio",
@@ -69,12 +72,12 @@
 		"desc": "Mes créations et mes réseaux.",
 		"Component": "Portfolio",
 		"private": false,
-		"status": "START"
+		"status": "DEV"
 	},
 	{
 		"title": "Platform",
 		"icon": "🎮",
-		"desc": "Mon premier jeu 2D.",
+		"desc": "Mon premier jeu 2D sous Unity.",
 		"Component": "Platform",
 		"private": false,
 		"status": "DEV"

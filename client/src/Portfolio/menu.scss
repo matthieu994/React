@@ -1,0 +1,90 @@
+.portfolio {
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  background: linear-gradient(0deg, rgba(2, 0, 36, 1) 0%, rgba(42, 120, 135, 1) 100%);
+  h1 {
+    color: whitesmoke;
+  }
+  h1,
+  .card-header {
+    font-weight: bold;
+    padding: 2.5vh 2.5vh;
+    margin-bottom: 0;
+    text-align: left;
+  }
+  .card {
+    box-shadow: 0px 2.5px 4px 3px rgba(150, 150, 150, 0.35);
+  }
+  .card-header {
+    height: unset;
+    font-weight: 400;
+    font-size: 1.5rem;
+    padding: 2.5vh 2.5vh 2vh;
+  }
+  #custom-navbar {
+    .logo {
+      font-weight: bold;
+      font-size: 2.5em;
+      letter-spacing: 0px;
+      color: #529ac0;
+      a {
+        text-decoration: none;
+      }
+      margin: 0 2rem;
+    }
+    &.bg-dark {
+      box-shadow: 0px 0px 8px 3px rgba(0, 0, 0, 0.35);
+    }
+    &.fadein-navbar {
+      flex-flow: nowrap;
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 10;
+      height: 60px;
+      background-color: transparent;
+      text-transform: uppercase;
+      font-size: 0.8em;
+      -webkit-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+    .navbar-collapse {
+      justify-content: flex-end;
+      margin-right: 6%;
+      &.show,
+      &.collapsing {
+        position: absolute;
+        margin-right: 0;
+        right: 4%;
+        top: 100%;
+        .navbar-nav {
+          width: auto;
+          text-align: right;
+          a {
+            width: auto;
+          }
+        }
+      }
+      a {
+        margin: 0 1vw;
+        width: max-content;
+        color: whitesmoke;
+        transition: 0.25s;
+        &:hover {
+          // color: #126c99;
+          text-decoration: none;
+          transform: scale(1.1);
+          font-weight: bold;
+        }
+      }
+    }
+    .toggler-custom {
+      border: none;
+    }
+    .navbar-toggler {
+      border: none;
+      outline: none;
+    }
+  }
+}

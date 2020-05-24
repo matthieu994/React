@@ -8,7 +8,7 @@ export default class Modal extends Component {
 		this.ref = React.createRef();
 	}
 	
-	componentWillReceiveProps(props) {
+	UNSAFE_componentWillReceiveProps(props) {
 		this.handleSize();
 		if (!props.display) {
 			this.ref.current.setAttribute("off", "");

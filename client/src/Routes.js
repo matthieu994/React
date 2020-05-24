@@ -10,13 +10,13 @@ import AgarClone from "./AgarClone/AgarClone";
 import Chat from "./Chat/Chat";
 import EventPlanner from "./Event/Event";
 import CV from "./CV";
-import Portfolio from "./Portfolio/";
+import Portfolio from "./Portfolio/Porfolio";
 import Platform from "./Platform";
 
 class App extends Component {
     render() {
         return (
-            <div>
+            <>
                 <Switch>
                     <Route path="/" exact component={Applications} />
                     <Route path="/login" component={Applications} />
@@ -33,7 +33,7 @@ class App extends Component {
                     <PrivateRoute path="/Event" component={EventPlanner} />
                     <Redirect to="/" />
                 </Switch>
-            </div>
+            </>
         );
     }
 }
