@@ -15,8 +15,7 @@ import Platform from "./Platform";
 
 class App extends Component {
   render() {
-    if (window.location.host.split(".")[0] === "portfolio")
-      return <Route path="/Portfolio" component={Portfolio} />;
+    if (window.location.host.split(".")[0] === "portfolio") return <Portfolio />;
 
     return (
       <>
