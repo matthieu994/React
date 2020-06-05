@@ -42,12 +42,7 @@ export default class Menu extends Component {
                         </AnchorLink>
                     </Nav>
                     <Nav>
-                        <AnchorLink offset={60} href="#Skills">
-                            Compétences
-                        </AnchorLink>
-                    </Nav>
-                    <Nav>
-                        <AnchorLink offset={60} href="#Portfolio">
+                        <AnchorLink offset={60} href="#Projects">
                             Portfolio
                         </AnchorLink>
                     </Nav>

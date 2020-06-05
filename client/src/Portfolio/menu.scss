@@ -3,25 +3,6 @@
   font-family: "Roboto", sans-serif;
   background: linear-gradient(0deg, #020024 0%, #08618b 100%);
   background-position-y: 70vh;
-  h1 {
-    color: whitesmoke;
-  }
-  h1,
-  .card-header {
-    font-weight: bold;
-    padding: 2.5vh 2.5vh;
-    margin-bottom: 0;
-    text-align: left;
-  }
-  .card {
-    box-shadow: 0px 2.5px 4px 3px rgba(150, 150, 150, 0.35);
-  }
-  .card-header {
-    height: unset;
-    font-weight: 400;
-    font-size: 1.5rem;
-    padding: 2.5vh 2.5vh 2vh;
-  }
   #custom-navbar {
     .logo {
       font-weight: bold;
@@ -35,6 +16,9 @@
     }
     &.bg-dark {
       box-shadow: 0px 0px 8px 3px rgba(0, 0, 0, 0.35);
+      // .navbar-nav a {
+      // color: black;
+      // }
     }
     &.fadein-navbar {
       flex-flow: nowrap;
@@ -57,13 +41,17 @@
       &.collapsing {
         position: absolute;
         margin-right: 0;
-        right: 4%;
+        right: 0;
         top: 100%;
+        background-color: #343a40;
+        padding: 2vh 3.5vw 0.5vh 2vw;
         .navbar-nav {
           width: auto;
           text-align: right;
+          margin-bottom: 2vh;
+          display: block;
           a {
-            width: auto;
+            width: fit-content;
           }
         }
       }

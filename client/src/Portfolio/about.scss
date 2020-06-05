@@ -2,6 +2,22 @@
   .about {
     height: 100vh;
     padding: 0 2.75vw 0 2.5vw;
+    .card-header {
+      height: unset;
+      font-weight: 400;
+      font-size: 1.5rem;
+      padding: 2.5vh 2.5vh 2vh;
+      margin-bottom: 0;
+      text-align: left;
+    }
+    p {
+      text-align: justify;
+      white-space: pre-line;
+      margin-bottom: 0;
+    }
+    .row {
+      max-width: 100vw;
+    }
     img.media-about {
       box-shadow: 0px 2.5px 4px 3px rgba(150, 150, 150, 0.35);
       float: left;
@@ -19,25 +35,44 @@
     .col#social-desc {
       display: grid;
       align-content: space-between;
-      #social .row {
-        justify-content: space-evenly;
+    }
+    #social .row {
+      justify-content: space-evenly;
+      &:not(:last-of-type) {
+        margin-bottom: 1rem;
+      }
+    }
+    .btn {
+      word-break: break-all;
+      @media screen and(max-width: 852px) {
         &:not(:last-of-type) {
           margin-bottom: 1rem;
         }
-        .btn {
-          &.phone svg {
-            transform: rotate(90deg);
-          }
-          svg {
-            margin-right: 8px;
-          }
-        }
+      }
+      &.phone svg {
+        transform: rotate(90deg);
+      }
+      svg {
+        margin-right: 8px;
       }
       #desc {
         p {
           text-align: justify;
           margin-bottom: 0;
         }
+      }
+    }
+    .small {
+      .row:first-of-type {
+        margin-bottom: 2vh;
+      }
+      .phone {
+        margin-bottom: 1rem;
+        // margin-right: 10px;
+      }
+      img.media-about {
+        margin-left: unset;
+        height: calc(40vh - 60px);
       }
     }
   }

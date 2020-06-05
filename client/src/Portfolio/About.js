@@ -1,18 +1,37 @@
 import React, { Component } from "react";
 import { Container, Col, Row, Image, Button, Card } from "react-bootstrap";
-import {
-  FaGithub,
-  FaLinkedin,
-  FaStackOverflow,
-  FaEnvelope,
-  FaPhone,
-} from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaStackOverflow, FaEnvelope, FaPhone } from "react-icons/fa";
 import "./about.css";
 
 class About extends Component {
   state = {
     large: true,
   };
+
+  handleResize() {
+    if (this.state.large && window.innerWidth < 1010) this.setState({ large: false });
+    if (!this.state.large && window.innerWidth > 1010) this.setState({ large: true });
+  }
+
+  componentDidMount() {
+    this.handleResize();
+    window.addEventListener("resize", this.handleResize.bind(this));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.handleResize.bind(this));
+  }
+
+  desc() {
+    return (
+      <Card id="desc">
+        <Card.Header>MON PROFIL</Card.Header>
+        <Card.Body>
+          <p>{this.props.data}</p>
+        </Card.Body>
+      </Card>
+    );
+  }
 
   render() {
     return (
@@ -22,13 +41,23 @@ class About extends Component {
             <h1>À PROPOS</h1>
           </Col>
         </Row>
-        <Row>
-          <Col>{Img}</Col>
-          <Col id="social-desc">
-            {Social}
-            {Desc}
-          </Col>
-        </Row>
+        {this.state.large ? (
+          <Row className="large">
+            <Col>{Img}</Col>
+            <Col id="social-desc">
+              {Social}
+              {this.desc()}
+            </Col>
+          </Row>
+        ) : (
+          <Container fluid className="small">
+            <Row>
+              <Col xs={6}>{Img}</Col>
+              <Col xs={6}>{Social}</Col>
+            </Row>
+            <Row>{this.desc()}</Row>
+          </Container>
+        )}
       </Container>
     );
   }
@@ -36,22 +65,6 @@ class About extends Component {
 
 const Img = (
   <Image src={"/images/portfolio_about.jpg"} alt="aboutPicture" className="media-about"></Image>
-);
-
-const Desc = (
-  <Card id="desc">
-    <Card.Header>MON PROFIL</Card.Header>
-    <Card.Body>
-      <p>
-        Après une première année de DUT Informatique à l'IUT de Sénart-Fontainebleau, je continue
-        ma formation en échange à l'UQAM, à Montréal. <br/>
-        Je commence déjà à développer un intérêt pour les technologies Web et l'UX/UI, 
-        je décide de me lancer en tant que Développeur Web freelance. <br/>
-        Après avoir obtenu mon DUT, je pars étudier dans une école d'ingénieur à Grenoble : l'ENSIMAG.
-        Je rejoins la Junior Entreprise de l'école et je réalise mes premières missions.
-      </p>
-    </Card.Body>
-  </Card>
 );
 
 const Social = (
