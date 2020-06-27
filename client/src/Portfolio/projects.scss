@@ -9,6 +9,7 @@
       border: none;
       transition: 0.25s;
       cursor: pointer;
+      margin-bottom: 1rem;
       &:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 12px rgba(200, 200, 200, 0.5);
@@ -16,18 +17,19 @@
       .card-header {
         font-size: 1rem;
         padding: 0.75rem 0.75rem;
+        .card-title {
+          text-shadow: 0.5px 1px 1px #343a40;
+          color: #062f50;
+        }
         .images {
           display: flex;
-          justify-content: space-between;
+          justify-content: space-around;
           img {
             width: 28%;
           }
         }
         img {
           margin-bottom: 0.75rem;
-        }
-        .card-title {
-          color: #062f50;
         }
       }
       .card-body {
@@ -45,9 +47,16 @@
         display: flex;
         justify-content: space-evenly;
         font-size: 1.8rem;
+        svg.php {
+          transform: scale(1.5);
+        }
         img {
-          //socket-io
           width: 1.8rem;
+          &.firebase {
+            filter: grayscale(1) brightness(0.5);
+            height: 2.1rem;
+            width: 2.1rem;
+          }
         }
       }
     }

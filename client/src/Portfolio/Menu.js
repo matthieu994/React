@@ -4,55 +4,55 @@ import AnchorLink from "react-anchor-link-smooth-scroll";
 import "./menu.css";
 
 export default class Menu extends Component {
-    state = {
-        changeNav: false,
-    };
+  state = {
+    changeNav: false,
+  };
 
-    componentDidMount() {
-        window.addEventListener("scroll", () => this.handleScroll());
-    }
+  componentDidMount() {
+    window.addEventListener("scroll", () => this.handleScroll());
+  }
 
-    componentWillUnmount() {
-        window.removeEventListener("scroll", this.handleScroll);
-    }
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
+  }
 
-    handleScroll() {
-        this.setState({ changeNav: window.scrollY > window.innerHeight / 2 });
-    }
+  handleScroll() {
+    this.setState({ changeNav: window.scrollY > window.innerHeight / 2 });
+  }
 
-    render() {
-        return (
-            <Navbar
-                className="fadein-navbar"
-                id="custom-navbar"
-                bg={this.state.changeNav && "dark"}
-                expand="md"
-            >
-                <Navbar.Brand className="logo">
-                    <AnchorLink href="#Media">MP.</AnchorLink>
-                </Navbar.Brand>
-                <Navbar.Toggle />
-                <Navbar.Collapse>
-                    <Nav>
-                        <AnchorLink href="#Media">Accueil</AnchorLink>
-                    </Nav>
-                    <Nav>
-                        <AnchorLink offset={60} href="#About">
-                            À propos
-                        </AnchorLink>
-                    </Nav>
-                    <Nav>
-                        <AnchorLink offset={60} href="#Projects">
-                            Portfolio
-                        </AnchorLink>
-                    </Nav>
-                    <Nav>
-                        <AnchorLink offset={60} href="#Experience">
-                            Expérience
-                        </AnchorLink>
-                    </Nav>
-                </Navbar.Collapse>
-            </Navbar>
-        );
-    }
+  render() {
+    return (
+      <Navbar
+        className="fadein-navbar"
+        id="custom-navbar"
+        bg={this.state.changeNav && "dark"}
+        expand="md"
+      >
+        <Navbar.Brand className="logo">
+          <AnchorLink href="#Media">MP.</AnchorLink>
+        </Navbar.Brand>
+        <Navbar.Toggle />
+        <Navbar.Collapse>
+          <Nav>
+            <AnchorLink href="#Media">Accueil</AnchorLink>
+          </Nav>
+          <Nav>
+            <AnchorLink offset={60} href="#About">
+              À propos
+            </AnchorLink>
+          </Nav>
+          <Nav>
+            <AnchorLink offset={60} href="#Projects">
+              Portfolio
+            </AnchorLink>
+          </Nav>
+          <Nav>
+            <AnchorLink offset={60} href="#Experience">
+              Expérience
+            </AnchorLink>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    );
+  }
 }

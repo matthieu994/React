@@ -20,7 +20,11 @@ const Projects = (props) => {
 
   return (
     <Container className="projects" fluid id="Projects">
-      <h1>Portfolio</h1>
+      <Row>
+        <Col>
+          <h1>Portfolio</h1>
+        </Col>
+      </Row>
       <Row className="row-custom-xp pb-5">
         {data.map((project) => {
           const multImages = typeof project.img === "object";

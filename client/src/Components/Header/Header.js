@@ -6,7 +6,7 @@ import { ToastContainer, Slide, toast } from "react-toastify";
 import verifAuth from "../../Auth/verifAuth";
 import UserIcon from "./UserIcon";
 import "./Header.css";
-import Modal from "../../Components/Modal";
+import Modal from "../Modal";
 import Login from "../../Auth/Login";
 import Register from "../../Auth/Register";
 import {
@@ -157,6 +157,7 @@ export const alert = {
     });
   },
 };
+
 class Alerts extends Component {
   render() {
     return (

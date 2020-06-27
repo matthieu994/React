@@ -8,11 +8,6 @@ class About extends Component {
     large: true,
   };
 
-  handleResize() {
-    if (this.state.large && window.innerWidth < 1010) this.setState({ large: false });
-    if (!this.state.large && window.innerWidth > 1010) this.setState({ large: true });
-  }
-
   componentDidMount() {
     this.handleResize();
     window.addEventListener("resize", this.handleResize.bind(this));
@@ -22,10 +17,15 @@ class About extends Component {
     window.removeEventListener("resize", this.handleResize.bind(this));
   }
 
+  handleResize() {
+    if (this.state.large && window.innerWidth < 1010) this.setState({ large: false });
+    if (!this.state.large && window.innerWidth > 1010) this.setState({ large: true });
+  }
+
   desc() {
     return (
       <Card id="desc">
-        <Card.Header>MON PROFIL</Card.Header>
+        <Card.Header>Mon profil</Card.Header>
         <Card.Body>
           <p>{this.props.data}</p>
         </Card.Body>
@@ -38,7 +38,7 @@ class About extends Component {
       <Container className="about" fluid id="About">
         <Row>
           <Col>
-            <h1>À PROPOS</h1>
+            <h1>À propos</h1>
           </Col>
         </Row>
         {this.state.large ? (
@@ -69,7 +69,7 @@ const Img = (
 
 const Social = (
   <Card id="social">
-    <Card.Header>RÉSEAUX</Card.Header>
+    <Card.Header>Réseaux</Card.Header>
     <Card.Body>
       <Row>
         <Button className="github-button" href="https://github.com/matthieu994" target="_blank">
