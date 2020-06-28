@@ -42,7 +42,7 @@ const projects = [
     title: "Parseur HTML - AsciiDoc",
     desc:
       "Conversion d'une documentation complète sur un site web, vers une documentation en AsciiDoc. Travail en freelance.",
-    img: "/images/project-1.png",
+    img: "/images/asciidoc.png",
     days: 12,
     techs: [TechEnum.PYTHON, TechEnum.HTML],
     link: "https://github.com/matthieu994/docs",
@@ -61,7 +61,7 @@ const projects = [
     title: "nextEvent",
     desc:
       "Application Android et iOS permettant de créer des évènements entre amis et de gérer facilement les dépenses. Développé en Agile.",
-    img: ["/images/project-3a.jpg", "/images/project-3b.jpg", "/images/project-3c.jpg"],
+    img: ["/images/nextevent-1.jpg", "/images/nextevent-2.jpg", "/images/nextevent-3.jpg"],
     people: 3,
     days: 60,
     techs: [TechEnum.REACTNATIVE, TechEnum.FIREBASE, TechEnum.NODE],
@@ -89,7 +89,7 @@ const projects = [
     title: "Annonce mobile 3D",
     desc:
       "Annonce publicitaire en 3D pour mobile, réalisée pendant mon stage de fin d'études en DUT.",
-    img: ["/images/ad.png", "images/ad-2.png"],
+    img: ["/images/ad-1.png", "images/ad-2.png"],
     people: 1,
     days: "7",
     techs: [TechEnum.JS, TechEnum.CSS],
