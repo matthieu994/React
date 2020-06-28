@@ -83,7 +83,7 @@ const projects = [
     people: 1,
     days: "∞",
     techs: [TechEnum.UNITY, TechEnum.CSHARP, TechEnum.PHOTOSHOP],
-    link: "https://matthieupetit.com/",
+    link: "/Platform",
   },
   {
     title: "Annonce mobile 3D",
@@ -122,7 +122,7 @@ const exp = [
     title: "Développeur Web Stagiaire",
     location: "PIXIMEDIA, Neuilly-sur-Seine",
     desc:
-      "Piximedia est spécialisé dans le secteur d'activité de la régie publicitaire de médias.\n J'ai été chargé de l'unification et du développement de leur site web.\n J'ai aussi assisté l'équipe Studio dans la réalisation de formats publicitaires.",
+      "Piximedia est spécialisé dans le secteur d'activité de la régie publicitaire de médias.\n J'ai été chargé de l'unification et du développement de leur site web. J'ai aussi assisté l'équipe Studio dans la réalisation de formats publicitaires.",
     start: "2019-05",
     end: "2019-08",
     type: "work",
@@ -131,7 +131,7 @@ const exp = [
     title: "Étudiant Ingénieur",
     location: "Grenoble INP - ENSIMAG",
     desc:
-      "Grande école publique d'ingénieurs en informatique et mathématiques appliquées de Grenoble.",
+      "Grande école publique d'ingénieurs en informatique et mathématiques appliquées de Grenoble.\n Conseiller Technique de la Junior-Entreprise Nsigma.",
     start: "2019-08",
     end: "",
     type: "school",

@@ -1,34 +1,34 @@
 .portfolio {
-    .media {
-        padding: 0;
-        img {
-            width: 100vw;
-            min-height: 100vh;
-            max-height: 100vh;
-            position: relative;
-            overflow: hidden;
-            object-fit: cover;
-        }
+  #Media {
+    padding: 0;
+    img {
+      width: 100vw;
+      max-width: 100%;
+      min-height: 100vh;
+      max-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      object-fit: cover;
     }
-    #i-am {
-        position: absolute;
-        top: 42%;
-        left: 8%;
-        color: whitesmoke;
-        font-weight: 1000;
-        font-size: 3em;
+    .legend {
+      position: absolute;
+      bottom: 3px;
+      right: 10px;
+      font-weight: 100;
+      color: rgba(245, 245, 245, 0.74);
     }
     .write-auto {
-        position: absolute;
-        top: 30vmin;
-        left: 8%;
-        max-width: 40vw;
-        // color: #2460da;
-        color: white;
-        font-weight: 1000;
-        font-size: 3.5em;
-        &::after {
-            color: black;
-        }
+      position: absolute;
+      top: 30vmin;
+      left: 8%;
+      max-width: 40vw;
+      // color: #2460da;
+      color: white;
+      font-weight: 1000;
+      font-size: 3.5em;
+      &::after {
+        color: black;
+      }
     }
+  }
 }

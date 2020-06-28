@@ -63,9 +63,7 @@ class About extends Component {
   }
 }
 
-const Img = (
-  <Image src={"/images/portfolio_about.jpg"} alt="aboutPicture" className="media-about"></Image>
-);
+const Img = <Image src="/images/portfolio_about.jpg" alt="aboutPicture" className="media-about" />;
 
 const Social = (
   <Card id="social">

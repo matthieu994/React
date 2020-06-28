@@ -1,22 +1,26 @@
-import React, { Component } from "react";
+import React from "react";
 import { Container, Image } from "react-bootstrap";
 import Typical from "react-typical";
 import "./media.css";
 
-class Media extends Component {
-    render() {
-        return (
-            <Container className="media" id="Media" fluid>
-                <Image src={"/images/portfolio_background.jpg"} alt="background-me"></Image>
-                {/* <p id="i-am">Je suis</p> */}
-                <Typical
-                    className="write-auto"
-                    steps={["Matthieu Petit.", 2000, "Développeur Web.", 2000]}
-                    loop={Infinity}
-                    wrapper="p"
-                />
-            </Container>
-        );
-    }
-}
+const Media = () => (
+  <Container id="Media" fluid>
+    <Image src="/images/portfolio_background.jpg" alt="background-me" />
+    <Typical
+      className="write-auto"
+      steps={["Matthieu Petit.", 2000, "Développeur Web.", 2000]}
+      loop={Infinity}
+      wrapper="p"
+    />
+    <a
+      className="legend"
+      href="https://romain-roellet-portfolio.format.com/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      picture by Romain Roellet
+    </a>
+  </Container>
+);
+
 export default Media;

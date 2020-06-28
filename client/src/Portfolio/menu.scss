@@ -61,10 +61,9 @@
         color: whitesmoke;
         transition: 0.25s;
         &:hover {
-          // color: #126c99;
           text-decoration: none;
-          transform: scale(1.1);
-          font-weight: bold;
+          transform: scale(1.25) translateY(0.25px);
+          // font-weight: bold;
         }
       }
     }

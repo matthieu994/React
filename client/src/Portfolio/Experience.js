@@ -21,7 +21,7 @@ const Experience = (props) => {
         <VerticalTimeline>
           {data.map((exp) => (
             <VerticalTimelineElement
-              key={exp.title}
+              key={exp.start}
               className={`${exp.type} ${!exp.end && "current"}`}
               date={`${new Date(exp.start).toLocaleDateString(undefined, {
                 month: "long",
