@@ -19,7 +19,7 @@ const Projects = (props) => {
   const { data } = props || [];
 
   return (
-    <Container className="projects" fluid id="Projects">
+    <Container fluid id="Projects">
       <Row>
         <Col>
           <h1>Portfolio</h1>

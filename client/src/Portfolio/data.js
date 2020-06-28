@@ -9,6 +9,7 @@ import {
   FaHtml5,
   FaUnity,
   FaJava,
+  FaDatabase,
 } from "react-icons/fa";
 
 const desc =
@@ -19,6 +20,7 @@ const TechEnum = Object.freeze({
   JS: { name: "JavaScript", jsx: <FaJsSquare /> },
   CSS: { name: "CSS3", jsx: <FaCss3Alt /> },
   PHP: { name: "PHP", jsx: <DiPhp className="php" /> },
+  SQL: { name: "SQL", jsx: <FaDatabase /> },
   MONGO: { name: "MongoDB", jsx: <DiMongodb /> },
   NODE: { name: "NodeJS", jsx: <FaNodeJs /> },
   JAVA: { name: "Java", jsx: <FaJava /> },
@@ -49,7 +51,7 @@ const projects = [
     title: "Portfolio",
     desc:
       "Site personnel présentant plusieurs fonctionnalités comme un chat avec ses amis, un morpion en ligne, un clone du jeu agar.io.",
-    img: "/images/project-2.png",
+    img: "/images/portfolio.jpg",
     people: 1,
     days: "∞",
     techs: [TechEnum.REACT, TechEnum.CSS, TechEnum.NODE, TechEnum.SOCKET, TechEnum.MONGO],
@@ -110,9 +112,54 @@ const projects = [
     img: "/images/quizpanic.jpg",
     people: 1,
     days: "60",
-    techs: [TechEnum.HTML, TechEnum.CSS, TechEnum.JS, TechEnum.PHP],
+    techs: [TechEnum.HTML, TechEnum.CSS, TechEnum.JS, TechEnum.PHP, TechEnum.SQL],
     link: "https://github.com/matthieu994/public_html/tree/master/QuizPanic",
   },
 ];
 
-export { desc, projects, TechEnum };
+const exp = [
+  {
+    title: "Développeur Web Stagiaire",
+    location: "PIXIMEDIA, Neuilly-sur-Seine",
+    desc:
+      "Piximedia est spécialisé dans le secteur d'activité de la régie publicitaire de médias.\n J'ai été chargé de l'unification et du développement de leur site web.\n J'ai aussi assisté l'équipe Studio dans la réalisation de formats publicitaires.",
+    start: "2019-05",
+    end: "2019-08",
+    type: "work",
+  },
+  {
+    title: "Étudiant Ingénieur",
+    location: "Grenoble INP - ENSIMAG",
+    desc:
+      "Grande école publique d'ingénieurs en informatique et mathématiques appliquées de Grenoble.",
+    start: "2019-08",
+    end: "",
+    type: "school",
+  },
+  {
+    title: "DUT Informatique",
+    location: "Université du Québec à Montréal",
+    desc: "Deuxième année de DUT Informatique, en échange.\n Major de promotion.",
+    start: "2018-09",
+    end: "2019-04",
+    type: "school",
+  },
+  {
+    title: "DUT Informatique",
+    location: "IUT Lieusaint - Fontainebleau",
+    desc: "Première année de DUT Informatique.\n Major de promotion.",
+    start: "2017-09",
+    end: "2018-06",
+    type: "school",
+  },
+  {
+    title: "Bac Scientifique",
+    location: "Lycée Guillaume Budé, Limeil-Brévannes",
+    desc: "Mention Bien, option Informatique et Sciences du Numérique.",
+    start: "2014-09",
+    end: "2017-06",
+    type: "school",
+  },
+];
+
+export { desc, projects, exp };

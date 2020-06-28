@@ -4,9 +4,9 @@ import Menu from "./Menu";
 import Media from "./Media";
 import About from "./About";
 import Projects from "./Projects";
-import { desc, projects } from "./data";
+import { desc, projects, exp } from "./data";
+import Experience from "./Experience";
 import "./portfolio.css";
-// import Experience from "./Experience"
 
 const Portfolio = () => (
   <Container className="portfolio" fluid>
@@ -14,7 +14,7 @@ const Portfolio = () => (
     <Media />
     <About data={desc} />
     <Projects data={projects} />
-    {/* <Experience /> */}
+    <Experience data={exp} />
   </Container>
 );
 

@@ -4,7 +4,7 @@
 		"icon": "📒",
 		"desc": "Mon parcours et mes compétences",
 		"Component": "CV",
-		"private": false,
+		"private": true,
 		"status": "DEV"
 	},
 	{

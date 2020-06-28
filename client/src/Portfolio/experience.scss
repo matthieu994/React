@@ -1,0 +1,48 @@
+.portfolio {
+  #Experience {
+    min-height: 100vh;
+    .vertical-timeline-element {
+      p {
+        text-align: justify;
+      }
+      h3 {
+        font-weight: bold;
+      }
+      h5 {
+        font-style: italic;
+      }
+      .vertical-timeline-element-date {
+        color: white;
+      }
+      .vertical-timeline-element-icon {
+        color: white;
+      }
+      &.work {
+        .vertical-timeline-element-icon {
+          background: rgb(30, 150, 240);
+        }
+        &.current .vertical-timeline-element-content {
+          background: rgb(33, 150, 240);
+          color: #fff;
+          box-shadow: 0 3px 0 rgb(136, 183, 220);
+        }
+        &.current .vertical-timeline-element-content-arrow {
+          border-right: 7px solid rgb(33, 150, 240);
+        }
+      }
+      &.school {
+        .vertical-timeline-element-icon {
+          background: rgb(42, 184, 117);
+        }
+        &.current .vertical-timeline-element-content {
+          background: rgb(42, 184, 117);
+          color: #fff;
+          box-shadow: 0 3px 0 rgb(136, 220, 150);
+        }
+        &.current .vertical-timeline-element-content-arrow {
+          border-right: 7px solid rgb(42, 184, 117);
+        }
+      }
+    }
+  }
+}

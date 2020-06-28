@@ -3,20 +3,20 @@ import Unity, { UnityContent } from "react-unity-webgl";
 import "./platform.css";
 
 export default class Platform extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.unityContent = new UnityContent(
-            "/Platform/Build/Platform.json",
-            "/Platform/Build/UnityLoader.js"
-        );
-    }
+    this.unityContent = new UnityContent(
+      "/Platform/Build/Platform.json",
+      "/Platform/Build/UnityLoader.js"
+    );
+  }
 
-    componentWillUnmount() {
-        // this.unityContent.Quit();
-    }
+  componentWillUnmount() {
+    // this.unityContent.Quit();
+  }
 
-    render() {
-        return <Unity unityContent={this.unityContent} className="platform" />;
-    }
+  render() {
+    return <Unity unityContent={this.unityContent} className="platform" />;
+  }
 }
