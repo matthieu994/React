@@ -83,7 +83,7 @@ const projects = [
     people: 1,
     days: "∞",
     techs: [TechEnum.UNITY, TechEnum.CSHARP, TechEnum.PHOTOSHOP],
-    link: "/Platform",
+    link: "matthieupetit.com/Platform",
   },
   {
     title: "Annonce mobile 3D",
