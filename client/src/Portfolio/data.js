@@ -89,7 +89,7 @@ const projects = [
     title: "Annonce mobile 3D",
     desc:
       "Annonce publicitaire en 3D pour mobile, réalisée pendant mon stage de fin d'études en DUT.",
-    img: ["/images/ad-1.png", "images/ad-2.png"],
+    img: ["/images/cube-1.png", "images/cube-2.png"],
     people: 1,
     days: "7",
     techs: [TechEnum.JS, TechEnum.CSS],
