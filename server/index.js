@@ -23,10 +23,8 @@ const User = require("./models/UserSchema");
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
 // Heroku / localhost mongoose url
-let URL;
 // if (app.get("env") != "development") {
-URL = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_SERVER}`;
-// } else {
+const URL = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_NAME}?retryWrites=true&w=majority`;
 // URL = "mongodb://localhost:27017/todosql";
 // }
 
@@ -34,7 +32,10 @@ mongoose.connect(
   URL,
   { useNewUrlParser: true, useUnifiedTopology: true },
   (err, db) => {
-    if (err) console.log(err);
+    if (err) console.log(err, URL);
+    else {
+      console.log(`Listening on port ${PORT}`);
+    }
     // tools.removeCollection(User);
     // tools.showCollections(db);
     // tools.deleteAllTokens(User);
@@ -64,7 +65,7 @@ function verifAuth(token) {
   });
 }
 
-let api = express.Router();
+const api = express.Router();
 app.use("/api", api);
 
 api.post("/auth", (req, res) => {
