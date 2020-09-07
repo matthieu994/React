@@ -23,17 +23,18 @@ module.exports = (app) => {
     }
 
     User.find({ username }, (err, user) => {
-      if (err) return err;
+      if (err) return res.send({ err });
+
       if (user.length > 0) {
         return res.sendStatus(400);
       }
     });
 
     bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
-      if (err) return err;
+      if (err) return res.send({ err });
       const user = new User({ username: req.body.username, password: hash });
       user.save((err) => {
-        if (err) return err;
+        if (err) return res.send({ err });
         res.sendStatus(200);
       });
     });
@@ -43,19 +44,21 @@ module.exports = (app) => {
     const { username, password } = req.body;
 
     User.find({ username }, (err, user) => {
-      if (err) return err;
+      if (err) return res.send({ err });
       if (user.length < 1) {
         return res.send({
-          message: "Erreur: Identifiants invalides.",
+          code: 1,
+          message: "L'utilisateur n'existe pas.",
         });
       }
 
       // Compare hash et password de l'user
       bcrypt.compare(password, user[0].password, (err, result) => {
-        if (err) return err;
+        if (err) return res.send({ err });
         if (!result) {
           return res.send({
-            message: "Erreur: Identifiants invalides.",
+            code: 2,
+            message: "Le mot de passe ne correspond pas à cet utilisateur.",
           });
         }
 
@@ -66,7 +69,7 @@ module.exports = (app) => {
               { user: user._id },
               process.env.JWT_SECRET,
               (err, token) => {
-                if (err) return err;
+                if (err) return res.send({ err });
                 user.token = token;
                 user.save(() =>
                   res.send({
