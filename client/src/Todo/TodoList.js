@@ -182,7 +182,7 @@ class TodoList extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container todolis">
         <h1 className="mt-4 text-center">Ma To-do List</h1>
         <form>
           <div className="form-group mt-4">
@@ -200,7 +200,7 @@ class TodoList extends Component {
             <FaPlus />
           </Button>
           {this.state.edit && (
-            <Button color="danger" className="edit" onClick={this.cancelEdit.bind(this)}>
+            <Button variant="danger" className="edit cancel" onClick={this.cancelEdit.bind(this)}>
               Annuler
             </Button>
           )}

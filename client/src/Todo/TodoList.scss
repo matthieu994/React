@@ -1,4 +1,9 @@
-.list-group-item {
+.todolist {
+    button.cancel {
+        margin-left: 10px;
+    }
+    
+    .list-group-item {
     padding: 0.25rem 0.65rem;
     display: table;
     justify-content: space-between;
@@ -39,4 +44,5 @@
         margin: 2px 0.5%;
         display: inline-flex;
     }
+}
 }
