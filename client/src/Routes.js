@@ -26,6 +26,7 @@ function App() {
         <Route path="/CV" component={CV} />
         <Route path="/Portfolio" component={Portfolio} />
         <Route path="/Platform" component={Platform} />
+        <Route path="/api/TubeParty" />
         <PrivateRoute path="/Profile" component={Profile} />
         <PrivateRoute path="/TodoList" component={TodoList} />
         <PrivateRoute path="/Transports" component={Transports} />

@@ -115,6 +115,16 @@ const projects = [
     techs: [TechEnum.HTML, TechEnum.CSS, TechEnum.JS, TechEnum.PHP, TechEnum.SQL],
     link: "https://github.com/matthieu994/public_html/tree/master/QuizPanic",
   },
+  {
+    title: "Extensions",
+    desc:
+      "Diverses extensions en cours de réalisation. SpotiKeys qui ajoute des raccourcis au client web Spotify; NoFap qui permet de bloquer l'accès à certains sites; TubeParty est l'équivalent de NetflixParty, pour YouTube.",
+    img: "/images/extensions.png",
+    people: 1,
+    days: "∞",
+    techs: [TechEnum.HTML, TechEnum.CSS, TechEnum.JS, TechEnum.SOCKET],
+    link: "https://github.com/matthieu994/Extensions",
+  },
 ];
 
 const exp = [

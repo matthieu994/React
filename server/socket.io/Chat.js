@@ -94,7 +94,7 @@ function sendMail(friend, sender, message) {
 		Messages: [
 			{
 				From: {
-					Email: "contact@matthieu-petit.ml",
+					Email: "contact@matthieu-petit.com",
 					Name: "Matthieu-Apps"
 				},
 				To: [

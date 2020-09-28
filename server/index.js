@@ -52,14 +52,13 @@ mongoose.set("useCreateIndex", true);
 // Auth
 function verifAuth(token) {
   return new Promise((resolve) => {
-    if (!token) resolve(false);
+    if (!token) return resolve(false);
+
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-      if (err) resolve(false);
+      if (err) return resolve(false);
       User.findById(decoded.user, (userErr, user) => {
-        if (userErr) resolve(false);
-        if (token === user.token) {
-          resolve(true);
-        }
+        if (userErr || !user) return resolve(false);
+        if (token === user.token) return resolve(true);
       });
     });
   });
