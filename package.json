@@ -3,19 +3,21 @@
     "description": "My demo website",
     "version": "1.0.0",
     "engines": {
-        "node": "8.12.x",
+        "node": "14.x",
         "npm": "6.9.x"
     },
     "scripts": {
-        "start": "cd server/ && node index",
-        "heroku-postbuild": "npm run postbuild-client && cd server",
-        "postbuild-client": "cd client/ && npm run build"
+        "start-server": "cd server/ && node index",
+        "start-client": "cd client && npm start",
+        "build": "cd client && npm run build"
     },
     "cacheDirectories": [
         "server/node_modules",
         "client/node_modules"
     ],
-    "dependencies": {},
+    "dependencies": {
+        "npm-run-all": "^4.1.5"
+    },
     "devDependencies": {},
     "repository": {
         "type": "git",
@@ -23,7 +25,9 @@
     },
     "keywords": [
         "node",
+        "portfolio",
         "heroku",
+        "vercel",
         "react"
     ]
 }
