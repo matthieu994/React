@@ -21,6 +21,7 @@
         "axios": "^0.19.2",
         "babel-runtime": "^6.26.0",
         "bootstrap": "^4.4.1",
+        "chokidar": "^3.5.1",
         "emoji-mart": "^3.0.0",
         "font-awesome": "^4.7.0",
         "merge": "^1.2.1",
@@ -57,7 +58,7 @@
         "start-js": "react-scripts start",
         "start": "npm-run-all -p watch-css start-js",
         "build-js": "react-scripts build",
-        "build": "npm-run-all build-css build-js",
+        "build": "npm install && npm-run-all install build-css build-js",
         "test": "react-scripts test --env=jsdom",
         "eject": "react-scripts eject"
     },
