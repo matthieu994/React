@@ -1,8 +1,7 @@
 {
-    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\wsl.exe",
-    "eslint.format.enable": true,
-    "eslint.options": {
-        "autoFixOnSave": true,
-    },
-    "eslint.enable": true,
+  "eslint.format.enable": true,
+  "eslint.options": {
+    "autoFixOnSave": true
+  },
+  "eslint.enable": true
 }

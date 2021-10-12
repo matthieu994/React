@@ -14,7 +14,8 @@ import Portfolio from "./Portfolio/Porfolio";
 import Platform from "./Platform";
 
 function App() {
-  if (window.location.host.split(".")[0] === "portfolio") return <Portfolio />;
+  const subdomain = window.location.host.split(".")[0];
+  if (subdomain === "portfolio") return <Portfolio />;
 
   return (
     <>
