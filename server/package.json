@@ -18,7 +18,7 @@
         "jwks-rsa": "^1.8.0",
         "mongodb": "^3.5.7",
         "mongoose": "^5.9.13",
-        "socket.io": "^2.4.0"
+        "socket.io": "^2.5.0"
     },
     "devDependencies": {
         "eslint": "^7.0.0",
